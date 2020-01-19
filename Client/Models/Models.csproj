@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{82002828-CEC5-4351-ABED-0130979A2BDE}</ProjectGuid>
+    <ProjectGuid>{AFF037C5-D34F-41CE-ACBF-209D93436159}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TianYiSdtdServerTools.Client.Resources</RootNamespace>
-    <AssemblyName>Resources</AssemblyName>
+    <RootNamespace>TianYiSdtdServerTools.Client.Models</RootNamespace>
+    <AssemblyName>Models</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -33,7 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,15 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\background.png" />
-    <Resource Include="Assets\Images\background1.png" />
-    <Resource Include="Assets\Images\close.png" />
-    <Resource Include="Assets\Images\max.png" />
-    <Resource Include="Assets\Images\min.png" />
-    <Resource Include="Assets\Images\normal.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\logo.png" />
+    <Folder Include="Entitys\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

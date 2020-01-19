@@ -6,14 +6,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3C757765-58F5-4E24-81DD-F635628C38C1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TianYiSdtdServerTools.Client</RootNamespace>
-    <AssemblyName>Client</AssemblyName>
+    <RootNamespace>TianYiSdtdServerTools.Client.Views</RootNamespace>
+    <AssemblyName>SdtdServerTools</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -50,7 +50,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>TianYiSdtdServerTools.Client.Startup</StartupObject>
+    <StartupObject>TianYiSdtdServerTools.Client.Views.Startup</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -73,7 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="Pages\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -82,7 +85,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
+    <Compile Include="Pages\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -122,23 +125,32 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.WpfCustomControlLibrary\IceCoffee.WpfCustomControlLibrary.csproj">
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\CustomControlLibrary\IceCoffee.Wpf.CustomControlLibrary.csproj">
       <Project>{3626eca9-d024-4b91-b0e2-42bf81b45162}</Project>
-      <Name>IceCoffee.WpfCustomControlLibrary</Name>
+      <Name>IceCoffee.Wpf.CustomControlLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
+      <Project>{ce167778-381d-487f-845a-d96258015e17}</Project>
+      <Name>IceCoffee.Wpf.MvvmFrame</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared\Shared.csproj">
       <Project>{05de2f54-996a-4675-9f0b-279ebadb6c57}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{aff037c5-d34f-41ce-acbf-209d93436159}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Resources\Resources.csproj">
       <Project>{82002828-cec5-4351-abed-0130979a2bde}</Project>
       <Name>Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{a3351610-c535-40c8-bf40-05fa35dc3e4e}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TianYiSdtdServerTools.Client
+namespace TianYiSdtdServerTools.Client.Views
 {
     public class Startup
     {
