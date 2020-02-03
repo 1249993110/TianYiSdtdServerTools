@@ -25,7 +25,6 @@ namespace TianYiSdtdServerTools.Client.Views.Pages
         {
             InitializeComponent();
         }
-
     }
 
 }
