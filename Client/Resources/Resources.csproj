@@ -47,10 +47,6 @@
   <ItemGroup>
     <Resource Include="Assets\Images\background.png" />
     <Resource Include="Assets\Images\background1.png" />
-    <Resource Include="Assets\Images\close.png" />
-    <Resource Include="Assets\Images\max.png" />
-    <Resource Include="Assets\Images\min.png" />
-    <Resource Include="Assets\Images\normal.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\logo.png" />

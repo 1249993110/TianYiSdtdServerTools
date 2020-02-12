@@ -5,12 +5,11 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#CBC6CB"/>
-        <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Height" Value="24"/>
         <Setter Property="Margin" Value="10 1 10 1"/>
-        <Setter Property="Padding" Value="1"/>
+        <Setter Property="FontFamily" Value="方正兰亭"/>
         <Setter Property="FontSize" Value="17"/>
     </Style>
 
@@ -18,8 +17,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Border x:Name="border" SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True"/>
+                    <Border x:Name="border" SnapsToDevicePixels="true" Background="{TemplateBinding Background}">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
@@ -32,7 +33,7 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Padding" TargetName="border" Value="1 1 0 0"/>
-                            <Setter Property="Margin" Value="10 1 9 0"/>
+                            <Setter Property="Margin" TargetName="contentPresenter" Value="0 0 -1 -1"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Foreground" Value="White"/>
@@ -47,8 +48,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True"/>
+                    <Border x:Name="border" SnapsToDevicePixels="true" Background="{TemplateBinding Background}">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                          Margin="{TemplateBinding Padding}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="true">
@@ -63,6 +67,45 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
- 
+
+    <Style x:Key="LeftRadioButtonStyle" TargetType="{x:Type RadioButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#CBC6CB"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Width" Value="220"/>
+        <Setter Property="Height" Value="45"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="20 0 0 0"/>
+        <Setter Property="BorderThickness" Value="3 0 0 0"/>
+        <Setter Property="FontFamily" Value="宋体"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true"
+                            BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                          Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#10FFFFFF"/>
+                            <Setter Property="Background" TargetName="border" Value="#10FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#00AEFF"/>
+                            <Setter Property="Background" TargetName="border" Value="#20FFFFFF"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

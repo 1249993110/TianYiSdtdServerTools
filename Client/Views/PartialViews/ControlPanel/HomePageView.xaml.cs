@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TianYiSdtdServerTools.Client.Views.Pages
+namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// HomePageView.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : IceCoffee.Wpf.CustomControlLibrary.Windows.FramelessWindow
+    public partial class HomePageView : UserControl
     {
-        public MainWindow()
+        public HomePageView()
         {
             InitializeComponent();
         }
     }
-
 }

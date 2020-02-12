@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using IceCoffee.Common.AntiDebug;
+using IceCoffee.Common;
 
 namespace TianYiSdtdServerTools.Client.Views
 {
@@ -20,7 +21,7 @@ namespace TianYiSdtdServerTools.Client.Views
         public static void Main()
         {
 #if !DEBUG
-            if (AntiDebug.AntiDebug_DotNet())
+            if (CommonHelper.GetMD5HashFromFile(AntiDebug.DllName) != AntiDebug.DllMD5 || AntiDebug.AntiDebug_DotNet())
             {
                 Environment.Exit(-1);// 强制退出，即使有其他的线程没有结束
             }
