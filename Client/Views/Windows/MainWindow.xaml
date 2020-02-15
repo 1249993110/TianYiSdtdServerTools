@@ -10,25 +10,26 @@
         mc:Ignorable="d"
         MinHeight="618" MinWidth="1000" Height="600" Width="1000" Style="{StaticResource FramelessWindowStyle}"
         Background="Black" WindowStartupLocation="CenterScreen" Title="天依七日杀服主工具" HeadHeight="80">
-
+    <iceWind:FramelessWindow.Resources>
+        <SolidColorBrush x:Key="LeftPanel.Background" Color="#AA000000"/>
+        <SolidColorBrush x:Key="RightPanel.Background" Color="#E0F0F0F0"/>
+    </iceWind:FramelessWindow.Resources>
     <!--外层边框Black-->
     <Grid Margin="1">
-
         <Grid.Background>
-            <ImageBrush ImageSource="/Resources;Component/Assets/Images/background1.png" Opacity="0.5" Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="/Resources;Component/Assets/Images/background.png" Stretch="UniformToFill"/>
         </Grid.Background>
-        <Border BorderBrush="#A030374A" BorderThickness="1"/>
+        <Border BorderBrush="#A030374A" Panel.ZIndex="1" BorderThickness="1"/>
+        <!--<Image Source="/Resources;Component/Assets/Images/background2.png" Panel.ZIndex="2" IsHitTestVisible="False"  Stretch="Fill" Opacity="1"></Image>-->
+
         <!--内层边框-->
         <Grid>
-            <Grid.Background>
-                <ImageBrush ImageSource="/Resources;Component/Assets/Images/background.png"/>
-            </Grid.Background>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#50000000">
+
+            <Grid Grid.Row="0" Background="#AA000000">
                 <StackPanel Orientation="Horizontal">
                     <Image Height="80" Source="/Resources;Component/Assets/Images/logo.png"/>
                     <iceCtrl:ButtonGroupPanel Name="buttonGroup_top" Orientation="Horizontal">
@@ -45,18 +46,20 @@
                     </iceCtrl:WindowButton>
                 </StackPanel>
             </Grid>
+            <!--Header底部边框-->
             <Border Grid.Row="0" BorderBrush="#A0808080" BorderThickness="0 0 0 1"/>
 
-            <TabControl Grid.Row="1" Background="Transparent" Style="{StaticResource TabControlNoneStyle}" Margin="1 0 1 1" SelectedIndex="{Binding ElementName=buttonGroup_top, Path=SelectedIndex, Mode=OneWay}">
+            <TabControl Grid.Row="1" Background="Transparent" Style="{StaticResource TabControlNoneStyle}"
+                        Margin="1 0 1 1" SelectedIndex="{Binding ElementName=buttonGroup_top, Path=SelectedIndex, Mode=OneWay}">
                 <TabItem Header="控制面板" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="220"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ListBox Name="leftListBox1" Grid.Column="0" Padding="0 20 0 0" Background="#40000000" SelectedIndex="0"
+                        <ListBox Name="leftListBox1" Grid.Column="0" Padding="0 20 0 0" Background="{StaticResource LeftPanel.Background}" SelectedIndex="0"
                                  ItemsSource="{Binding ControlPanelItems}"
-                                 SelectionChanged="OnSelectionChanged" Style="{StaticResource ListBoxNoneStyle}">
+                                 SelectionChanged="OnLeftListBox1SelectionChanged" Style="{StaticResource ListBoxNoneStyle}">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
                                     <Setter Property="Visibility" Value="{Binding Visibility}" />
@@ -71,7 +74,7 @@
                         </ListBox>
                         <Border Grid.Column="0" BorderBrush="#A0808080" BorderThickness="0 0 1 0"/>
 
-                        <TabControl Name="leftTabControl1" Grid.Column="1" Background="Transparent" Style="{StaticResource TabControlNoneStyle}">
+                        <TabControl Name="leftTabControl1" Grid.Column="1" Background="{StaticResource RightPanel.Background}" Style="{StaticResource TabControlNoneStyle}">
                         </TabControl>
                     </Grid>
                 </TabItem>

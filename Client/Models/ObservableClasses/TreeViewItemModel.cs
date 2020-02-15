@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using IceCoffee.Wpf.MvvmFrame;
 
-namespace TianYiSdtdServerTools.Client.Models.ObservableObjects
+namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
 {
     public class TreeViewItemModel : ObservableObject
     {

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using TianYiSdtdServerTools.Client.Models.ObservableObjects;
+using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.ViewModels.ControlPanel;
 
 namespace TianYiSdtdServerTools.Client.ViewModels

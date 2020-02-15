@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PostSharp, Version=4.3.33.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PostSharp.4.3.33\lib\net35-client\PostSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,18 +47,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObservableObjects\ListViewItemModel.cs" />
-    <Compile Include="ObservableObjects\TreeViewItemModel.cs" />
+    <Compile Include="ObservableClasses\ListViewItemModel.cs" />
+    <Compile Include="ObservableClasses\SdtdServerPrefModel.cs" />
+    <Compile Include="ObservableClasses\SdtdServerStateModel.cs" />
+    <Compile Include="ObservableClasses\TreeViewItemModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entitys\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
+      <Name>IceCoffee.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
       <Project>{ce167778-381d-487f-845a-d96258015e17}</Project>
       <Name>IceCoffee.Wpf.MvvmFrame</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\PostSharp.4.3.33\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.4.3.33\tools\PostSharp.targets')" />
+  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
+    <Error Condition="!Exists('..\..\packages\PostSharp.4.3.33\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\..\packages\PostSharp.4.3.33\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+  </Target>
 </Project>

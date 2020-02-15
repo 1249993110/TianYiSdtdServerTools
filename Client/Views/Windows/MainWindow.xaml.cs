@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TianYiSdtdServerTools.Client.ViewModels;
 using System.Collections.ObjectModel;
-using TianYiSdtdServerTools.Client.Models.ObservableObjects;
+using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -45,7 +45,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
 
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnLeftListBox1SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListViewItemModel selectedItem = this.leftListBox1.SelectedItem as ListViewItemModel;
 
@@ -58,6 +58,8 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
                 }
             }
 
+            System.Diagnostics.Debug.Assert(_partialViewDic.ContainsKey(selectedItem.Tag));
+
             TabItem tabItem = new TabItem()
             {
                 Header = selectedItem.Header,
@@ -65,8 +67,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             };
 
             this.leftTabControl1.Items.Add(tabItem);
-            this.leftTabControl1.SelectedItem = tabItem;
-            
+            this.leftTabControl1.SelectedItem = tabItem;            
         }
     }
 

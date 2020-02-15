@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlPanel\ConfigInfoViewModel.cs" />
     <Compile Include="ControlPanel\HomePageViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -50,9 +51,21 @@
     <Folder Include="ViewConvert\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
+      <Name>IceCoffee.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
+      <Project>{ce167778-381d-487f-845a-d96258015e17}</Project>
+      <Name>IceCoffee.Wpf.MvvmFrame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{AFF037C5-D34F-41CE-ACBF-209D93436159}</Project>
       <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TelnetClient\TelnetClient.csproj">
+      <Project>{349f66c5-54de-43c8-ab6f-6c6f96c4ed3d}</Project>
+      <Name>TelnetClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

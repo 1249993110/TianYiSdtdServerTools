@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace TianYiSdtdServerTools.Client.Models.ObservableObjects
+namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
 {
     public class ListViewItemModel : ObservableObject
     {

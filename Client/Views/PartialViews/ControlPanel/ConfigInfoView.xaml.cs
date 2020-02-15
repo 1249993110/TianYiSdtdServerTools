@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TianYiSdtdServerTools.Client.ViewModels.ControlPanel;
 
 namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
 {
@@ -20,9 +21,13 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
     /// </summary>
     public partial class ConfigInfoView : UserControl
     {
+        public ConfigInfoViewModel ViewModel { get; set; }
+
         public ConfigInfoView()
         {
             InitializeComponent();
+            ViewModel = new ConfigInfoViewModel();
+            base.DataContext = ViewModel;
         }
     }
 }

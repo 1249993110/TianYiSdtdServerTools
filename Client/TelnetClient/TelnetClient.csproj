@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{82002828-CEC5-4351-ABED-0130979A2BDE}</ProjectGuid>
+    <ProjectGuid>{349F66C5-54DE-43C8-AB6F-6C6F96C4ED3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TianYiSdtdServerTools.Client.Resources</RootNamespace>
-    <AssemblyName>Resources</AssemblyName>
+    <RootNamespace>TianYiSdtdServerTools.Client.TelnetClient</RootNamespace>
+    <AssemblyName>TelnetClient</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -33,7 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,13 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionState.cs" />
+    <Compile Include="Delegates.cs" />
+    <Compile Include="Internal\TcpClient.cs" />
+    <Compile Include="Internal\TcpSession.cs" />
+    <Compile Include="SdtdConsole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\background.png" />
+    <ProjectReference Include="..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{35734be9-1c96-4048-9d6e-c9bad609002e}</Project>
+      <Name>IceCoffee.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network.csproj">
+      <Project>{7b659542-1f9e-449b-ab6f-43aa61d22038}</Project>
+      <Name>IceCoffee.Network</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\logo.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
