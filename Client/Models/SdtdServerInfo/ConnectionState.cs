@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TianYiSdtdServerTools.Client.TelnetClient
+namespace TianYiSdtdServerTools.Client.Models.SdtdServerInfo
 {
     /// <summary>
     /// 连接状态

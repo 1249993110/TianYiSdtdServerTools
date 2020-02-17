@@ -47,11 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat\ChatType.cs" />
     <Compile Include="ObservableClasses\ListViewItemModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerPrefModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerStateModel.cs" />
     <Compile Include="ObservableClasses\TreeViewItemModel.cs" />
+    <Compile Include="Players\PlayerInfo.cs" />
+    <Compile Include="Players\PlayerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SdtdServerInfo\ConnectionState.cs" />
+    <Compile Include="SdtdServerInfo\GameDateTime.cs" />
+    <Compile Include="SdtdServerInfo\ServerPartialPref.cs" />
+    <Compile Include="SdtdServerInfo\ServerPartialState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entitys\" />

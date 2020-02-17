@@ -24,6 +24,7 @@ namespace TianYiSdtdServerTools.Client.Views
             if (CommonHelper.GetMD5HashFromFile(AntiDebug.DllName) != AntiDebug.DllMD5 || AntiDebug.AntiDebug_DotNet())
             {
                 Environment.Exit(-1);// 强制退出，即使有其他的线程没有结束
+                //Process.GetCurrentProcess().Kill();
             }
 #endif
             App app = new App();

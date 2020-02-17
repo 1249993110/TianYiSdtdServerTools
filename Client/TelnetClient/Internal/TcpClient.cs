@@ -9,6 +9,6 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
 {
     internal class TcpClient : BaseClient<TcpSession>
     {
-
+        
     }
 }

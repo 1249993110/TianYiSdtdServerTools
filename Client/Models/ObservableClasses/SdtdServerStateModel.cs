@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IceCoffee.Common;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
+using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 
 namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
 {
@@ -18,33 +19,22 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
         /// <summary>
         /// 游戏时间
         /// </summary>
-        public string GameDateTime { get; set; } = "Day 1,1";
+        public GameDateTime GameDateTime { get; set; } = new GameDateTime() { Day = 1, Hour = 7, Minute = 0 };
 
-
-        /// <summary>
-        /// 游戏天数
-        /// </summary>
-        [NotNPC_Method]
-        public int GameDays { get; set; }
-
-        /// <summary>
-        /// 在线玩家数
-        /// </summary>
-        public int OnlinePlayerCount { get; set; }
-
-        /// <summary>
-        /// 僵尸数
-        /// </summary>
-        public int ZombieCount { get; set; }
-
-        /// <summary>
-        /// 实体数
-        /// </summary>
-        public int EntityCount { get; set; }
+        ///// <summary>
+        ///// 游戏天数
+        ///// </summary>
+        //[NotNPC_Method]
+        //public int GameDays { get; set; }
 
         /// <summary>
         /// 连接状态
         /// </summary>
-        public string ConnectStateStr { get; set; }
+        public ConnectionState ConnectionState { get; set; } = ConnectionState.Disconnected;
+
+        /// <summary>
+        /// 服务器部分状态
+        /// </summary>
+        public ServerPartialState ServerPartialState { get; set; } = new ServerPartialState();
     }
 }

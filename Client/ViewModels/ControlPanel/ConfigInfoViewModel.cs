@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IceCoffee.Wpf.MvvmFrame;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
+using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 using TianYiSdtdServerTools.Client.TelnetClient;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
@@ -14,7 +15,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         #region 字段
         private RelayCommand _connectServer;
 
-        private readonly PropertyObserver<SdtdServerPrefModel> _sdtdServerPrefObserver;
+        private RelayCommand _disconnectServer;
+        //private readonly PropertyObserver<SdtdServerPrefModel> _sdtdServerPrefObserver;
         #endregion
 
         #region 属性
@@ -22,58 +24,55 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public SdtdServerStateModel SdtdServerStates { get; set; } = new SdtdServerStateModel();
 
+        #region 命令
         public RelayCommand ConnectServer
         {
-            get { return _connectServer ?? (_connectServer = new RelayCommand(PrivateConnectServer,
-                () => { return SdtdConsole.Instance.ConnectionState != ConnectionState.Connecting; })); }
-        }
-        #endregion
-        public ConfigInfoViewModel()
-        {            
-            SdtdServerStates.ConnectStateStr = "未连接";
-            SdtdConsole.Instance.ConnectionStateChanged += OnConnectionStateChanged;
-
-            _sdtdServerPrefObserver = new PropertyObserver<SdtdServerPrefModel>(SdtdServerPrefs);
-            _sdtdServerPrefObserver.RegisterHandler(SdtdServerPref => SdtdServerPref.TelnetPassword,
-                (sdtdServerPrefs) => {
-                    SdtdConsole.Instance.Password = sdtdServerPrefs.TelnetPassword;
-                });
-        }
-
-        private void PrivateConnectServer()
-        {
-            if (SdtdServerPrefs.TelnetPort.HasValue)
+            get
             {
-                SdtdConsole.Instance.ConnectServer(SdtdServerPrefs.ServerIP, SdtdServerPrefs.TelnetPort.Value);
-            }            
-        }
-
-        private void OnConnectionStateChanged(ConnectionState connectionState)
-        {
-            switch (connectionState)
-            {
-                case ConnectionState.AutoReconnecting:
-                    SdtdServerStates.ConnectStateStr = "正在自动重连";
-                    break;
-                case ConnectionState.Connected:
-                    SdtdServerStates.ConnectStateStr = "已连接";
-                    break;
-                case ConnectionState.Connecting:
-                    SdtdServerStates.ConnectStateStr = "正在连接";
-                    break;
-                case ConnectionState.Disconnected:
-                    SdtdServerStates.ConnectStateStr = "未连接";
-                    break;
-                case ConnectionState.Disconnecting:
-                    SdtdServerStates.ConnectStateStr = "正在断开";
-                    break;
-                case ConnectionState.PasswordVerifying:
-                    SdtdServerStates.ConnectStateStr = "正在验证密码";
-                    break;
-                case ConnectionState.PasswordIncorrect:
-                    SdtdServerStates.ConnectStateStr = "密码错误";
-                    break;
+                return _connectServer ?? (_connectServer = new RelayCommand(() =>
+                {
+                    if (SdtdServerPrefs.TelnetPort.HasValue)
+                    {
+                        SdtdConsole.Instance.ConnectServer(SdtdServerPrefs.ServerIP, SdtdServerPrefs.TelnetPort.Value, SdtdServerPrefs.TelnetPassword);
+                    }
+                }, () => { return SdtdConsole.Instance.ConnectionState != ConnectionState.Connecting; }));
             }
         }
+
+        public RelayCommand DisconnectServer
+        {
+            get
+            {
+                return _disconnectServer ?? (_disconnectServer = new RelayCommand(() =>
+                {
+                    SdtdConsole.Instance.Disconnect();
+                }));
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region 构造方法
+        public ConfigInfoViewModel()
+        {           
+            SdtdConsole.Instance.ConnectionStateChanged += OnConnectionStateChanged;
+            SdtdServerPrefs.ServerIP = "127.0.0.1";
+            SdtdServerPrefs.TelnetPort = 8081;
+            SdtdServerPrefs.TelnetPassword = "12345";
+            //_sdtdServerPrefObserver = new PropertyObserver<SdtdServerPrefModel>(SdtdServerPrefs);
+            //_sdtdServerPrefObserver.RegisterHandler(SdtdServerPref => SdtdServerPref.TelnetPassword,
+            //    (sdtdServerPrefs) => {
+            //        SdtdConsole.Instance.Password = sdtdServerPrefs.TelnetPassword;
+            //    });
+        }
+        #endregion
+
+        #region 私有方法
+        private void OnConnectionStateChanged(ConnectionState connectionState)
+        {
+            this.SdtdServerStates.ConnectionState = connectionState;
+        }
+        #endregion
     }
 }

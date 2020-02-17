@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
+using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.ControlPanel;
 
 namespace TianYiSdtdServerTools.Client.ViewModels
@@ -33,7 +34,13 @@ namespace TianYiSdtdServerTools.Client.ViewModels
                     //new ListViewItemModel("Telnet控制台","HomePage")
                 };
             }
+
+            System.Windows.Application.Current.Exit += OnCurrentAppExit;
         }
 
+        private void OnCurrentAppExit(object sender, System.Windows.ExitEventArgs e)
+        {
+            SdtdConsole.Instance.Disconnect();
+        }
     }
 }

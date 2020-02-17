@@ -4,24 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
-             xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
+             xmlns:vc="clr-namespace:TianYiSdtdServerTools.Client.ViewModels.ViewConvert;assembly=ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-
+    <UserControl.Resources>
+        <vc:ConnectStateConvert x:Key="ConnectStateConvert"></vc:ConnectStateConvert>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="64"/>
             <RowDefinition Height="64"/>
-            <RowDefinition Height="64"/>
-            <RowDefinition Height="64"/>
+            <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Label Content="{Binding SdtdServerStates.GameDateTime}" ContentStringFormat="服务器时间：{0}" Width="200" Margin="20 0 0 0"></Label>
-            <Label Content="{Binding SdtdServerStates.OnlinePlayerCount}" ContentStringFormat="在线人数：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerStates.ZombieCount}" ContentStringFormat="僵尸数：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerStates.EntityCount}" ContentStringFormat="实体数：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerStates.ConnectStateStr}" ContentStringFormat="状态：{0}" Width="180" Margin="10" Background="#008080" Foreground="#00FF00"></Label>
+            <Label Content="{Binding SdtdServerStates.ServerPartialState.OnlinePlayerCount}" ContentStringFormat="在线人数：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerStates.ServerPartialState.ZombieCount}" ContentStringFormat="僵尸数：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerStates.ServerPartialState.EntityCount}" ContentStringFormat="实体数：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerStates.ConnectionState, Converter={StaticResource ConnectStateConvert}}"
+                   ContentStringFormat="状态：{0}" Width="180" Margin="10" Background="#008080" Foreground="#00FF00"></Label>
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBox Text="{Binding SdtdServerPrefs.ServerIP}" pu:TextBoxHelper.Watermark="服务器IP" HorizontalContentAlignment="Center" Width="150" Margin="20 0 0 0"></TextBox>
@@ -30,19 +32,17 @@
                          pu:PasswordBoxHelper.Watermark="Telnet密码" HorizontalContentAlignment="Center" Width="120" Margin="10 0 0 0"></PasswordBox>
             <TextBox Text="{Binding SdtdServerPrefs.GPSPort}" pu:TextBoxHelper.Watermark="GPS端口" HorizontalContentAlignment="Center" Width="100" Margin="10 0 10 0"></TextBox>
             <Button Command="{Binding ConnectServer}" Content="连 接" Width="100" Margin="10 0 0 0"></Button>
-            <Button Command="{Binding ConnectServer}" Content="断 开" Width="100" Margin="10 0 0 0"></Button>
+            <Button Command="{Binding DisconnectServer}" Content="断 开" Width="100" Margin="10 0 0 0"></Button>
         </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Label Content="{Binding SdtdServerPrefs.Version}" ContentStringFormat="服务器版本：{0}" Width="200" Margin="20 0 0 0"></Label>
-            <Label Content="{Binding SdtdServerPrefs.RSS}" ContentStringFormat="物理内存：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.GamePort}" ContentStringFormat="游戏端口：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.MaxPlayerCount}" ContentStringFormat="最大玩家：{0}" Width="100" Margin="10"></Label>
-        </StackPanel>
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Label Content="{Binding SdtdServerPrefs.GameMode}" ContentStringFormat="游戏模式：{0}" Width="200" Margin="20 0 0 0"></Label>
-            <Label Content="{Binding SdtdServerPrefs.GameWorld}" ContentStringFormat="游戏地图：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.GameName}" ContentStringFormat="游戏名称：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.GameDifficulty}" ContentStringFormat="游戏难度：{0}" Width="100" Margin="10"></Label>
-        </StackPanel>
+        <WrapPanel Grid.Row="2" Orientation="Horizontal">
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.Version}" ContentStringFormat="服务器版本：{0}" Width="200" Margin="20 0 0 0"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.DedicatedServer}" ContentStringFormat="专用服务器：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GamePort}" ContentStringFormat="游戏端口：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.MaxPlayerCount}" ContentStringFormat="最大玩家：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameMode}" ContentStringFormat="游戏模式：{0}" Width="200" Margin="20 0 0 0"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameWorld}" ContentStringFormat="游戏地图：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameName}" ContentStringFormat="游戏名称：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameDifficulty}" ContentStringFormat="游戏难度：{0}" Width="100" Margin="10"></Label>
+        </WrapPanel>
     </Grid>
 </UserControl>

@@ -46,10 +46,9 @@
     <Compile Include="ControlPanel\HomePageViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewConvert\ConnectStateConvert.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewConvert\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
       <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
