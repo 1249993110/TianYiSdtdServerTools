@@ -70,11 +70,14 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.9.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Panuon.UI.Silver, Version=1.0.9.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Panuon.UI.Silver.1.0.9.5\lib\net45\Panuon.UI.Silver.dll</HintPath>
+      <HintPath>..\..\packages\Panuon.UI.Silver.1.0.9.6\lib\net45\Panuon.UI.Silver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -128,6 +131,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Autofac.cs" />
     <Compile Include="PartialViews\ControlPanel\ChatMessageView.xaml.cs">
       <DependentUpon>ChatMessageView.xaml</DependentUpon>
     </Compile>
@@ -140,6 +144,8 @@
     <Compile Include="PartialViews\ControlPanel\OnlinePlayerView.xaml.cs">
       <DependentUpon>OnlinePlayerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\DispatcherService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Converters\BoolConvert1.cs" />
     <Compile Include="Converters\ConnectStateConvert.cs" />
@@ -217,6 +223,10 @@
     <ProjectReference Include="..\Resources\Resources.csproj">
       <Project>{82002828-cec5-4351-abed-0130979a2bde}</Project>
       <Name>Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}</Project>
+      <Name>Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
       <Project>{a3351610-c535-40c8-bf40-05fa35dc3e4e}</Project>

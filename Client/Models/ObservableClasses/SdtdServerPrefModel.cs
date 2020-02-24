@@ -20,25 +20,25 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
         /// <summary>
         /// 服务器IP地址
         /// </summary>
-        [ConfigNode]
+        [ConfigNode(ConfigNodeType.Attribute)]
         public string ServerIP { get; set; }
 
         /// <summary>
         /// telnet端口
         /// </summary>
-        [ConfigNode]
+        [ConfigNode(ConfigNodeType.Attribute)]
         public ushort? TelnetPort { get; set; }
 
         /// <summary>
         /// telnet密码
         /// </summary>
-        [ConfigNode]
+        [ConfigNode(ConfigNodeType.Attribute)]
         public string TelnetPassword { get; set; }
 
         /// <summary>
         /// GPS端口
         /// </summary>
-        [ConfigNode]
+        [ConfigNode(ConfigNodeType.Attribute)]
         public ushort? GPSPort { get; set; }
 
         /// <summary>

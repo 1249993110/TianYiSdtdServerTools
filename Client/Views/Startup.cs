@@ -12,7 +12,6 @@ namespace TianYiSdtdServerTools.Client.Views
 {
     public class Startup
     {
-        static int? X { get; set; }
         /// <summary>
         /// Application Entry Point.
         /// </summary>
@@ -29,9 +28,6 @@ namespace TianYiSdtdServerTools.Client.Views
             }
 #endif
             App app = new App();
-            X = 1;
-            var xx = typeof(int?);
-            var t = X.GetType(); 
             app.InitializeComponent();            
             app.Run();
         }

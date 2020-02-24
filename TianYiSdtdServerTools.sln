@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelnetClient", "Client\Teln
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IceCoffee.DbCore", "..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore.csproj", "{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Client\Services\Services.csproj", "{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +120,7 @@ Global
 		{7B659542-1F9E-449B-AB6F-43AA61D22038} = {17799EF7-DCBB-4462-8687-8A588888785F}
 		{349F66C5-54DE-43C8-AB6F-6C6F96C4ED3D} = {60B7CA0C-7CEC-414A-996B-07D40913256F}
 		{A39DFF8A-410A-496D-A7D4-30CDE3F4670E} = {17799EF7-DCBB-4462-8687-8A588888785F}
+		{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C} = {60B7CA0C-7CEC-414A-996B-07D40913256F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC68D100-E467-4E39-8B07-3485EA03DFD9}

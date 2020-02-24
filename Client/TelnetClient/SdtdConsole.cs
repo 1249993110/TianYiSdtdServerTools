@@ -142,19 +142,11 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
             _tcpClient = new TcpClient();
             _tcpClient.ConnectionStateChanged += OnPrivateConnectionStateChanged;
             _tcpClient.ExceptionCaught += OnExceptionCaught;
-
-            System.Windows.Threading.Dispatcher.CurrentDispatcher.ShutdownStarted += OnCurrentDispatcher_ShutdownStarted;
         }
 
         #endregion
 
         #region 私有方法
-
-        private void OnCurrentDispatcher_ShutdownStarted(object sender, EventArgs e)
-        {
-            this.Disconnect();
-        }
-
 
         private void OnPrivateConnectionStateChanged(
             IceCoffee.Network.Sockets.MulitThreadTcpClient.ConnectionState connectionState)

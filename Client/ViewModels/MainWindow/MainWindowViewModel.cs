@@ -7,16 +7,16 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
-using TianYiSdtdServerTools.Client.ViewModels.ControlPanel;
+using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
-namespace TianYiSdtdServerTools.Client.ViewModels
+namespace TianYiSdtdServerTools.Client.ViewModels.MainWindow
 {
     public class MainWindowViewModel : ViewModelBase
     {       
         public ObservableCollection<ListViewItemModel> ControlPanelItems { get; set; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IDispatcherService dispatcherService) : base(dispatcherService)
         {
             // 反射获取已加载到此应用程序域的执行上下文中的程序集。
             var assemblys = AppDomain.CurrentDomain.GetAssemblies();

@@ -40,13 +40,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlPanel\ConfigInfoViewModel.cs" />
     <Compile Include="ControlPanel\HomePageViewModel.cs" />
     <Compile Include="ControlPanel\OnlinePlayerViewModel.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Primitives\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +62,10 @@
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{AFF037C5-D34F-41CE-ACBF-209D93436159}</Project>
       <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}</Project>
+      <Name>Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\TelnetClient\TelnetClient.csproj">
       <Project>{349f66c5-54de-43c8-ab6f-6c6f96c4ed3d}</Project>

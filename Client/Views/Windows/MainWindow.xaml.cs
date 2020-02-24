@@ -13,9 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TianYiSdtdServerTools.Client.ViewModels;
+using TianYiSdtdServerTools.Client.ViewModels.MainWindow;
 using System.Collections.ObjectModel;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
+using Panuon.UI.Silver;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -40,9 +41,8 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new MainWindowViewModel();
+            ViewModel = Autofac.Resolve<MainWindowViewModel>();
             base.DataContext = ViewModel;
-
         }
 
         private void OnLeftListBox1SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -69,6 +69,14 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
 
             this.leftTabControl1.Items.Add(tabItem);
             this.leftTabControl1.SelectedItem = tabItem;            
+        }
+
+        private void OnMainWindowClosing(object sender, EventArgs e)
+        {
+            if (MessageBoxX.Show("确定退出程序吗？", "提示", this, MessageBoxButton.OKCancel, configKey: "CommonTheme") == MessageBoxResult.OK)
+            {
+                this.Close();
+            }
         }
     }
 

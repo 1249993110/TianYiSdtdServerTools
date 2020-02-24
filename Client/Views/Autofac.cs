@@ -1,0 +1,44 @@
+﻿using Autofac;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.ViewModels.Primitives;
+using TianYiSdtdServerTools.Client.Views.Services;
+
+namespace TianYiSdtdServerTools.Client.Views
+{
+    public static class Autofac
+    {
+        private static ContainerBuilder _builder;
+
+        private static IContainer _container;
+
+        static Autofac()
+        {
+            _builder = new ContainerBuilder();
+
+            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith("ViewModels"));
+
+            // 在程序集ViewModels.dll中自动查找类型
+            _builder.RegisterAssemblyTypes(assembly);
+
+            _builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
+            _builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();
+
+            _container = _builder.Build();
+        }
+
+        /// <summary>
+        /// 从上下文中检索服务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T Resolve<T>()
+        {
+            return _container.Resolve<T>();
+        }
+    }
+}

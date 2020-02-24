@@ -8,6 +8,7 @@ using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
+using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
@@ -27,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             }
         }
 
-        public OnlinePlayerViewModel()
+        public OnlinePlayerViewModel(IDispatcherService dispatcherService) : base(dispatcherService)
         {
             this.OnlinePlayers = SdtdConsole.Instance.OnlinePlayers?.Values.ToList();
             SdtdConsole.Instance.ReceivedOnlinePlayerInfo += (onlinePlayers) => { this.OnlinePlayers = onlinePlayers; };

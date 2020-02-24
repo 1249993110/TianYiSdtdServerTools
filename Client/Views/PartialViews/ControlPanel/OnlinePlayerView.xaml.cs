@@ -21,14 +21,14 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
     /// </summary>
     public partial class OnlinePlayerView : UserControl
     {
+        public OnlinePlayerViewModel ViewModel { get; set; }
+
         public OnlinePlayerView()
         {
             InitializeComponent();
-            ViewModel = new OnlinePlayerViewModel();
+            ViewModel = Autofac.Resolve<OnlinePlayerViewModel>();
             base.DataContext = ViewModel;
         }
-
-        public OnlinePlayerViewModel ViewModel { get; set; }
 
         private void OnDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
