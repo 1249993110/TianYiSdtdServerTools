@@ -45,6 +45,7 @@
     <Compile Include="Delegates.cs" />
     <Compile Include="Internal\TcpClient.cs" />
     <Compile Include="Internal\TcpSession.cs" />
+    <Compile Include="Internal\ListDataHandler.cs" />
     <Compile Include="SdtdConsole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SdtdConsoleSendOperations.cs" />

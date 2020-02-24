@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 
-namespace TianYiSdtdServerTools.Client.ViewModels.ViewConvert
+namespace TianYiSdtdServerTools.Client.Views.Converters
 {
     public class ConnectStateConvert : IValueConverter
     {

@@ -14,12 +14,12 @@ namespace TianYiSdtdServerTools.Client.Models.SdtdServerInfo
         /// <summary>
         /// 服务器版本
         /// </summary>
-        public string Version { get; set; } = string.Empty;
+        public string VersionStr { get; set; } = string.Empty;
 
         /// <summary>
         /// 专用服务器
         /// </summary>
-        public bool DedicatedServer { get; set; } = true;
+        public bool DedicatedServer { get; set; } = false;
 
         /// <summary>
         /// 游戏端口

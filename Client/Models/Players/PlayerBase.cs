@@ -14,7 +14,7 @@ namespace TianYiSdtdServerTools.Client.Models.Players
         public string SteamID { get; set; }
 
         /// <summary>
-        /// 短位ID|实体ID
+        /// 短位ID | 实体ID
         /// </summary>
         public int EntityID { get; set; }
 

@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel.OnlinePlayerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
+             xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="10">
+        <ScrollViewer VerticalScrollBarVisibility="Disabled" BorderThickness="1 0 1 0" BorderBrush="#D3D3D3" Padding="-1 0 -1 0">
+            <ScrollViewer.Style>
+                <Style TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=dataGrid, Path=HasItems}" Value="False">
+                            <Setter Property="HorizontalScrollBarVisibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ScrollViewer.Style>
+            <DataGrid Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow" HeadersVisibility="Column"
+                  ItemsSource="{Binding OnlinePlayers, Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="False"
+                  CanUserAddRows="False" pu:DataGridHelper.HoverBackground="#F0F0F0" pu:DataGridHelper.SelectedBackground="#EEE8AA"
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn MinWidth="64" Header="序号" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="短位ID" Binding="{Binding EntityID}"/>
+                    <DataGridTextColumn Header="玩家昵称" Binding="{Binding PlayerName}"/>
+                    <DataGridTextColumn Header="当前坐标" Binding="{Binding Pos}"/>
+                    <DataGridTextColumn Header="生命值" Binding="{Binding Health}"/>
+                    <DataGridTextColumn Header="死亡次数" Binding="{Binding Deaths}"/>
+                    <DataGridTextColumn Header="击杀僵尸" Binding="{Binding Zombies}"/>
+                    <DataGridTextColumn Header="击杀玩家" Binding="{Binding Players}"/>
+                    <DataGridTextColumn Header="评分" Binding="{Binding Score}"/>
+                    <DataGridTextColumn Header="等级" Binding="{Binding Level}"/>
+                    <DataGridTextColumn Header="SteamID" Binding="{Binding SteamID}"/>
+                    <DataGridTextColumn Header="IP地址" Binding="{Binding IP}"/>
+                    <DataGridTextColumn Header="延迟" Binding="{Binding Ping}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+        
+    </Grid>
+</UserControl>

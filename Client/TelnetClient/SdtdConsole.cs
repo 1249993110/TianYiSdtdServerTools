@@ -1,10 +1,12 @@
 ﻿using IceCoffee.Common;
+using IceCoffee.Common.LogManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Client.Models.Chat;
+using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 using TianYiSdtdServerTools.Client.TelnetClient.Internal;
@@ -19,7 +21,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         #region 字段
         private TcpClient _tcpClient;
 
-        private ConnectionState _connectionState;
+        private ConnectionState _connectionState = ConnectionState.Disconnected;
         #endregion
 
         #region 属性
@@ -32,14 +34,10 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// 连接状态
         /// </summary>
         public ConnectionState ConnectionState
-        {
-            internal set
-            {
-                _connectionState = value;
-                RaiseConnectionStateChangedEvent(_connectionState);
-            }
+        { 
             get { return _connectionState; }
         }
+
         /// <summary>
         /// 是否成功连接，且密码正确
         /// </summary>
@@ -47,6 +45,21 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         {
             get { return _connectionState == ConnectionState.Connected; }
         }
+
+        /// <summary>
+        /// 游戏时间
+        /// </summary>
+        public GameDateTime GameDateTime { get; private set; }
+
+        /// <summary>
+        /// 游戏玩家
+        /// </summary>
+        public IReadOnlyDictionary<string,PlayerInfo> OnlinePlayers { get { return _tcpClient.Session?.OnlinePlayers; } }
+
+        /// <summary>
+        /// 服务器版本
+        /// </summary>
+        public ServerVersion ServerVersion { get; internal set; } = ServerVersion.EarlierVersion;
         #endregion
 
         #region 事件
@@ -71,6 +84,11 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         public event ReceivedServerPartialPrefEventHandler ReceivedServerPartialPref;
 
         /// <summary>
+        /// 收到服务器部分状态
+        /// </summary>
+        public event ReceivedServerPartialStateEventHandler ReceivedServerPartialState;
+
+        /// <summary>
         /// 玩家聊天信息钩子
         /// </summary>
         public event ChatHookEventHandler ChatHook;
@@ -93,7 +111,27 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <summary>
         /// 玩家被击杀
         /// </summary>
-        public event PlayerKilledByEventHandler PlayerKilledBy;
+        public event EntityKilledEventHandler EntityKilled;
+
+        /// <summary>
+        /// 收到在线玩家信息
+        /// </summary>
+        public event ReceivedOnlinePlayerInfoEventHandler ReceivedOnlinePlayerInfo;
+
+        /// <summary>
+        /// 收到临时列表数据
+        /// </summary>
+        public event ReceivedTempListDataEventHandler ReceivedTempListData;
+
+        /// <summary>
+        /// 服务器无玩家
+        /// </summary>
+        public event ServerNonePlayerEventHandler ServerNonePlayer;
+
+        /// <summary>
+        /// 服务器再一次有玩家
+        /// </summary>
+        public event ServerHavePlayerAgainEventHandler ServerHavePlayerAgain;
         #endregion
 
         #region 方法
@@ -104,27 +142,37 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
             _tcpClient = new TcpClient();
             _tcpClient.ConnectionStateChanged += OnPrivateConnectionStateChanged;
             _tcpClient.ExceptionCaught += OnExceptionCaught;
+
+            System.Windows.Threading.Dispatcher.CurrentDispatcher.ShutdownStarted += OnCurrentDispatcher_ShutdownStarted;
         }
 
         #endregion
 
         #region 私有方法
+
+        private void OnCurrentDispatcher_ShutdownStarted(object sender, EventArgs e)
+        {
+            this.Disconnect();
+        }
+
+
         private void OnPrivateConnectionStateChanged(
             IceCoffee.Network.Sockets.MulitThreadTcpClient.ConnectionState connectionState)
         {
             if (connectionState != IceCoffee.Network.Sockets.MulitThreadTcpClient.ConnectionState.Connected)
             {
-                ConnectionState = (ConnectionState)connectionState;
+                this.RaiseConnectionStateChangedEvent((ConnectionState)connectionState);
             }
         }
 
 
         private void OnExceptionCaught(IceCoffee.Network.CatchException.NetworkException e)
         {
-
+            Log.Error("Telnet异常捕获", e);
         }
-        #endregion
 
+
+        #endregion
 
         #region 公开方法
         /// <summary>
@@ -145,7 +193,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// </summary>
         public void Disconnect()
         {
-            if(_tcpClient.IsConnected)
+            if(IsConnected)
             {
                 this.SendCmd("exit");
                 _tcpClient.Disconnect();
@@ -157,7 +205,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <summary>
         /// 引发收到一行事件
         /// </summary>
-        internal void RaiseRecvDataEvent(string data)
+        internal void RaiseRecvLineEvent(string data)
         {
             ReceiveLine?.Invoke(data);
         }
@@ -167,7 +215,8 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// </summary>
         internal void RaiseConnectionStateChangedEvent(ConnectionState connectionState)
         {
-            ConnectionStateChanged?.Invoke(connectionState);
+            _connectionState = connectionState;
+            ConnectionStateChanged?.Invoke(_connectionState);
         }
 
         /// <summary>
@@ -175,6 +224,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// </summary>
         internal void RaiseGameDateTimeChangedEvent(GameDateTime gameDateTime)
         {
+            GameDateTime = gameDateTime;
             GameDateTimeChanged?.Invoke(gameDateTime);
         }
 
@@ -187,11 +237,20 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         }
 
         /// <summary>
+        /// 引发收到服务器部分状态事件
+        /// </summary>
+        /// <param name="serverPartialState"></param>
+        internal void RaiseReceivedServerPartialStateEvent(ServerPartialState serverPartialState)
+        {
+            ReceivedServerPartialState.Invoke(serverPartialState);
+        }
+
+        /// <summary>
         /// 引发玩家聊天信息钩子事件
         /// </summary>
-        internal void RaiseChatHookEvent(PlayerInfo playerInfo, ChatType chatType, string message)
+        internal void RaiseChatHookEvent(PlayerInfo playerInfo, string message, ChatType chatType, SenderType senderType)
         {
-            ChatHook?.Invoke(playerInfo, chatType, message);
+            ChatHook?.Invoke(playerInfo, message, chatType, senderType);
         }
 
         /// <summary>
@@ -219,12 +278,44 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         }
 
         /// <summary>
-        /// 引发玩家被击杀事件事件
+        /// 引发实体被击杀事件
         /// </summary>
-        internal void RaisePlayerKilledByEvent(PlayerInfo deadPlayerInfo, PlayerInfo killerPlayerInfo)
+        internal void RaiseEntityKilledEvent(int killerEntityID, int deadEntityID)
         {
-            PlayerKilledBy?.Invoke(deadPlayerInfo, killerPlayerInfo);
-        }        
+            EntityKilled?.Invoke(killerEntityID, deadEntityID);
+        }
+
+        /// <summary>
+        /// 引发收到在线玩家信息事件
+        /// </summary>
+        internal void RaiseReceivedOnlinePlayerInfoEvent(List<PlayerInfo> players)
+        {
+            ReceivedOnlinePlayerInfo?.Invoke(players);
+        }
+
+        /// <summary>
+        /// 引发收到临时列表数据事件
+        /// </summary>
+        internal void RaiseReceivedTempListDataEvent(object twoDimensionalList, TempListDataType tempListDataType)
+        {
+            ReceivedTempListData?.Invoke(twoDimensionalList, tempListDataType);
+        }
+
+        /// <summary>
+        /// 引发服务器无玩家事件
+        /// </summary>
+        internal void RaiseServerNonePlayerEvent()
+        {
+            ServerNonePlayer?.Invoke();
+        }
+
+        /// <summary>
+        /// 引发服务器再一次有玩家事件
+        /// </summary>
+        internal void RaiseServerHavePlayerAgainEvent()
+        {
+            ServerHavePlayerAgain?.Invoke();
+        }
         #endregion
 
         #endregion

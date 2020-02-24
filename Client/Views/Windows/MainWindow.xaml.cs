@@ -51,7 +51,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
 
             foreach (TabItem tab in this.leftTabControl1.Items)
             {
-                if (tab.Header.ToString() == selectedItem.Header)
+                if (tab.Tag.ToString() == selectedItem.Tag)
                 {
                     this.leftTabControl1.SelectedItem = tab;
                     return;
@@ -63,6 +63,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             TabItem tabItem = new TabItem()
             {
                 Header = selectedItem.Header,
+                Tag = selectedItem.Tag,
                 Content = Activator.CreateInstance(_partialViewDic[selectedItem.Tag])
             };
 

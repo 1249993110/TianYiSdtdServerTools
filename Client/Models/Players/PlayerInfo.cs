@@ -11,7 +11,7 @@ namespace TianYiSdtdServerTools.Client.Models.Players
         /// <summary>
         /// 玩家坐标，" "分隔
         /// </summary>
-        string Pos { get; set; }
+        public string Pos { get; set; }
 
         /// <summary>
         /// 生命值

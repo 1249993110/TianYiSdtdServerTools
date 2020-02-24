@@ -29,7 +29,7 @@ namespace TianYiSdtdServerTools.Client.Models.SdtdServerInfo
 
         public override string ToString()
         {
-            return string.Format("Day {0}, {1:D2}:{2:D2}", Day.ToString(), Hour.ToString(), Minute.ToString());
+            return string.Format("Day {0}, {1}:{2}", Day.ToString(), Hour.ToString().PadLeft(2, '0'), Minute.ToString().PadLeft(2, '0'));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,10 +8,11 @@ using IceCoffee.Wpf.MvvmFrame;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 using TianYiSdtdServerTools.Client.TelnetClient;
+using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 {
-    public class ConfigInfoViewModel
+    public class ConfigInfoViewModel : ViewModelBase
     {
         #region 字段
         private RelayCommand _connectServer;
@@ -55,24 +57,21 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         #region 构造方法
         public ConfigInfoViewModel()
-        {           
-            SdtdConsole.Instance.ConnectionStateChanged += OnConnectionStateChanged;
+        {
+            SdtdConsole.Instance.ConnectionStateChanged += (connectionState) => { SdtdServerStates.ConnectionState = connectionState; };
+            SdtdConsole.Instance.ReceivedServerPartialPref += (serverPartialPref) => { SdtdServerPrefs.ServerPartialPref = serverPartialPref; };
+            SdtdConsole.Instance.ReceivedServerPartialState += (serverPartialState) => { SdtdServerStates.ServerPartialState = serverPartialState; };
             SdtdServerPrefs.ServerIP = "127.0.0.1";
             SdtdServerPrefs.TelnetPort = 8081;
             SdtdServerPrefs.TelnetPassword = "12345";
-            //_sdtdServerPrefObserver = new PropertyObserver<SdtdServerPrefModel>(SdtdServerPrefs);
+            //var _sdtdServerPrefObserver = new PropertyObserver<SdtdServerPrefModel>(SdtdServerPrefs);
             //_sdtdServerPrefObserver.RegisterHandler(SdtdServerPref => SdtdServerPref.TelnetPassword,
-            //    (sdtdServerPrefs) => {
+            //    (sdtdServerPrefs) =>
+            //    {
             //        SdtdConsole.Instance.Password = sdtdServerPrefs.TelnetPassword;
             //    });
         }
-        #endregion
 
-        #region 私有方法
-        private void OnConnectionStateChanged(ConnectionState connectionState)
-        {
-            this.SdtdServerStates.ConnectionState = connectionState;
-        }
         #endregion
     }
 }

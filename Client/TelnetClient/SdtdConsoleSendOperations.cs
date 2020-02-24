@@ -16,18 +16,18 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <param name="cmd"></param>
         public void SendCmd(string cmd)
         {
-            if (_tcpClient.IsConnected)
+            if(_tcpClient.Session != null && SdtdConsole.Instance.IsConnected)
             {
-                _tcpClient.Session.Send((cmd + Environment.NewLine).ToUtf8());
-                if(cmd.StartsWith("say") || cmd.StartsWith("pm"))
+                _tcpClient.Session.SendCmd(cmd);
+                if (cmd.StartsWith("say") || cmd.StartsWith("pm"))
                 {
                     Task.Run(() =>
                     {
                         System.Threading.Thread.Sleep(25);
-                        _tcpClient.Session.Send(Environment.NewLine.ToUtf8());
+                        _tcpClient.Session.SendCmd(Environment.NewLine);
                     });
                 }
-            }
+            }                     
         }
 
         /// <summary>

@@ -4,11 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
-             xmlns:vc="clr-namespace:TianYiSdtdServerTools.Client.ViewModels.ViewConvert;assembly=ViewModels"
+             xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <vc:ConnectStateConvert x:Key="ConnectStateConvert"></vc:ConnectStateConvert>
+        <convert:ConnectStateConvert x:Key="ConnectStateConvert"></convert:ConnectStateConvert>
+        <convert:BoolConvert1 x:Key="BoolConvert1"></convert:BoolConvert1>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,14 +36,15 @@
             <Button Command="{Binding DisconnectServer}" Content="断 开" Width="100" Margin="10 0 0 0"></Button>
         </StackPanel>
         <WrapPanel Grid.Row="2" Orientation="Horizontal">
-            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.Version}" ContentStringFormat="服务器版本：{0}" Width="200" Margin="20 0 0 0"></Label>
-            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.DedicatedServer}" ContentStringFormat="专用服务器：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GamePort}" ContentStringFormat="游戏端口：{0}" Width="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.VersionStr}" ContentStringFormat="服务器版本：{0}" MinWidth="200" Margin="20 0 0 0"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.DedicatedServer, Converter={StaticResource BoolConvert1}}" 
+                   ContentStringFormat="专用服务器：{0}" MinWidth="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GamePort}" ContentStringFormat="游戏端口：{0}" MinWidth="100" Margin="10"></Label>
             <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.MaxPlayerCount}" ContentStringFormat="最大玩家：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameMode}" ContentStringFormat="游戏模式：{0}" Width="200" Margin="20 0 0 0"></Label>
-            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameWorld}" ContentStringFormat="游戏地图：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameName}" ContentStringFormat="游戏名称：{0}" Width="100" Margin="10"></Label>
-            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameDifficulty}" ContentStringFormat="游戏难度：{0}" Width="100" Margin="10"></Label>
-        </WrapPanel>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameMode}" ContentStringFormat="游戏模式：{0}" MinWidth="200" Margin="20 0 0 0"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameWorld}" ContentStringFormat="游戏地图：{0}" MinWidth="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameName}" ContentStringFormat="游戏名称：{0}" MinWidth="100" Margin="10"></Label>
+            <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameDifficulty}" ContentStringFormat="游戏难度：{0}" MinWidth="100" Margin="10"></Label>
+        </WrapPanel>        
     </Grid>
 </UserControl>

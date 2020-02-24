@@ -21,12 +21,6 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
         /// </summary>
         public GameDateTime GameDateTime { get; set; } = new GameDateTime() { Day = 1, Hour = 7, Minute = 0 };
 
-        ///// <summary>
-        ///// 游戏天数
-        ///// </summary>
-        //[NotNPC_Method]
-        //public int GameDays { get; set; }
-
         /// <summary>
         /// 连接状态
         /// </summary>

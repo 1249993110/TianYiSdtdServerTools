@@ -19,7 +19,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Resources;Component/Assets/Images/background.png" Stretch="UniformToFill"/>
         </Grid.Background>
-        <Border BorderBrush="#A030374A" Panel.ZIndex="1" BorderThickness="1"/>
+        <Border BorderBrush="White" Panel.ZIndex="0" BorderThickness="1" Opacity="0.5"/>
         <!--<Image Source="/Resources;Component/Assets/Images/background2.png" Panel.ZIndex="2" IsHitTestVisible="False"  Stretch="Fill" Opacity="1"></Image>-->
 
         <!--内层边框-->
@@ -50,14 +50,14 @@
             <Border Grid.Row="0" BorderBrush="#A0808080" BorderThickness="0 0 0 1"/>
 
             <TabControl Grid.Row="1" Background="Transparent" Style="{StaticResource TabControlNoneStyle}"
-                        Margin="1 0 1 1" SelectedIndex="{Binding ElementName=buttonGroup_top, Path=SelectedIndex, Mode=OneWay}">
+                        SelectedIndex="{Binding ElementName=buttonGroup_top, Path=SelectedIndex, Mode=OneWay}">
                 <TabItem Header="控制面板" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="220"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ListBox Name="leftListBox1" Grid.Column="0" Padding="0 20 0 0" Background="{StaticResource LeftPanel.Background}" SelectedIndex="0"
+                        <ListBox Name="leftListBox1" Grid.Column="0" Padding="1 20 0 0" Background="{StaticResource LeftPanel.Background}" SelectedIndex="0"
                                  ItemsSource="{Binding ControlPanelItems}"
                                  SelectionChanged="OnLeftListBox1SelectionChanged" Style="{StaticResource ListBoxNoneStyle}">
                             <ListBox.ItemContainerStyle>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
+using IceCoffee.Wpf.MvvmFrame.Utils;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 
 namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
@@ -19,21 +20,25 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
         /// <summary>
         /// 服务器IP地址
         /// </summary>
+        [ConfigNode]
         public string ServerIP { get; set; }
 
         /// <summary>
         /// telnet端口
         /// </summary>
+        [ConfigNode]
         public ushort? TelnetPort { get; set; }
 
         /// <summary>
         /// telnet密码
         /// </summary>
+        [ConfigNode]
         public string TelnetPassword { get; set; }
 
         /// <summary>
         /// GPS端口
         /// </summary>
+        [ConfigNode]
         public ushort? GPSPort { get; set; }
 
         /// <summary>
