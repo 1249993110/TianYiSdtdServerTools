@@ -71,7 +71,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             this.leftTabControl1.SelectedItem = tabItem;            
         }
 
-        private void OnMainWindowClosing(object sender, EventArgs e)
+        private void OnClickCloseButton(object sender, EventArgs e)
         {
             if (MessageBoxX.Show("确定退出程序吗？", "提示", this, MessageBoxButton.OKCancel, configKey: "CommonTheme") == MessageBoxResult.OK)
             {

@@ -6,49 +6,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using IceCoffee.Common.LogManager;
+using IceCoffee.Common.Xml;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Utils;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 {
-    public class ViewModelBase : ObservableObject
+    public abstract class ViewModelBase : ObservableObject
     {
         protected IDialogService dialogService;
 
         protected IDispatcherService dispatcherService;
 
+        private static readonly List<Action<XmlDocument, XmlNode>> _saveConfigActions;
+
+        static ViewModelBase()
+        {
+            _saveConfigActions = new List<Action<XmlDocument, XmlNode>>();
+        }
+
         public ViewModelBase(IDispatcherService dispatcherService)
         {
-            this.dispatcherService = dispatcherService;
+            this.dispatcherService = dispatcherService;            
+
+            _saveConfigActions.Add(this.SaveConfig);
+
+            dispatcherService.ShutdownStarted -= OnDispatcherService_ShutdownStarted;
+            dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
+
+            LoadConfig();
         }
 
         public ViewModelBase(IDispatcherService dispatcherService, IDialogService dialogService) : this(dispatcherService)
         {            
             this.dialogService = dialogService;
-
-            try
-            {
-                LoadConfig();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("加载配置失败", ex);
-            }
-
-            dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
-        }
-
-        private void OnDispatcherService_ShutdownStarted(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveConfig();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("保存配置失败", ex);
-            }
         }
 
         /// <summary>
@@ -56,152 +48,168 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
         /// </summary>
         protected virtual void LoadConfig()
         {
-            string modelConfigPath = System.Configuration.ConfigurationManager.AppSettings["ViewModelConfigPath"];
-
-            XmlDocument doc = new XmlDocument();
-
+            Type type = this.GetType();
             try
             {
-                doc.Load(modelConfigPath);
-            }
-            catch (Exception e)
-            {
+                string modelConfigPath = System.Configuration.ConfigurationManager.AppSettings["ViewModelConfigPath"];
 
-                //throw;
+                XmlDocument doc = new XmlDocument();
+                doc.Load(modelConfigPath);
+
+                string prefix = type.Namespace.Substring(type.Namespace.LastIndexOf('.') + 1);
+
+                // 将继承于ViewModelBase的本类类名作为父节点
+                XmlNode baseNode = doc.SelectSingleNode("ViewModelConfig/" + prefix + "/" + type.Name);
+
+                PrivateLoad(this, baseNode);
             }
-            
+            catch (Exception ex)
+            {
+                Log.Error("加载配置失败 Model: " + type.Name, ex);
+            }
+        }
+
+        private  static void PrivateLoad(object obj, XmlNode baseNode)
+        {
+            foreach (PropertyInfo property in obj.GetType().GetProperties())
+            {
+                ConfigNodeAttribute configNodeAttribute = property.GetCustomAttribute<ConfigNodeAttribute>();
+
+                if (configNodeAttribute != null)
+                {
+                    switch (configNodeAttribute.ConfigNodeType)
+                    {
+                        case ConfigNodeType.Element:
+                            {
+                                object propertyObj = property.GetValue(obj);
+
+                                if (propertyObj != null)
+                                {
+                                    PrivateLoad(propertyObj, baseNode.SelectSingleNode(property.PropertyType.Name));
+                                }                                
+                            }
+                            break;
+                        case ConfigNodeType.Attribute:
+                            {
+                                XmlElement currentNode = (XmlElement)baseNode.SelectSingleNode(string.Format("property[@name='{0}']", property.Name));
+                                
+                                string value = currentNode?.GetAttribute("value");
+
+                                if(string.IsNullOrEmpty(value) == false)
+                                {
+                                    Type metaType = property.PropertyType;
+
+                                    if (metaType.IsGenericType && metaType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                                    {
+                                        metaType = property.PropertyType.GetGenericArguments()[0];
+                                    }
+
+                                    property.SetValue(obj, Convert.ChangeType(value, metaType));
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// 保存配置
         /// </summary>
-        protected virtual void SaveConfig()
+        protected virtual void SaveConfig(XmlDocument contextDoc, XmlNode baseNode)
         {
-            string configPath = System.Configuration.ConfigurationManager.AppSettings["ViewModelConfigPath"];
+            Type type = this.GetType();
 
-            XmlDocument doc = new XmlDocument();
+            string prefix = type.Namespace.Substring(type.Namespace.LastIndexOf('.') + 1);
 
-            if (System.IO.File.Exists(configPath) == false)
-            {
-                XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-                doc.AppendChild(dec);
+            // 将PartialViews后一级类名作为父节点
+            baseNode = baseNode.GetSingleChildNode(contextDoc, prefix);
 
-                doc.AppendChild(doc.CreateElement("ViewModelConfig"));
-            }
-            else
-            {
-                doc.Load(configPath);
-            }
-            string _namespace = this.GetType().Namespace;
+            // 将继承于ViewModelBase的本类类名作为父节点
+            baseNode = baseNode.GetSingleChildNode(contextDoc, type.Name);
 
-            string prefix = _namespace.Substring(_namespace.LastIndexOf('.') + 1);
-
-            XmlNode baseNode = doc.FirstChild.NextSibling.SelectSingleNode(prefix);
-            if (baseNode == null)
-            {
-                baseNode = doc.CreateElement(prefix);
-                doc.FirstChild.NextSibling.AppendChild(baseNode);
-            }
-
-            SaveConfig(this, doc, baseNode);
-
-            doc.Save(configPath);
+            PrivateSave(this, contextDoc, baseNode);
         }
 
-        private static void SaveConfig(object obj, XmlDocument doc, XmlNode baseNode)
-        {
-            Type objType = obj.GetType();
-
-            foreach (PropertyInfo property in objType.GetProperties())
+        private static void PrivateSave(object obj, XmlDocument contextDoc, XmlNode baseNode)
+        {          
+            foreach (PropertyInfo property in obj.GetType().GetProperties())
             {
                 ConfigNodeAttribute configNodeAttribute = property.GetCustomAttribute<ConfigNodeAttribute>();
 
-                if(configNodeAttribute == null)
+                if(configNodeAttribute != null)
                 {
-                    continue;
+                    switch (configNodeAttribute.ConfigNodeType)
+                    {
+                        case ConfigNodeType.Element:
+                            {
+                                // 将标记了ConfigNodeType.Element特性的属性名作为父节点
+                                XmlNode currentNode = baseNode.GetSingleChildNode(contextDoc, property.PropertyType.Name);
+
+                                PrivateSave(property.GetValue(obj), contextDoc, currentNode);
+                            }
+                            break;
+                        case ConfigNodeType.Attribute:
+                            {
+                                XmlElement currentNode = (XmlElement)baseNode.SelectSingleNode(string.Format("property[@name='{0}']", property.Name));
+                                if (currentNode == null)
+                                {
+                                    currentNode = contextDoc.CreateElement("property");
+                                    currentNode.SetAttribute("name", property.Name);
+                                    baseNode.AppendChild(currentNode);
+                                }
+                                currentNode.SetAttribute("value", property.GetValue(obj)?.ToString());
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }                                
+            }
+        }
+
+        /// <summary>
+        /// 保存所有ViewModel的配置
+        /// </summary>
+        public static void SaveAllConfig()
+        {
+            try
+            {
+                string configPath = System.Configuration.ConfigurationManager.AppSettings["ViewModelConfigPath"];
+
+                XmlDocument contextDoc = new XmlDocument();
+
+                if (System.IO.File.Exists(configPath) == false)
+                {
+                    XmlDeclaration dec = contextDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+                    contextDoc.AppendChild(dec);
+
+                    contextDoc.AppendChild(contextDoc.CreateElement("ViewModelConfig"));
+                }
+                else
+                {
+                    contextDoc.Load(configPath);
                 }
 
-                switch (configNodeAttribute.ConfigNodeType)
+                foreach (var item in _saveConfigActions)
                 {
-                    case ConfigNodeType.Element:
-                        {
-                            XmlNode parentNode = baseNode.SelectSingleNode(objType.Name);
-                            if (parentNode == null)
-                            {
-                                parentNode = doc.CreateElement(objType.Name);
-                                baseNode.AppendChild(parentNode);
-                            }
-                            baseNode = parentNode;
+                    item.Invoke(contextDoc, contextDoc.SelectSingleNode("ViewModelConfig"));
+                }
 
-                            XmlNode node = baseNode.SelectSingleNode(property.PropertyType.Name);
-                            if (node == null)
-                            {
-                                node = doc.CreateElement(property.PropertyType.Name);
-                                baseNode.AppendChild(node);
-                            }
-                            SaveConfig(property.GetValue(obj), doc, node);
-                        }
-                        break;
-                    case ConfigNodeType.Attribute:
-                        {
-                            //object value = property.GetValue(obj);
-                            //if (value == null)
-                            //    continue;
-                            bool isFound = false;
-                            XmlNode currentNode = null;
-                            foreach (XmlNode node in baseNode.ChildNodes)
-                            {
-                                XmlAttribute xmlAttribute = node.Attributes["name"];
-                                if (xmlAttribute != null)
-                                {
-                                    if(xmlAttribute.Value == property.Name)
-                                    {
-                                        isFound = true;
-                                        currentNode = node;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (isFound == false)
-                            {
-                                currentNode = doc.CreateElement("property");
-                                XmlAttribute xmlAttribute = doc.CreateAttribute("name");
-                                xmlAttribute.Value = property.Name;
-                                currentNode.Attributes.Append(xmlAttribute);
-                                baseNode.AppendChild(currentNode);
-                            }
-                            else
-                            {
-                                XmlAttribute xmlAttribute = currentNode.Attributes["value"];
-                                if (xmlAttribute == null)
-                                {
-                                    xmlAttribute = doc.CreateAttribute("value");
-                                    currentNode.Attributes.Append(xmlAttribute);
-                                }
-                                xmlAttribute.Value = property.GetValue(obj)?.ToString();
-                            }
-
-                            //AddOrUpdateValueByName(doc, xmlNode, "name", property.Name);
-                        }
-                        break;
-                    default:
-                        break;
-                }                    
+                contextDoc.Save(configPath);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("保存配置失败", ex);
             }
         }
 
-        private static void AddOrUpdateValueByName(XmlDocument doc, XmlNode baseNode, string name, string value)
+        private static void OnDispatcherService_ShutdownStarted(object sender, EventArgs e)
         {
-            XmlAttribute xmlAttribute = baseNode.Attributes[name];
-            if (xmlAttribute == null)
-            {
-                baseNode.Attributes.Append(doc.CreateAttribute(name));
-            }
-            else
-            {
-                xmlAttribute.Value = value;
-            }
+            SaveAllConfig();
         }
+
     }
 }

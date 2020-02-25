@@ -64,9 +64,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             SdtdConsole.Instance.ConnectionStateChanged += (connectionState) => { SdtdServerStates.ConnectionState = connectionState; };
             SdtdConsole.Instance.ReceivedServerPartialPref += (serverPartialPref) => { SdtdServerPrefs.ServerPartialPref = serverPartialPref; };
             SdtdConsole.Instance.ReceivedServerPartialState += (serverPartialState) => { SdtdServerStates.ServerPartialState = serverPartialState; };
-            SdtdServerPrefs.ServerIP = "127.0.0.1";
-            SdtdServerPrefs.TelnetPort = 8081;
-            SdtdServerPrefs.TelnetPassword = "12345";
+
             //var _sdtdServerPrefObserver = new PropertyObserver<SdtdServerPrefModel>(SdtdServerPrefs);
             //_sdtdServerPrefObserver.RegisterHandler(SdtdServerPref => SdtdServerPref.TelnetPassword,
             //    (sdtdServerPrefs) =>

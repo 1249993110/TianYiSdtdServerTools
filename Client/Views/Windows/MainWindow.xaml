@@ -42,7 +42,7 @@
                     <Button Content="..." Padding="1 0 1 6" FontSize="14" FontFamily="Consolas" Style="{StaticResource TopButtonStyle}" FontWeight="Bold"/>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <iceCtrl:WindowButton Margin="0 0 10 0" WindowClosing="OnMainWindowClosing">
+                    <iceCtrl:WindowButton Margin="0 0 10 0" ClickCloseButton="OnClickCloseButton">
                     </iceCtrl:WindowButton>
                 </StackPanel>
             </Grid>

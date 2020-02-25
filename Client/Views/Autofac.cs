@@ -10,6 +10,9 @@ using TianYiSdtdServerTools.Client.Views.Services;
 
 namespace TianYiSdtdServerTools.Client.Views
 {
+    /// <summary>
+    /// IocConfig
+    /// </summary>
     public static class Autofac
     {
         private static ContainerBuilder _builder;
