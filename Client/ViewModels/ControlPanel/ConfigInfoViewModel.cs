@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IceCoffee.Wpf.MvvmFrame;
+using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
@@ -17,9 +18,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
     public class ConfigInfoViewModel : ViewModelBase
     {
         #region 字段
-        private RelayCommand _connectServer;
-
-        private RelayCommand _disconnectServer;
         //private readonly PropertyObserver<SdtdServerPrefModel> _sdtdServerPrefObserver;
         #endregion
 
@@ -29,50 +27,45 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public SdtdServerStateModel SdtdServerStates { get; set; } = new SdtdServerStateModel();
 
-        #region 命令
-        public RelayCommand ConnectServer
-        {
-            get
-            {
-                return _connectServer ?? (_connectServer = new RelayCommand(() =>
-                {
-                    if (SdtdServerPrefs.TelnetPort.HasValue)
-                    {
-                        SdtdConsole.Instance.ConnectServer(SdtdServerPrefs.ServerIP, SdtdServerPrefs.TelnetPort.Value, SdtdServerPrefs.TelnetPassword);
-                    }
-                }, () => { return SdtdConsole.Instance.ConnectionState != ConnectionState.Connecting; }));
-            }
-        }
+        [ConfigNode(ConfigNodeType.Attribute)]
+        public int AutoReconnectMaxCount { get; [NPCA_Method]set; } = 10;
 
-        public RelayCommand DisconnectServer
-        {
-            get
-            {
-                return _disconnectServer ?? (_disconnectServer = new RelayCommand(() =>
-                {
-                    SdtdConsole.Instance.Disconnect();
-                }));
-            }
-        }
+        [ConfigNode(ConfigNodeType.Attribute)]
+        public int AutoReconnectInterval { get; [NPCA_Method]set; } = 20;
+
+        #region 命令
+        public RelayCommand ConnectServer { get; set; }
+
+        public RelayCommand DisconnectServer { get; set; }
         #endregion
 
         #endregion
 
         #region 构造方法
-        public ConfigInfoViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService, dialogService)
+        public ConfigInfoViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService)
         {
             SdtdConsole.Instance.ConnectionStateChanged += (connectionState) => { SdtdServerStates.ConnectionState = connectionState; };
             SdtdConsole.Instance.ReceivedServerPartialPref += (serverPartialPref) => { SdtdServerPrefs.ServerPartialPref = serverPartialPref; };
             SdtdConsole.Instance.ReceivedServerPartialState += (serverPartialState) => { SdtdServerStates.ServerPartialState = serverPartialState; };
 
-            //var _sdtdServerPrefObserver = new PropertyObserver<SdtdServerPrefModel>(SdtdServerPrefs);
-            //_sdtdServerPrefObserver.RegisterHandler(SdtdServerPref => SdtdServerPref.TelnetPassword,
-            //    (sdtdServerPrefs) =>
-            //    {
-            //        SdtdConsole.Instance.Password = sdtdServerPrefs.TelnetPassword;
-            //    });
-
             base.dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
+
+            ConnectServer = new RelayCommand(() =>
+            {
+                if (SdtdServerPrefs.TelnetPort.HasValue)
+                {
+                    SdtdConsole.Instance.ConnectServer(
+                        SdtdServerPrefs.ServerIP, 
+                        SdtdServerPrefs.TelnetPort.Value, 
+                        SdtdServerPrefs.TelnetPassword,
+                        AutoReconnectMaxCount, AutoReconnectInterval);
+                }
+            }, () => { return SdtdConsole.Instance.ConnectionState != ConnectionState.Connecting; });
+
+            DisconnectServer = new RelayCommand(() =>
+            {
+                SdtdConsole.Instance.Disconnect();
+            });
         }
 
         private void OnDispatcherService_ShutdownStarted(object sender, EventArgs e)

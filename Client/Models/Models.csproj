@@ -48,12 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat\ChatType.cs" />
+    <Compile Include="Chat\RichText.cs" />
     <Compile Include="Chat\SenderType.cs" />
     <Compile Include="ConsoleTempList\TempListDataType.cs" />
     <Compile Include="ObservableClasses\ListViewItemModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerPrefModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerStateModel.cs" />
     <Compile Include="ObservableClasses\TreeViewItemModel.cs" />
+    <Compile Include="Players\HistoryPlayerInfo.cs" />
     <Compile Include="Players\PlayerExtension.cs" />
     <Compile Include="Players\PlayerInfo.cs" />
     <Compile Include="Players\PlayerBase.cs" />

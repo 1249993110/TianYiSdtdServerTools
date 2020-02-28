@@ -12,18 +12,18 @@ namespace TianYiSdtdServerTools.Client.Views.Services
     {
         public event EventHandler ShutdownStarted
         {
-            add { Application.Current.MainWindow.Dispatcher.ShutdownStarted += value; }
-            remove { Application.Current.MainWindow.Dispatcher.ShutdownStarted -= value; }
+            add { Application.Current.Dispatcher.ShutdownStarted += value; }
+            remove { Application.Current.Dispatcher.ShutdownStarted -= value; }
         }
 
         public void Invoke(Action action)
         {
-            Application.Current.MainWindow.Dispatcher.Invoke(action);
+            Application.Current.Dispatcher.Invoke(action);
         }
 
         public void InvokeAsync(Action action)
         {
-            Application.Current.MainWindow.Dispatcher.InvokeAsync(action);
+            Application.Current.Dispatcher.InvokeAsync(action);
         }
     }
 }

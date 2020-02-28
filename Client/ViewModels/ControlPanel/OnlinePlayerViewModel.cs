@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
+using IceCoffee.Wpf.MvvmFrame.Utils;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
@@ -16,22 +17,119 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 {
     public class OnlinePlayerViewModel : ViewModelBase
     {
-        private List<PlayerInfo> _onlinePlayers;
+        private IDialogService _dialogService;
 
-        public List<PlayerInfo> OnlinePlayers
+        private PropertyObserver<OnlinePlayerViewModel> _currentViewModelObserver;
+
+        public List<PlayerInfo> OnlinePlayers { get; [NPCA_Method]set; }
+
+        [ConfigNode(ConfigNodeType.Attribute)]
+        public bool AutoRefresh { get; [NPCA_Method]set; }
+
+        public int SelectedIndex { get; set; } = -1;
+        #region 命令
+        public RelayCommand TelePlayer { get; set; }
+
+        public RelayCommand KickPlayer { get; set; }
+
+        public RelayCommand KillPlayer { get; set; }
+
+        public RelayCommand BanPlayer100Year { get; set; }
+
+        public RelayCommand RemoveLandclaims { get; set; }
+
+        public RelayCommand AddSuperAdministrator { get; set; }
+
+        public RelayCommand RemoveAdministrator { get; set; }
+
+        public RelayCommand RemovePlayerArchive { get; set; }
+
+        public RelayCommand ViewPlayerInventory { get; set; }
+        #endregion
+        public OnlinePlayerViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService)
         {
-            get { return _onlinePlayers; }
-            set
+            this._dialogService = dialogService;
+            if (SdtdConsole.Instance.OnlinePlayers != null)
             {
-                _onlinePlayers = value;
-                RaisePropertyChanged();
+                this.OnlinePlayers = new List<PlayerInfo>(SdtdConsole.Instance.OnlinePlayers.Values);
             }
+
+            TelePlayer = new RelayCommand(() =>
+            {
+                string result = _dialogService.ShowInputDialog("请输入目标：");
+                SdtdConsole.Instance.TelePlayer(OnlinePlayers[SelectedIndex].SteamID, result);
+            }, CanExecuteCommand);
+            KickPlayer = new RelayCommand(() =>
+            {
+                SdtdConsole.Instance.KickPlayer(OnlinePlayers[SelectedIndex].SteamID);
+            }, CanExecuteCommand);
+            KillPlayer = new RelayCommand(() =>
+            {
+                SdtdConsole.Instance.KillPlayer(OnlinePlayers[SelectedIndex].SteamID);
+            }, CanExecuteCommand);
+            BanPlayer100Year = new RelayCommand(() =>
+            {
+                string result = _dialogService.ShowInputDialog("请输入封禁原因：", "你因违规被管理员封禁");
+                SdtdConsole.Instance.BanPlayerWithYear(OnlinePlayers[SelectedIndex].SteamID, 100, result);
+            }, CanExecuteCommand);
+            RemoveLandclaims = new RelayCommand(() =>
+            {
+                SdtdConsole.Instance.RemovePlayerLandclaims(OnlinePlayers[SelectedIndex].SteamID);
+            }, CanExecuteCommand);
+            AddSuperAdministrator = new RelayCommand(() =>
+            {
+                SdtdConsole.Instance.AddAdministrator(OnlinePlayers[SelectedIndex].SteamID, 0);
+            }, CanExecuteCommand);
+            RemoveAdministrator = new RelayCommand(() =>
+            {
+                SdtdConsole.Instance.RemoveAdministrator(OnlinePlayers[SelectedIndex].SteamID);
+            }, CanExecuteCommand);
+            RemovePlayerArchive = new RelayCommand(() =>
+            {
+                SdtdConsole.Instance.RemovePlayerArchive(OnlinePlayers[SelectedIndex].SteamID);
+            }, CanExecuteCommand);
+            ViewPlayerInventory = new RelayCommand(() =>
+            {
+                string steamID = OnlinePlayers[SelectedIndex].SteamID;
+            }, CanExecuteCommand);
         }
 
-        public OnlinePlayerViewModel(IDispatcherService dispatcherService) : base(dispatcherService)
+        protected override void OnPrepareLoadConfig()
         {
-            this.OnlinePlayers = SdtdConsole.Instance.OnlinePlayers?.Values.ToList();
-            SdtdConsole.Instance.ReceivedOnlinePlayerInfo += (onlinePlayers) => { this.OnlinePlayers = onlinePlayers; };
+            _currentViewModelObserver = new PropertyObserver<OnlinePlayerViewModel>(this);
+            _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.AutoRefresh,
+                (propertySource) =>
+                {
+                    ConnectAutoRefresh();
+                });
+        }
+
+        private bool CanExecuteCommand()
+        {
+            return SelectedIndex != -1;
+        }
+
+        private void OnReceivedOnlinePlayerInfo(List<PlayerInfo> players)
+        {
+            // 拷贝一个副本，以避免用户修改在线玩家字典中的数据
+            this.OnlinePlayers = new List<PlayerInfo>(players);
+        }
+
+        /// <summary>
+        /// 关联自动刷新列表
+        /// </summary>
+        /// <param name="autoRefresh"></param>
+        private void ConnectAutoRefresh()
+        {
+            if (this.AutoRefresh)
+            {
+                SdtdConsole.Instance.ReceivedOnlinePlayerInfo -= OnReceivedOnlinePlayerInfo;
+                SdtdConsole.Instance.ReceivedOnlinePlayerInfo += OnReceivedOnlinePlayerInfo;
+            }
+            else
+            {
+                SdtdConsole.Instance.ReceivedOnlinePlayerInfo -= OnReceivedOnlinePlayerInfo;
+            }
         }
     }
 }

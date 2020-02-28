@@ -32,5 +32,14 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives.UI
         /// <param name="title"></param>
         /// <returns></returns>
         bool ShowOKCancel(string message, string title = "提示");
+
+        /// <summary>
+        /// 显示输入对话框
+        /// </summary>
+        /// <param name="question"></param>
+        /// <param name="defaultAnswer"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        string ShowInputDialog(string question, string defaultAnswer = "", string title = "输入");
     }
 }

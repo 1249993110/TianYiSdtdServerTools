@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel.HistoryPlayerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+             xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
+             xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <UserControl.Resources>
+        <convert:MinuteToStrConvert x:Key="MinuteToStrConvert"></convert:MinuteToStrConvert>
+        <convert:BoolConvert2 x:Key="BoolConvert2"></convert:BoolConvert2>
+    </UserControl.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow" HeadersVisibility="Column" SelectionMode="Single"
+                  ItemsSource="{Binding HistoryPlayers, Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="False"
+                  CanUserAddRows="False" pu:DataGridHelper.HoverBackground="#F0F0F0" pu:DataGridHelper.SelectedBackground="#EEE8AA"
+                  ScrollViewer.HorizontalScrollBarVisibility="Visible" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" SelectionChanged="OnDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="64" Header="序号" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="状态" Binding="{Binding IsOnline, Converter={StaticResource BoolConvert2}}"/>
+                <DataGridTextColumn Header="短位ID" Binding="{Binding EntityID}"/>
+                <DataGridTextColumn Header="玩家昵称" Binding="{Binding PlayerName}"/>
+                <DataGridTextColumn Header="SteamID" Binding="{Binding SteamID}"/>
+                <DataGridTextColumn Header="IP地址" Binding="{Binding IP}"/>
+                <DataGridTextColumn Header="总游戏时长" Binding="{Binding TotalPlayTime, Converter={StaticResource MinuteToStrConvert}}"/>
+                <DataGridTextColumn Header="最后在线" Binding="{Binding LastOnlineTime}"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="封禁玩家100年" Command="{Binding BanPlayer100Year}"/>
+                    <MenuItem Header="移除领地石" Command="{Binding RemoveLandclaims}"/>
+                    <MenuItem Header="设为0级管理员" Command="{Binding AddSuperAdministrator}"/>
+                    <MenuItem Header="撤销管理员" Command="{Binding RemoveAdministrator}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="移除玩家存档" Command="{Binding RemovePlayerArchive}"/>
+                    <Separator></Separator>
+                    <MenuItem Header="查看背包(开发中)" Command="{Binding ViewPlayerInventory}" IsEnabled="False"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="刷新列表" Command="{Binding RefreshList}"></Button>
+                <Button Content="清空列表" Command="{Binding ClearList}" Margin="10 0 0 0"></Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <ComboBox Width="100" HorizontalContentAlignment="Center" SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}">
+                    <ComboBoxItem Content="玩家昵称"></ComboBoxItem>
+                    <ComboBoxItem Content="SteamID"></ComboBoxItem>
+                    <ComboBoxItem Content="短位ID"></ComboBoxItem>
+                </ComboBox>
+                <TextBox Text="{Binding SearchText, Mode=OneWayToSource}" Width="150" Margin="5 0 0 0"></TextBox>
+                <Button Content="搜索玩家" Command="{Binding SearchPlayer}" Margin="5 0 0 0"></Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

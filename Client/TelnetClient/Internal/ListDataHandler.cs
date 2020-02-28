@@ -36,8 +36,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                 }
                 else
                 {
-                    player = new PlayerInfo();
-                    player.SteamID = playerSteamID;
+                    player = new PlayerInfo();                    
                 }
 
                 player.EntityID = line.GetMidStr("id=", ",", out end1, 1).ToInt();          // 取出玩家实体ID
@@ -57,7 +56,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                 player.Players = line.GetMidStr("players=", ",", out end1, end1).ToInt();   // 取出玩家击杀玩家数
                 player.Score = line.GetMidStr("score=", ",", out end1, end1).ToInt();       // 取出玩家分数
                 player.Level = line.GetMidStr("level=", ",", out end1, end1).ToInt();       // 取出玩家等级
-                
+                player.SteamID = playerSteamID;                                             // 重新赋值SteamID，确保无误
                 player.IP = line.GetMidStr("ip=", ",", out end1, end1);                     // 取出玩家IP地址
                 player.Ping = line.GetMidStr("ping=", Environment.NewLine, end1).ToInt();   // 取出玩家网络延迟
 
@@ -76,8 +75,6 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     steamIDs.Remove(key);
                 }
             }
-
-            SdtdConsole.Instance.RaiseReceivedOnlinePlayerInfoEvent(players.Values.ToList());
         }
 
         /// <summary>
@@ -85,9 +82,29 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static void ParseHistoryPlayers(List<string> lines)
+        public static List<HistoryPlayerInfo> ParseHistoryPlayers(List<string> lines)
         {
+            List<HistoryPlayerInfo> result = new List<HistoryPlayerInfo>();
 
+            HistoryPlayerInfo historyPlayerInfo = null;
+
+            int outEnd = 0;
+
+            foreach (var item in lines)
+            {
+                historyPlayerInfo = new HistoryPlayerInfo();
+
+                historyPlayerInfo.PlayerName = item.GetMidStr(". ", ", id=", out outEnd, 1);
+                historyPlayerInfo.EntityID = item.GetMidStr(", id=", ", steamid=", out outEnd, outEnd).ToInt();
+                historyPlayerInfo.SteamID = item.GetMidStr(", steamid=", ", online=", out outEnd, outEnd);
+                historyPlayerInfo.IsOnline = item.GetMidStr(", online=", ", ip=", out outEnd, outEnd) == "True";
+                historyPlayerInfo.IP = item.GetMidStr(", ip=", ", playtime=", out outEnd, outEnd);
+                historyPlayerInfo.TotalPlayTime = item.GetMidStr(", playtime=", " m, seen=", out outEnd, outEnd).ToInt();
+                historyPlayerInfo.LastOnlineTime = item.GetMidStr(" m, seen=", Environment.NewLine, outEnd);
+
+                result.Add(historyPlayerInfo);
+            }
+            return result;
         }
 
         /// <summary>

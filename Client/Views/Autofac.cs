@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,17 @@ namespace TianYiSdtdServerTools.Client.Views
         public static T Resolve<T>()
         {
             return _container.Resolve<T>();
+        }
+
+        /// <summary>
+        /// 从上下文中检索服务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static T Resolve<T>(params Parameter[] parameters)
+        {
+            return _container.Resolve<T>(parameters);
         }
     }
 }

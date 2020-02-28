@@ -11,7 +11,7 @@ namespace TianYiSdtdServerTools.Client.Models.ConsoleTempList
         /// <summary>
         /// 历史玩家列表
         /// </summary>
-        OfflinePlayerList,
+        HistoryPlayerList,
 
         /// <summary>
         /// 管理员

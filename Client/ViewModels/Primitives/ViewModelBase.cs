@@ -15,15 +15,13 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 {
     public abstract class ViewModelBase : ObservableObject
     {
-        protected IDialogService dialogService;
-
         protected IDispatcherService dispatcherService;
 
-        private static readonly List<Action<XmlDocument, XmlNode>> _saveConfigActions;
+        private static readonly List<Action<XmlDocument>> _saveConfigActions;
 
         static ViewModelBase()
         {
-            _saveConfigActions = new List<Action<XmlDocument, XmlNode>>();
+            _saveConfigActions = new List<Action<XmlDocument>>();
         }
 
         public ViewModelBase(IDispatcherService dispatcherService)
@@ -37,17 +35,18 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
             LoadConfig();
         }
-
-        public ViewModelBase(IDispatcherService dispatcherService, IDialogService dialogService) : this(dispatcherService)
-        {            
-            this.dialogService = dialogService;
-        }
+        /// <summary>
+        /// 准备加载配置
+        /// </summary>
+        protected virtual void OnPrepareLoadConfig() { }
 
         /// <summary>
         /// 加载配置
         /// </summary>
         protected virtual void LoadConfig()
         {
+            OnPrepareLoadConfig();
+
             Type type = this.GetType();
             try
             {
@@ -118,11 +117,13 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
         /// <summary>
         /// 保存配置
         /// </summary>
-        protected virtual void SaveConfig(XmlDocument contextDoc, XmlNode baseNode)
-        {
+        protected virtual void SaveConfig(XmlDocument contextDoc)
+        {           
             Type type = this.GetType();
 
             string prefix = type.Namespace.Substring(type.Namespace.LastIndexOf('.') + 1);
+
+            XmlNode baseNode = contextDoc.SelectSingleNode("ViewModelConfig");
 
             // 将PartialViews后一级类名作为父节点
             baseNode = baseNode.GetSingleChildNode(contextDoc, prefix);
@@ -195,7 +196,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
                 foreach (var item in _saveConfigActions)
                 {
-                    item.Invoke(contextDoc, contextDoc.SelectSingleNode("ViewModelConfig"));
+                    item.Invoke(contextDoc);
                 }
 
                 contextDoc.Save(configPath);

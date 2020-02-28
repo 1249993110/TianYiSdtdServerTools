@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Panuon.UI.Silver, Version=1.0.9.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Panuon.UI.Silver.1.0.9.7\lib\net45\Panuon.UI.Silver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,11 +46,17 @@
   <ItemGroup>
     <Compile Include="Primitives\UI\IDialogService.cs" />
     <Compile Include="Primitives\UI\IDispatcherService.cs" />
+    <Compile Include="Primitives\UI\IRichTextBoxService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{AFF037C5-D34F-41CE-ACBF-209D93436159}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

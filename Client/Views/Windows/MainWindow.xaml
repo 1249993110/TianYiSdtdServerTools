@@ -106,9 +106,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="运行日志" Visibility="Collapsed">
-                    <TabControl Background="Blue" BorderThickness="0">
-
-                    </TabControl>
+                    <RichTextBox Name="richTextBox_runLog"/>
                 </TabItem>
             </TabControl>
         </Grid>

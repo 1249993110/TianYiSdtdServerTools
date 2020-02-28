@@ -1,4 +1,5 @@
-﻿using Panuon.UI.Silver;
+﻿using IceCoffee.Wpf.CustomControlLibrary.Controls;
+using Panuon.UI.Silver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,16 @@ namespace TianYiSdtdServerTools.Client.Views.Services
         {
             return MessageBoxX.Show(message, title, Application.Current.MainWindow ?? null, MessageBoxButton.YesNo, configKey: "CommonTheme")
                 == MessageBoxResult.Yes;
+        }
+
+        public string ShowInputDialog(string question, string defaultAnswer = "", string title = "输入")
+        {
+            InputDialog inputDialog = new InputDialog(question, defaultAnswer, title);
+            if(inputDialog.ShowDialog() == true)
+            {
+                return inputDialog.Answer;
+            }
+            return null;
         }
     }
 }

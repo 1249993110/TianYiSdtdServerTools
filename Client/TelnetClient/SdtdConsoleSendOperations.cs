@@ -64,32 +64,78 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// 传送玩家
         /// </summary>
         /// <param name="steamID"></param>
-        /// <param name="targetPos"></param>
-        public void TelePlayer(string steamID, string targetPos)
+        /// <param name="target"></param>
+        public void TelePlayer(string steamID, string target)
         {
-
+            SendCmd(string.Format("tele {0} {1}", steamID, target));
         }
 
         /// <summary>
-        /// 传送玩家到朋友身边
+        /// 踢出玩家
         /// </summary>
         /// <param name="steamID"></param>
-        /// <param name="targetSteamID"></param>
-        public void TelePlayerToFriend(string steamID, string targetSteamID)
+        /// <param name="reason"></param>
+        public void KickPlayer(string steamID, string reason = "")
         {
-
+            SendCmd(string.Format("kick {0} {1}", steamID, reason));
         }
 
         /// <summary>
-        /// 传送玩家到朋友身边
+        /// 杀死玩家
         /// </summary>
         /// <param name="steamID"></param>
-        /// <param name="targetEntityID"></param>
-        public void TelePlayerToFriend(string steamID, int targetEntityID)
+        public void KillPlayer(string steamID)
         {
-
+            SendCmd(string.Format("kill {0}", steamID));
         }
 
+        /// <summary>
+        /// 封禁玩家n年
+        /// </summary>
+        /// <param name="steamID"></param>
+        /// <param name="year"></param>
+        /// <param name="reason"></param>
+        public void BanPlayerWithYear(string steamID, int year,string reason = "")
+        {
+            SendCmd(string.Format("ban add {0} {1} year {2}", steamID, year, reason));
+        }
+
+        /// <summary>
+        /// 移除玩家领地石
+        /// </summary>
+        /// <param name="steamID"></param>
+        public void RemovePlayerLandclaims(string steamID)
+        {
+            SendCmd(string.Format("rlp {0}", steamID));
+        }
+
+        /// <summary>
+        /// 添加管理员
+        /// </summary>
+        /// <param name="steamID"></param>
+        /// <param name="level">0级最高，2000最低</param>
+        public void AddAdministrator(string steamID, int level)
+        {
+            SendCmd(string.Format("admin add {0} {1}", steamID, level));
+        }
+
+        /// <summary>
+        /// 移除管理员
+        /// </summary>
+        /// <param name="steamID"></param>
+        public void RemoveAdministrator(string steamID)
+        {
+            SendCmd(string.Format("admin remove {0}", steamID));
+        }
+
+        /// <summary>
+        /// 移除玩家存档
+        /// </summary>
+        /// <param name="steamID"></param>
+        public void RemovePlayerArchive(string steamID)
+        {
+            SendCmd(string.Format("rp {0}", steamID));
+        }
         #endregion
     }
 }

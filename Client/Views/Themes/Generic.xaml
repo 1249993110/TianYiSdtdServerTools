@@ -40,6 +40,7 @@
 
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Height" Value="25"></Setter>
+        <Setter Property="Width" Value="100"></Setter>
     </Style>
 
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
@@ -50,6 +51,21 @@
         <Setter Property="Height" Value="25"></Setter>
     </Style>
 
+    <Style TargetType="{x:Type RichTextBox}">
+        <Setter Property="Background" Value="#393A3C"/>
+        <Setter Property="Foreground" Value="#AFAFAF"/>
+        <Setter Property="Padding" Value="0 4"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+    </Style>
     
+    <Style TargetType="{x:Type Paragraph}">
+        <Setter Property="Margin" Value="0"/>
+        <!--<Setter Property="LineHeight" Value="20"/>-->
+    </Style>
+    
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="Height" Value="25"/>
+    </Style>
     
 </ResourceDictionary>

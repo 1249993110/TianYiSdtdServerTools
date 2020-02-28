@@ -17,6 +17,9 @@ using TianYiSdtdServerTools.Client.ViewModels.MainWindow;
 using System.Collections.ObjectModel;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using Panuon.UI.Silver;
+using Autofac;
+using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Views.Services;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -41,8 +44,22 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<MainWindowViewModel>();
+            ViewModel = Autofac.Resolve<MainWindowViewModel>(new TypedParameter(typeof(IRichTextBoxService),new RichTextBoxService(richTextBox_runLog)));
             base.DataContext = ViewModel;
+            InitAheadTelnetConsoleView();
+        }
+
+        /// <summary>
+        /// 提前初始化Telnet控制台View
+        /// </summary>
+        private void InitAheadTelnetConsoleView()
+        {
+            this.leftTabControl1.Items.Add(new TabItem()
+            {
+                Header = "Telnet控制台",
+                Tag = "TelnetConsole",
+                Content = Activator.CreateInstance(_partialViewDic["TelnetConsole"])
+            });
         }
 
         private void OnLeftListBox1SelectionChanged(object sender, SelectionChangedEventArgs e)

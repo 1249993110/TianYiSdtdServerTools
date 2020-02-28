@@ -173,10 +173,14 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <param name="ipStr"></param>
         /// <param name="port"></param>
         /// <param name="password"></param>
-        public void ConnectServer(string ipStr, ushort port, string password)
+        public void ConnectServer(string ipStr, ushort port, string password, int autoReconnectMaxCount, int autoReconnectInterval)
         {
             Password = password;
             this.Disconnect();
+
+            _tcpClient.AutoReconnectMaxCount = autoReconnectMaxCount;
+            _tcpClient.AutoReconnectInterval = autoReconnectInterval;
+
             _tcpClient.Connect(ipStr, port);
         }
 
@@ -187,7 +191,11 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         {
             if(IsConnected)
             {
-                this.SendCmd("exit");
+                this.SendCmd("exit");                
+            }
+
+            if(_tcpClient.IsConnected)
+            {
                 _tcpClient.Disconnect();
             }
         }
@@ -206,8 +214,32 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// 引发连接状态改变事件
         /// </summary>
         internal void RaiseConnectionStateChangedEvent(ConnectionState connectionState)
-        {
+        {    
             _connectionState = connectionState;
+            switch (_connectionState)
+            {
+                case ConnectionState.Disconnected:
+                    Log.Info("未连接");
+                    break;
+                case ConnectionState.Disconnecting:
+                    Log.Info("正在断开");
+                    break;
+                case ConnectionState.Connecting:
+                    Log.Info("正在连接");
+                    break;
+                case ConnectionState.Connected:
+                    Log.Info("已连接, 且密码正确");
+                    break;
+                case ConnectionState.AutoReconnecting:
+                    Log.Info("正在自动重连");
+                    break;
+                case ConnectionState.PasswordVerifying:
+                    Log.Info("正在验证密码");
+                    break;
+                case ConnectionState.PasswordIncorrect:
+                    Log.Info("密码错误");
+                    break;
+            }
             ConnectionStateChanged?.Invoke(_connectionState);
         }
 

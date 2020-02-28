@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.ViewModels.ControlPanel;
+using TianYiSdtdServerTools.Client.Views.Services;
 
 namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
 {
@@ -20,9 +24,16 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
     /// </summary>
     public partial class ChatMessageView : UserControl
     {
+        public ChatMessageViewModel ChatMessageViewModel { get; set; }
+
         public ChatMessageView()
         {
             InitializeComponent();
+
+            ChatMessageViewModel = Autofac.Resolve<ChatMessageViewModel>(new TypedParameter(typeof(IRichTextBoxService),
+                new RichTextBoxService(richTextBox_chatMessage)));
+
+            this.DataContext = ChatMessageViewModel;
         }
     }
 }

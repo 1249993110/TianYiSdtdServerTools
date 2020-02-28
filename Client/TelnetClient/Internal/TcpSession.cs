@@ -9,6 +9,7 @@ using IceCoffee.Common;
 using IceCoffee.Common.LogManager;
 using IceCoffee.Network.Sockets;
 using TianYiSdtdServerTools.Client.Models.Chat;
+using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 
@@ -119,7 +120,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         private void ReadLineToBuffer()
         {
             _line = Encoding.UTF8.GetString(ReadBuffer.ReadLine());
-            System.Diagnostics.Debug.Write(_line);
+
             SdtdConsole.Instance.RaiseRecvLineEvent(_line);
         }
 
@@ -146,6 +147,8 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     else if (_line.StartsWith("Total"))
                     {
                         ListDataHandler.ParseOnlinePlayers(_lineList,ref _onlinePlayers);
+
+                        SdtdConsole.Instance.RaiseReceivedOnlinePlayerInfoEvent(_onlinePlayers.Values.ToList());
 
                         if (_lineList.Count == 0)
                         {
@@ -179,7 +182,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("Total"))
                     {
-                        //ControlPanel::Instance()->tempListData.setOfflinePlayers(cmdBufferList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseHistoryPlayers(_lineList), TempListDataType.HistoryPlayerList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;
@@ -696,6 +699,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
             _requestDataTimer.Stop();
             base.OnClosed(closedReason);
         }
+
         #endregion
 
         #region 公开方法
