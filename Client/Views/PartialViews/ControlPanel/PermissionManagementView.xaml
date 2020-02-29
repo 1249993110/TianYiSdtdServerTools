@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel.PermissionManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+             xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
+             xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
+             xmlns:behavior="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Behaviors;assembly=IceCoffee.Wpf.CustomControlLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" 
+             behavior:ReadOnlyPropertyToModelBindingBehavior.ReadOnlyDependencyProperty="{Binding IsVisible, RelativeSource={RelativeSource Self}}"
+             behavior:ReadOnlyPropertyToModelBindingBehavior.ModelProperty="{Binding IsVisible, Mode=OneWayToSource}">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="管理员列表"></Label>
+                <DataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding Administrators, Mode=OneWay}"
+                      SelectedIndex="{Binding SelectedIndex1, Mode=OneWayToSource}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="SteamID" Binding="{Binding SteamID}"/>
+                        <DataGridTextColumn Header="权限等级" Binding="{Binding PermissionLevel}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="撤销管理员" Command="{Binding RemoveAdministrator}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <Grid Grid.Row="2">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBox pu:TextBoxHelper.Watermark="SteamID" Width="150" 
+                                 Text="{Binding SteamID, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">                            
+                        </TextBox>
+                        <TextBox pu:TextBoxHelper.Watermark="权限等级" Width="100" Margin="10 0"
+                                 Text="{Binding PermissionLevel1, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding AddAdministrator}" Key="Enter"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Content="添加管理员" Command="{Binding AddAdministrator}"></Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="命令权限列表"></Label>
+                <DataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding CommandLevels, Mode=OneWay}"
+                      SelectedIndex="{Binding SelectedIndex2, Mode=OneWayToSource}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="命令" Binding="{Binding Command}"/>
+                        <DataGridTextColumn Header="所需等级" Binding="{Binding PermissionLevel}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="移除权限" Command="{Binding RemoveCommandLevel}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <Grid Grid.Row="2">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBox Text="{Binding Command, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                 pu:TextBoxHelper.Watermark="命令" Width="150">                            
+                        </TextBox>
+                        <TextBox Text="{Binding PermissionLevel2, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                 pu:TextBoxHelper.Watermark="权限等级" Width="100" Margin="10 0">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="{Binding AddCommandLevel}" Key="Enter"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
+                        <Button Content="添加命令等级" Command="{Binding AddCommandLevel}"></Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Content="刷新列表" Command="{Binding RefreshList}"></Button>
+            <Button Content="清空列表" Command="{Binding ClearList}" Margin="10 0 0 0"></Button>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

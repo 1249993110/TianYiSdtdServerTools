@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IceCoffee.Wpf.MvvmFrame;
+using IceCoffee.Wpf.MvvmFrame.Messaging;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
+using TianYiSdtdServerTools.Client.Models.MvvmMessages;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
@@ -34,9 +36,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         public int AutoReconnectInterval { get; [NPCA_Method]set; } = 20;
 
         #region 命令
-        public RelayCommand ConnectServer { get; set; }
+        public RelayCommand ConnectServer { get; private set; }
 
-        public RelayCommand DisconnectServer { get; set; }
+        public RelayCommand DisconnectServer { get; private set; }
         #endregion
 
         #endregion
@@ -54,6 +56,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             {
                 if (SdtdServerPrefs.TelnetPort.HasValue)
                 {
+                    Messenger.Default.Send(CommonEnumMessage.InitTelnetConsoleView);
+
                     SdtdConsole.Instance.ConnectServer(
                         SdtdServerPrefs.ServerIP, 
                         SdtdServerPrefs.TelnetPort.Value, 
@@ -66,6 +70,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             {
                 SdtdConsole.Instance.Disconnect();
             });
+
+           
         }
 
         private void OnDispatcherService_ShutdownStarted(object sender, EventArgs e)

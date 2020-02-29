@@ -29,24 +29,49 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         public string SearchText { get; set; }
 
         #region 命令
-        public RelayCommand BanPlayer100Year { get; set; }
+        public RelayCommand BanPlayer100Year { get; private set; }
 
-        public RelayCommand RemoveLandclaims { get; set; }
+        public RelayCommand RemoveLandclaims { get; private set; }
 
-        public RelayCommand AddSuperAdministrator { get; set; }
+        public RelayCommand AddSuperAdministrator { get; private set; }
 
-        public RelayCommand RemoveAdministrator { get; set; }
+        public RelayCommand RemoveAdministrator { get; private set; }
 
-        public RelayCommand RemovePlayerArchive { get; set; }
+        public RelayCommand RemovePlayerArchive { get; private set; }
 
-        public RelayCommand ViewPlayerInventory { get; set; }
+        public RelayCommand ViewPlayerInventory { get; private set; }
 
-        public RelayCommand RefreshList { get; set; }
+        public RelayCommand RefreshList { get; private set; }
 
-        public RelayCommand ClearList { get; set; }
+        public RelayCommand ClearList { get; private set; }
 
-        public RelayCommand SearchPlayer { get; set; }
+        public RelayCommand SearchPlayer { get; private set; }
         #endregion
+
+        private bool _isVisible;
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                _isVisible = value;
+                if (_isVisible)
+                {
+                    SdtdConsole.Instance.ReceivedTempListData -= OnReceivedTempListData;
+                    SdtdConsole.Instance.ReceivedTempListData += OnReceivedTempListData;
+                    PrivateRefreshList();
+                }
+                else
+                {
+                    SdtdConsole.Instance.ReceivedTempListData -= OnReceivedTempListData;
+                }
+            }
+        }
+
+        private void PrivateRefreshList()
+        {
+            SdtdConsole.Instance.SendCmd("lkp");
+        }
 
         public HistoryPlayerViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService)
         {
@@ -80,7 +105,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
                 string steamID = HistoryPlayers[SelectedIndex].SteamID;
             }, CanExecuteCommand);
 
-            RefreshList = new RelayCommand(() => { SdtdConsole.Instance.SendCmd("lkp"); });
+            RefreshList = new RelayCommand(PrivateRefreshList);
             ClearList = new RelayCommand(() => { HistoryPlayers = null; });
             SearchPlayer = new RelayCommand(() => 
             {
@@ -128,16 +153,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         private void OnReceivedTempListData(object twoDimensionalList, TempListDataType tempListDataType)
         {
-            switch (tempListDataType)
+            if (tempListDataType == TempListDataType.HistoryPlayerList && twoDimensionalList is List<HistoryPlayerInfo>)
             {
-                case TempListDataType.HistoryPlayerList:
-                    {
-                        if(twoDimensionalList is List<HistoryPlayerInfo>)
-                        {
-                            HistoryPlayers = (List<HistoryPlayerInfo>)twoDimensionalList;
-                        }
-                    }
-                    break;
+                HistoryPlayers = (List<HistoryPlayerInfo>)twoDimensionalList;
             }
         }
 

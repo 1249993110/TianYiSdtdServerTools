@@ -28,23 +28,23 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public int SelectedIndex { get; set; } = -1;
         #region 命令
-        public RelayCommand TelePlayer { get; set; }
+        public RelayCommand TelePlayer { get; private set; }
 
-        public RelayCommand KickPlayer { get; set; }
+        public RelayCommand KickPlayer { get; private set; }
 
-        public RelayCommand KillPlayer { get; set; }
+        public RelayCommand KillPlayer { get; private set; }
 
-        public RelayCommand BanPlayer100Year { get; set; }
+        public RelayCommand BanPlayer100Year { get; private set; }
 
-        public RelayCommand RemoveLandclaims { get; set; }
+        public RelayCommand RemoveLandclaims { get; private set; }
 
-        public RelayCommand AddSuperAdministrator { get; set; }
+        public RelayCommand AddSuperAdministrator { get; private set; }
 
-        public RelayCommand RemoveAdministrator { get; set; }
+        public RelayCommand RemoveAdministrator { get; private set; }
 
-        public RelayCommand RemovePlayerArchive { get; set; }
+        public RelayCommand RemovePlayerArchive { get; private set; }
 
-        public RelayCommand ViewPlayerInventory { get; set; }
+        public RelayCommand ViewPlayerInventory { get; private set; }
         #endregion
         public OnlinePlayerViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService)
         {

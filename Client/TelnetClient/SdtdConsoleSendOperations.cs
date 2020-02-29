@@ -112,7 +112,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <summary>
         /// 添加管理员
         /// </summary>
-        /// <param name="steamID"></param>
+        /// <param name="cmd"></param>
         /// <param name="level">0级最高，2000最低</param>
         public void AddAdministrator(string steamID, int level)
         {
@@ -135,6 +135,26 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         public void RemovePlayerArchive(string steamID)
         {
             SendCmd(string.Format("rp {0}", steamID));
+        }
+
+        /// <summary>
+        /// 添加命令权限等级
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="level">0级最高，2000最低</param>
+        public void AddCommandPermissionLevel(string cmd, int level)
+        {
+            SendCmd(string.Format("cp add {0} {1}", cmd, level));
+        }
+
+        /// <summary>
+        /// 移除命令权限等级
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="level">0级最高，2000最低</param>
+        public void RemoveCommandPermissionLevel(string cmd)
+        {
+            SendCmd(string.Format("cp remove {0}", cmd));
         }
         #endregion
     }

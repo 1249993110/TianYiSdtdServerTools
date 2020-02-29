@@ -1,4 +1,5 @@
 ﻿using IceCoffee.Common.LogManager;
+using IceCoffee.Wpf.MvvmFrame.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.MainWindow
         {
             this._richTextBoxService = richTextBoxService;
 
+            Log.LogRecorded += OnLogRecorded;
+
             // 反射获取已加载到此应用程序域的执行上下文中的程序集。
             var assemblys = AppDomain.CurrentDomain.GetAssemblies();
             // 反射获取UserControl类型
@@ -43,11 +46,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.MainWindow
                     new ListViewItemModel("聊天信息","ChatMessage"),                    
                     new ListViewItemModel("Telnet控制台","TelnetConsole"),
                     new ListViewItemModel("历史玩家","HistoryPlayer"),
-                    //new ListViewItemModel("Telnet控制台","HomePage")
+                    new ListViewItemModel("权限管理","PermissionManagement")
                 };
-            }
-
-            Log.LogRecorded += OnLogRecorded;
+            }           
         }
 
         private void OnLogRecorded(string message, Exception exception, LogLevel logLevel)

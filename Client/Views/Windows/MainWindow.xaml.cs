@@ -20,6 +20,8 @@ using Panuon.UI.Silver;
 using Autofac;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 using TianYiSdtdServerTools.Client.Views.Services;
+using IceCoffee.Wpf.MvvmFrame.Messaging;
+using TianYiSdtdServerTools.Client.Models.MvvmMessages;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -46,20 +48,34 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             InitializeComponent();
             ViewModel = Autofac.Resolve<MainWindowViewModel>(new TypedParameter(typeof(IRichTextBoxService),new RichTextBoxService(richTextBox_runLog)));
             base.DataContext = ViewModel;
-            InitAheadTelnetConsoleView();
+
+
+            Messenger.Default.Register<CommonEnumMessage>(this, InitAheadTelnetConsoleView);
         }
 
         /// <summary>
         /// 提前初始化Telnet控制台View
         /// </summary>
-        private void InitAheadTelnetConsoleView()
+        private void InitAheadTelnetConsoleView(CommonEnumMessage enumMessage)
         {
-            this.leftTabControl1.Items.Add(new TabItem()
+            if(enumMessage == CommonEnumMessage.InitTelnetConsoleView)
             {
-                Header = "Telnet控制台",
-                Tag = "TelnetConsole",
-                Content = Activator.CreateInstance(_partialViewDic["TelnetConsole"])
-            });
+                string tag = "TelnetConsole";
+                foreach (TabItem tab in this.leftTabControl1.Items)
+                {
+                    if (tab.Tag.ToString() == tag)
+                    {
+                        return;
+                    }
+                }
+
+                this.leftTabControl1.Items.Add(new TabItem()
+                {
+                    Header = "Telnet控制台",
+                    Tag = tag,
+                    Content = Activator.CreateInstance(_partialViewDic["TelnetConsole"])
+                });
+            }
         }
 
         private void OnLeftListBox1SelectionChanged(object sender, SelectionChangedEventArgs e)

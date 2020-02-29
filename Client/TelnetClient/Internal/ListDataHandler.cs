@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
 using TianYiSdtdServerTools.Client.Models.Players;
 
 namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
@@ -92,15 +93,16 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
 
             foreach (var item in lines)
             {
-                historyPlayerInfo = new HistoryPlayerInfo();
-
-                historyPlayerInfo.PlayerName = item.GetMidStr(". ", ", id=", out outEnd, 1);
-                historyPlayerInfo.EntityID = item.GetMidStr(", id=", ", steamid=", out outEnd, outEnd).ToInt();
-                historyPlayerInfo.SteamID = item.GetMidStr(", steamid=", ", online=", out outEnd, outEnd);
-                historyPlayerInfo.IsOnline = item.GetMidStr(", online=", ", ip=", out outEnd, outEnd) == "True";
-                historyPlayerInfo.IP = item.GetMidStr(", ip=", ", playtime=", out outEnd, outEnd);
-                historyPlayerInfo.TotalPlayTime = item.GetMidStr(", playtime=", " m, seen=", out outEnd, outEnd).ToInt();
-                historyPlayerInfo.LastOnlineTime = item.GetMidStr(" m, seen=", Environment.NewLine, outEnd);
+                historyPlayerInfo = new HistoryPlayerInfo
+                {
+                    PlayerName = item.GetMidStr(". ", ", id=", out outEnd, 1),
+                    EntityID = item.GetMidStr(", id=", ", steamid=", out outEnd, outEnd).ToInt(),
+                    SteamID = item.GetMidStr(", steamid=", ", online=", out outEnd, outEnd),
+                    IsOnline = item.GetMidStr(", online=", ", ip=", out outEnd, outEnd) == "True",
+                    IP = item.GetMidStr(", ip=", ", playtime=", out outEnd, outEnd),
+                    TotalPlayTime = item.GetMidStr(", playtime=", " m, seen=", out outEnd, outEnd).ToInt(),
+                    LastOnlineTime = item.GetMidStr(" m, seen=", Environment.NewLine, outEnd)
+                };
 
                 result.Add(historyPlayerInfo);
             }
@@ -112,8 +114,25 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static void ParseAdmins(List<string> lines)
+        public static List<Administrator> ParseAdmins(List<string> lines)
         {
+            List<Administrator> result = new List<Administrator>();
+
+            Administrator admin = null;
+
+            int outEnd = 0;
+
+            foreach (var item in lines)
+            {
+                admin = new Administrator
+                {
+                    PermissionLevel = item.GetMidStr("   ", ": ", out outEnd).TrimStart(' ').ToInt(),
+                    SteamID = item[item.Length - 3] == ')' ? item.GetMidStr(": ", " ", outEnd) : item.GetMidStr(": ", Environment.NewLine, outEnd)
+                };
+
+                result.Add(admin);
+            }
+            return result;
         }
 
         /// <summary>
@@ -121,8 +140,25 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static void ParsePermissions(List<string> lines)
+        public static List<CommandLevel> ParsePermissions(List<string> lines)
         {
+            List<CommandLevel> result = new List<CommandLevel>();
+
+            CommandLevel commandLevel = null;
+
+            int outEnd = 0;
+
+            foreach (var item in lines)
+            {
+                commandLevel = new CommandLevel
+                {
+                    PermissionLevel = item.GetMidStr("   ", ": ", out outEnd).TrimStart(' ').ToInt(),
+                    Command = item.GetMidStr(": ", Environment.NewLine, outEnd)
+                };
+
+                result.Add(commandLevel);
+            }
+            return result;
         }
 
         /// <summary>

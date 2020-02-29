@@ -6,7 +6,7 @@
              xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
              xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <convert:ConnectStateConvert x:Key="ConnectStateConvert"></convert:ConnectStateConvert>
         <convert:BoolConvert1 x:Key="BoolConvert1"></convert:BoolConvert1>

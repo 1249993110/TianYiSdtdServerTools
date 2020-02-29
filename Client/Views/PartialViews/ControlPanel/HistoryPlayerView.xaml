@@ -6,8 +6,12 @@
              xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
              xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
              xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
+             xmlns:behavior="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Behaviors;assembly=IceCoffee.Wpf.CustomControlLibrary"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+             d:DesignHeight="450" d:DesignWidth="800"
+             behavior:ReadOnlyPropertyToModelBindingBehavior.ReadOnlyDependencyProperty="{Binding IsVisible, RelativeSource={RelativeSource Self}}"
+             behavior:ReadOnlyPropertyToModelBindingBehavior.ModelProperty="{Binding IsVisible, Mode=OneWayToSource}">
+    
     <UserControl.Resources>
         <convert:MinuteToStrConvert x:Key="MinuteToStrConvert"></convert:MinuteToStrConvert>
         <convert:BoolConvert2 x:Key="BoolConvert2"></convert:BoolConvert2>
@@ -17,10 +21,9 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow" HeadersVisibility="Column" SelectionMode="Single"
-                  ItemsSource="{Binding HistoryPlayers, Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="False"
-                  CanUserAddRows="False" pu:DataGridHelper.HoverBackground="#F0F0F0" pu:DataGridHelper.SelectedBackground="#EEE8AA"
-                  ScrollViewer.HorizontalScrollBarVisibility="Visible" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" SelectionChanged="OnDataGrid_SelectionChanged">
+        <DataGrid Grid.Row="0" Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow"
+                  ItemsSource="{Binding HistoryPlayers, Mode=OneWay}" CanUserAddRows="False"
+                  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" SelectionChanged="OnDataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTemplateColumn MinWidth="64" Header="序号" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
@@ -61,7 +64,11 @@
                     <ComboBoxItem Content="SteamID"></ComboBoxItem>
                     <ComboBoxItem Content="短位ID"></ComboBoxItem>
                 </ComboBox>
-                <TextBox Text="{Binding SearchText, Mode=OneWayToSource}" Width="150" Margin="5 0 0 0"></TextBox>
+                <TextBox Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="5 0 0 0">
+                    <TextBox.InputBindings>
+                        <KeyBinding Command="{Binding SearchPlayer}" Key="Enter"/>
+                    </TextBox.InputBindings>
+                </TextBox>
                 <Button Content="搜索玩家" Command="{Binding SearchPlayer}" Margin="5 0 0 0"></Button>
             </StackPanel>
         </Grid>

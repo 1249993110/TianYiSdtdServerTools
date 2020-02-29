@@ -11,7 +11,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TextBox Name="textBox_TelnetData" Text="{Binding TelnetData, Mode=OneWay}" VerticalContentAlignment="Top" Padding="4" TextChanged="OnTextBox_TelnetData_TextChanged"
+        <TextBox Name="textBox_TelnetData" TextWrapping="Wrap" Text="{Binding TelnetData, Mode=OneWay}" VerticalContentAlignment="Top"
+                 Padding="4" TextChanged="OnTextBox_TelnetData_TextChanged"
                  Height="Auto" VerticalScrollBarVisibility="Auto" Background="#393A3C" Foreground="#AFAFAF" FontSize="14"></TextBox>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

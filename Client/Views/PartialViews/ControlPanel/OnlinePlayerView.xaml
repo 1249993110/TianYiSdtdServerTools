@@ -22,10 +22,9 @@
                     </Style.Triggers>
                 </Style>
             </ScrollViewer.Style>
-            <DataGrid Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow" HeadersVisibility="Column" SelectionMode="Single"
-                  ItemsSource="{Binding OnlinePlayers, Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="False"
-                  CanUserAddRows="False" pu:DataGridHelper.HoverBackground="#F0F0F0" pu:DataGridHelper.SelectedBackground="#EEE8AA"
-                  ScrollViewer.HorizontalScrollBarVisibility="Visible" SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}">
+            <DataGrid Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow"
+                  ItemsSource="{Binding OnlinePlayers, Mode=OneWay}" CanUserAddRows="False"
+                  SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn MinWidth="64" Header="序号" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>

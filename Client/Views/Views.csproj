@@ -69,6 +69,17 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Properties\windowsIcon_128.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.9.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
@@ -82,10 +93,12 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -123,6 +136,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PartialViews\ControlPanel\PermissionManagementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PartialViews\ControlPanel\TelnetConsoleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +159,7 @@
     <Compile Include="Autofac.cs" />
     <Compile Include="Converters\BoolConvert2.cs" />
     <Compile Include="Converters\MinuteToStrConvert.cs" />
+    <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="PartialViews\ControlPanel\ChatMessageView.xaml.cs">
       <DependentUpon>ChatMessageView.xaml</DependentUpon>
     </Compile>
@@ -157,8 +175,16 @@
     <Compile Include="PartialViews\ControlPanel\OnlinePlayerView.xaml.cs">
       <DependentUpon>OnlinePlayerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PartialViews\ControlPanel\PermissionManagementView.xaml.cs">
+      <DependentUpon>PermissionManagementView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PartialViews\ControlPanel\TelnetConsoleView.xaml.cs">
       <DependentUpon>TelnetConsoleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\DispatcherService.cs" />
@@ -187,23 +213,15 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\windowsIcon_128.ico" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -242,7 +260,7 @@
       <Name>Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
-      <Project>{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}</Project>
+      <Project>{1b8e81c3-5f49-4a58-a95b-1a427ebcbf2c}</Project>
       <Name>Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
@@ -250,7 +268,12 @@
       <Name>ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>

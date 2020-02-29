@@ -52,6 +52,7 @@
     <Compile Include="ControlPanel\HistoryPlayerViewModel.cs" />
     <Compile Include="ControlPanel\HomePageViewModel.cs" />
     <Compile Include="ControlPanel\OnlinePlayerViewModel.cs" />
+    <Compile Include="ControlPanel\PermissionManagementViewModel.cs" />
     <Compile Include="ControlPanel\TelnetConsoleViewModel.cs" />
     <Compile Include="MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Primitives\ViewModelBase.cs" />

@@ -32,7 +32,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         //public int ComboBoxSelectedIndex { get; [NPCA_Method]set; }
         
-        public RelayCommand SendCommand { get; set; }
+        public RelayCommand SendCommand { get; private set; }
 
         //public RelayCommand SkipCommand { get; set; }
 
@@ -71,9 +71,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         private void OnReceiveLine(string line)
         {
-            if(_telnetDataStringBuilder.Length > 10240)
+            if(_telnetDataStringBuilder.Length > 40960)
             {
-                _telnetDataStringBuilder.Remove(0, 1024);
+                _telnetDataStringBuilder.Remove(0, 4096);
             }
 
             _telnetDataStringBuilder.Append(line);

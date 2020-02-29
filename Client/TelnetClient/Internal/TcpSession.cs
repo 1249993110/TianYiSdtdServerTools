@@ -111,7 +111,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         private void SendPassword()
         {
             // "0\r\n"确保密码发送成功，被服务端接受
-            this.Send(("0\r\n" + SdtdConsole.Instance.Password + Environment.NewLine).ToUtf8());
+            this.Send(("0" + Environment.NewLine + SdtdConsole.Instance.Password + Environment.NewLine).ToUtf8());
         }
 
         /// <summary>
@@ -119,7 +119,15 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         private void ReadLineToBuffer()
         {
-            _line = Encoding.UTF8.GetString(ReadBuffer.ReadLine());
+            byte[] data = ReadBuffer.ReadLine();
+
+            if(data[0] == 0)
+            {
+                _line = string.Empty;
+                return;
+            }
+
+            _line = Encoding.UTF8.GetString(data);//.TrimStart('\0');
 
             SdtdConsole.Instance.RaiseRecvLineEvent(_line);
         }
@@ -213,7 +221,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("***"))
                     {
-                        //ControlPanel::Instance()->tempListData.setAdmins(cmdBufferList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseAdmins(_lineList), TempListDataType.AdminList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;
@@ -244,7 +252,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("***"))
                     {
-                        //ControlPanel::Instance()->tempListData.setPermissions(cmdBufferList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParsePermissions(_lineList), TempListDataType.PermissionList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;

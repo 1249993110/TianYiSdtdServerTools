@@ -26,9 +26,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         [ConfigNode(ConfigNodeType.Attribute)]
         public bool FilteSystemMessage { get; [NPCA_Method]set; }
 
-        public RelayCommand SendMessage { get; set; }
+        public RelayCommand SendMessage { get; private set; }
 
-        public RelayCommand ViewRecord { get; set; }
+        public RelayCommand ViewRecord { get; private set; }
 
 
         public ChatMessageViewModel(IDispatcherService dispatcherService, IDialogService dialogService, IRichTextBoxService chatMessageViewService)
