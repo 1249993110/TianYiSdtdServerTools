@@ -76,9 +76,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
                 if (configNodeAttribute != null)
                 {
-                    switch (configNodeAttribute.ConfigNodeType)
+                    switch (configNodeAttribute.XmlNodeType)
                     {
-                        case ConfigNodeType.Element:
+                        case XmlNodeType.Element:
                             {
                                 object propertyObj = property.GetValue(obj);
 
@@ -88,7 +88,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
                                 }                                
                             }
                             break;
-                        case ConfigNodeType.Attribute:
+                        case XmlNodeType.Attribute:
                             {
                                 XmlElement currentNode = (XmlElement)baseNode.SelectSingleNode(string.Format("property[@name='{0}']", property.Name));
                                 
@@ -142,9 +142,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
                 if(configNodeAttribute != null)
                 {
-                    switch (configNodeAttribute.ConfigNodeType)
+                    switch (configNodeAttribute.XmlNodeType)
                     {
-                        case ConfigNodeType.Element:
+                        case XmlNodeType.Element:
                             {
                                 // 将标记了ConfigNodeType.Element特性的属性名作为父节点
                                 XmlNode currentNode = baseNode.GetSingleChildNode(contextDoc, property.PropertyType.Name);
@@ -152,7 +152,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
                                 PrivateSave(property.GetValue(obj), contextDoc, currentNode);
                             }
                             break;
-                        case ConfigNodeType.Attribute:
+                        case XmlNodeType.Attribute:
                             {
                                 XmlElement currentNode = (XmlElement)baseNode.SelectSingleNode(string.Format("property[@name='{0}']", property.Name));
                                 if (currentNode == null)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IceCoffee.Common;
+using TianYiSdtdServerTools.Client.Models.Players;
 
 namespace TianYiSdtdServerTools.Client.TelnetClient
 {
@@ -37,7 +38,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         {
             SendCmd(string.Format("say \"{0}\"", msg));
         }
-
+        
         /// <summary>
         /// 发送私聊信息
         /// </summary>
@@ -56,6 +57,16 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         public void SendMessageToPlayer(int entityID, string msg)
         {
             SendCmd(string.Format("pm {0} \"{1}\"", entityID.ToString(), msg));
+        }
+
+        /// <summary>
+        /// 发送私聊信息
+        /// </summary>
+        /// <param name="playerInfo"></param>
+        /// <param name="msg"></param>
+        public void SendMessageToPlayer(PlayerInfo playerInfo, string msg)
+        {
+            SendMessageToPlayer(playerInfo.SteamID, msg);
         }
 
         #region 传送玩家

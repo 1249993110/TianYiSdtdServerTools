@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="TianYiSdtdServerTools.Client.Views.PartialViews.FunctionPanel.GameNoticeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="160"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="欢迎公告，当玩家进入游戏时私聊发送"/>
+            <TextBox Grid.Row="1" Style="{StaticResource WrapTextBoxStyle}" Text="{Binding WelcomeNotice}" FontSize="15"></TextBox>
+        </Grid>
+        <Button Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" Content="发送一次本窗口内容" Width="150"
+                Command="{Binding SendWelcomeNotice}"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="轮播公告，定时重复公屏发送"/>
+            <TextBox Grid.Row="1" Style="{StaticResource WrapTextBoxStyle}" Text="{Binding AlternateNotice}" FontSize="15"></TextBox>
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+            <Label>轮播周期</Label>
+            <TextBox MinWidth="60" Text="{Binding AlternateInterval}"/>
+            <Label>秒</Label>
+        </StackPanel>
+        <Button Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Content="发送一次本窗口内容" Width="150"
+                Command="{Binding SendAlternateNotice}"/>
+    </Grid>
+</UserControl>

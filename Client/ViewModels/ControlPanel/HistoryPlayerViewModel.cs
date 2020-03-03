@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
@@ -22,10 +23,10 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public int SelectedIndex { get; [NPCA_Method]set; } = -1;
 
-        [ConfigNode(ConfigNodeType.Attribute)]
+        [ConfigNode(XmlNodeType.Attribute)]
         public int ComboBoxSelectedIndex { get; [NPCA_Method]set; }
 
-        [ConfigNode(ConfigNodeType.Attribute)]
+        [ConfigNode(XmlNodeType.Attribute)]
         public string SearchText { get; set; }
 
         #region 命令

@@ -39,6 +39,7 @@
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="撤销管理员" Command="{Binding RemoveAdministrator}"/>
+                            <MenuItem Header="移除所有管理员" Command="{Binding RemoveAllAdministrator}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>

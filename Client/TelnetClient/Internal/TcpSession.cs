@@ -154,15 +154,19 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("Total"))
                     {
-                        ListDataHandler.ParseOnlinePlayers(_lineList,ref _onlinePlayers);
-
-                        SdtdConsole.Instance.RaiseReceivedOnlinePlayerInfoEvent(_onlinePlayers.Values.ToList());
-
                         if (_lineList.Count == 0)
                         {
                             _requestDataTimer.Stop();
+                            _onlinePlayers.Clear();
                             SdtdConsole.Instance.RaiseServerNonePlayerEvent();
                         }
+                        else if (_onlinePlayers.Count == 0)
+                        {
+                            ListDataHandler.ParseOnlinePlayers(_lineList, ref _onlinePlayers);
+                            SdtdConsole.Instance.RaiseServerHavePlayerAgainEvent();
+                        }                        
+
+                        SdtdConsole.Instance.RaiseReceivedOnlinePlayerInfoEvent(_onlinePlayers.Values.ToList());                        
 
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
@@ -557,8 +561,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                             RequestOnlinePlayerInfo();
                             if(_requestDataTimer.Enabled == false)
                             {
-                                _requestDataTimer.Start();
-                                SdtdConsole.Instance.RaiseServerHavePlayerAgainEvent();
+                                _requestDataTimer.Start();                                
                             }
                         }
                         else if (cmd == "PlayerSpawnedInWorld")// 玩家生成

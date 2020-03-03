@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
@@ -21,7 +22,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         private readonly StringBuilder _telnetDataStringBuilder = new StringBuilder();
 
-        [ConfigNode(ConfigNodeType.Attribute)]
+        [ConfigNode(XmlNodeType.Attribute)]
         public bool AutoRefresh { get; [NPCA_Method]set; }
 
         public ObservableCollection<string> RecentCommands { get; set; } = new ObservableCollection<string>() { "help" };

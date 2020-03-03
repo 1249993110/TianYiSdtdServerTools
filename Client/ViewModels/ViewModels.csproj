@@ -50,10 +50,11 @@
     <Compile Include="ControlPanel\ChatMessageViewModel.cs" />
     <Compile Include="ControlPanel\ConfigInfoViewModel.cs" />
     <Compile Include="ControlPanel\HistoryPlayerViewModel.cs" />
-    <Compile Include="ControlPanel\HomePageViewModel.cs" />
     <Compile Include="ControlPanel\OnlinePlayerViewModel.cs" />
     <Compile Include="ControlPanel\PermissionManagementViewModel.cs" />
     <Compile Include="ControlPanel\TelnetConsoleViewModel.cs" />
+    <Compile Include="FunctionPanel\GameNoticeViewModel.cs" />
+    <Compile Include="Primitives\FunctionViewModelBase.cs" />
     <Compile Include="MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Primitives\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +85,7 @@
       <Name>TelnetClient</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\PostSharp.4.3.33\tools\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.4.3.33\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">

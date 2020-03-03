@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using TianYiSdtdServerTools.Client.Models.Chat;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
@@ -23,7 +24,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public string Message { get; set; }
 
-        [ConfigNode(ConfigNodeType.Attribute)]
+        [ConfigNode(XmlNodeType.Attribute)]
         public bool FilteSystemMessage { get; [NPCA_Method]set; }
 
         public RelayCommand SendMessage { get; private set; }

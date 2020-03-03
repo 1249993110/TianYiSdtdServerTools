@@ -15,6 +15,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 {
     public class PermissionManagementViewModel : ViewModelBase
     {
+        private readonly IDialogService _dialogService;
         public List<Administrator> Administrators { get; [NPCA_Method]set; }
 
         public List<CommandLevel> CommandLevels { get; [NPCA_Method]set; }
@@ -62,6 +63,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public RelayCommand RemoveAdministrator { get; private set; }
 
+        public RelayCommand RemoveAllAdministrator { get; private set; }
+
         public RelayCommand AddCommandLevel { get; private set; }
 
         public RelayCommand RemoveCommandLevel { get; private set; }
@@ -72,19 +75,33 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         
 
-        public PermissionManagementViewModel(IDispatcherService dispatcherService) : base(dispatcherService)
-        {           
+        public PermissionManagementViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService)
+        {
+            _dialogService = dialogService;
+
             AddAdministrator = new RelayCommand(()=> 
             {
                 SdtdConsole.Instance.AddAdministrator(SteamID, PermissionLevel1);
                 PrivateRefreshList();
             });
-
+            
             RemoveAdministrator = new RelayCommand(() =>
             {
                 SdtdConsole.Instance.RemoveAdministrator(Administrators[SelectedIndex1].SteamID);
                 PrivateRefreshList();
-            }, CanAddAdministrator);
+            }, CanRemoveAdministrator);
+
+            RemoveAllAdministrator = new RelayCommand(() =>
+            {
+                if(dialogService.ShowOKCancel("确定移除所有管理员吗？"))
+                {
+                    foreach (var item in Administrators)
+                    {
+                        SdtdConsole.Instance.RemoveAdministrator(item.SteamID);
+                    }
+                    PrivateRefreshList();
+                }
+            }, CanRemoveAdministrator);
 
             AddCommandLevel = new RelayCommand(() =>
             {
@@ -96,7 +113,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             {
                 SdtdConsole.Instance.RemoveCommandPermissionLevel(CommandLevels[SelectedIndex2].Command);
                 PrivateRefreshList();
-            }, CanAddCommandLevel);
+            }, CanRemoveCommandLevel);
 
             RefreshList = new RelayCommand(PrivateRefreshList);
 
@@ -113,12 +130,12 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             SdtdConsole.Instance.SendCmd("cp list" + Environment.NewLine + "0");
         }
 
-        private bool CanAddAdministrator()
+        private bool CanRemoveAdministrator()
         {
             return SelectedIndex1 != -1;
         }
 
-        private bool CanAddCommandLevel()
+        private bool CanRemoveCommandLevel()
         {
             return SelectedIndex2 != -1;
         }

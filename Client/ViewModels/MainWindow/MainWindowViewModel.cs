@@ -17,38 +17,33 @@ namespace TianYiSdtdServerTools.Client.ViewModels.MainWindow
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private readonly IRichTextBoxService _richTextBoxService;
+        private readonly IRichTextBoxService _outputLogService;
 
         public ObservableCollection<ListViewItemModel> ControlPanelItems { get; set; }
 
+        public ObservableCollection<ListViewItemModel> FunctionPanelItems { get; set; }
+
         public MainWindowViewModel(IDispatcherService dispatcherService, IRichTextBoxService richTextBoxService) : base(dispatcherService)
         {
-            this._richTextBoxService = richTextBoxService;
+            this._outputLogService = richTextBoxService;
 
             Log.LogRecorded += OnLogRecorded;
 
-            // 反射获取已加载到此应用程序域的执行上下文中的程序集。
-            var assemblys = AppDomain.CurrentDomain.GetAssemblies();
-            // 反射获取UserControl类型
-            Type userControlType = assemblys.FirstOrDefault(x => x.FullName.StartsWith("PresentationFramework")).GetType("System.Windows.Controls.UserControl");
-
-            // 反射获取ControlPanel下的所有View
-            List<Type> types = assemblys.FirstOrDefault(x => x.FullName.StartsWith("SdtdServerTools")).GetTypes()
-                .Where(x => x.Namespace.StartsWith("TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel") && x.IsSubclassOf(userControlType)).ToList();
-
-            foreach (var item in types)
+            ControlPanelItems = new ObservableCollection<ListViewItemModel>()
             {
-                ControlPanelItems = new ObservableCollection<ListViewItemModel>()
-                {
-                    //new ListViewItemModel("主页","HomePage"),
-                    new ListViewItemModel("配置信息","ConfigInfo"),                    
-                    new ListViewItemModel("在线玩家","OnlinePlayer"),
-                    new ListViewItemModel("聊天信息","ChatMessage"),                    
-                    new ListViewItemModel("Telnet控制台","TelnetConsole"),
-                    new ListViewItemModel("历史玩家","HistoryPlayer"),
-                    new ListViewItemModel("权限管理","PermissionManagement")
-                };
-            }           
+                new ListViewItemModel("配置信息", "ConfigInfo"),
+                new ListViewItemModel("在线玩家", "OnlinePlayer"),
+                new ListViewItemModel("聊天信息", "ChatMessage"),
+                new ListViewItemModel("Telnet控制台", "TelnetConsole"),
+                new ListViewItemModel("历史玩家", "HistoryPlayer"),
+                new ListViewItemModel("权限管理", "PermissionManagement"),
+            };
+
+            FunctionPanelItems = new ObservableCollection<ListViewItemModel>()
+            {
+                new ListViewItemModel("游戏公告", "GameNotice"),
+                //new ListViewItemModel("积分系统", "ScoreSystem"),                
+            };
         }
 
         private void OnLogRecorded(string message, Exception exception, LogLevel logLevel)
@@ -74,6 +69,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.MainWindow
                 case LogLevel.Fatal:
                     break;
             }
+
             richTexts.Add(new RichText(message, color));
 
             if (exception != null)
@@ -87,9 +83,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.MainWindow
                     richTexts.Add(new RichText(" "));
                     richTexts.Add(new RichText(exception.Message, color));
                 }
-            }           
+            }
 
-            _richTextBoxService.AppendBlock(richTexts);
+            _outputLogService.AppendBlock(richTexts);
         }
     }
 }

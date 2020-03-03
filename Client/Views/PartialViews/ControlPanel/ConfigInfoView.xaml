@@ -10,6 +10,20 @@
     <UserControl.Resources>
         <convert:ConnectStateConvert x:Key="ConnectStateConvert"></convert:ConnectStateConvert>
         <convert:BoolConvert1 x:Key="BoolConvert1"></convert:BoolConvert1>
+        <Style TargetType="{x:Type CheckBox}" x:Key="CheckBoxSwitchStyle" BasedOn="{StaticResource {x:Type CheckBox}}">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Margin" Value="10 0"/>
+            <Setter Property="pu:CheckBoxHelper.CheckBoxStyle" Value="Switch2"/>
+            <Setter Property="pu:CheckBoxHelper.CheckedBackground" Value="Green"/>
+            <Setter Property="pu:CheckBoxHelper.HeaderWidth" Value="64"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=(pu:CheckBoxHelper.CheckedBackground),
+                    RelativeSource={RelativeSource Self}}" Value="Green">
+                    <Setter Property="pu:CheckBoxHelper.CheckedBackground" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -48,14 +62,19 @@
             <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameDifficulty}" ContentStringFormat="游戏难度：{0}" MinWidth="100" Margin="10"></Label>
         </WrapPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <StackPanel Orientation="Horizontal" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="10 0">
                 <Label Content="自动重连最大次数："/>
                 <TextBox Text="{Binding AutoReconnectMaxCount}" MinWidth="50" HorizontalContentAlignment="Center"></TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="10 0">
                 <Label Content="自动重连间隔(秒)："/>
                 <TextBox Text="{Binding AutoReconnectInterval}" MinWidth="50" HorizontalContentAlignment="Center"></TextBox>
             </StackPanel>
         </StackPanel>
+        <WrapPanel Grid.Row="4" Margin="10">
+            <CheckBox pu:CheckBoxHelper.Header="游戏公告"
+                      IsChecked="{Binding FunctionSwitchs.GameNotice}" Style="{StaticResource CheckBoxSwitchStyle}"/>
+            <CheckBox pu:CheckBoxHelper.Header="积分系统" Style="{StaticResource CheckBoxSwitchStyle}"/>
+        </WrapPanel>
     </Grid>
 </UserControl>

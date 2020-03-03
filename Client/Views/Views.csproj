@@ -116,6 +116,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PartialViews\FunctionPanel\GameNoticeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PartialViews\ControlPanel\ChatMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,10 +129,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PartialViews\ControlPanel\HistoryPlayerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PartialViews\ControlPanel\HomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +160,9 @@
     <Compile Include="Converters\BoolConvert2.cs" />
     <Compile Include="Converters\MinuteToStrConvert.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="PartialViews\FunctionPanel\GameNoticeView.xaml.cs">
+      <DependentUpon>GameNoticeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PartialViews\ControlPanel\ChatMessageView.xaml.cs">
       <DependentUpon>ChatMessageView.xaml</DependentUpon>
     </Compile>
@@ -168,9 +171,6 @@
     </Compile>
     <Compile Include="PartialViews\ControlPanel\HistoryPlayerView.xaml.cs">
       <DependentUpon>HistoryPlayerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PartialViews\ControlPanel\HomePageView.xaml.cs">
-      <DependentUpon>HomePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PartialViews\ControlPanel\OnlinePlayerView.xaml.cs">
       <DependentUpon>OnlinePlayerView.xaml</DependentUpon>

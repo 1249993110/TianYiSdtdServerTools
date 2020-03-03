@@ -80,16 +80,29 @@
                 </TabItem>
                 <TabItem Header="功能面板" Visibility="Collapsed">
                     <Grid>
-                        <TabControl Background="Yellow" BorderThickness="0">
-                            <TabItem Header="sub1">
-                                <TextBox />
-                            </TabItem>
-                            <TabItem Header="sub2">
-                            </TabItem>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ListBox Name="leftListBox2" Grid.Column="0" Padding="1 20 0 0" Background="{StaticResource LeftPanel.Background}" SelectedIndex="0"
+                                 ItemsSource="{Binding FunctionPanelItems}"
+                                 SelectionChanged="OnLeftListBox2SelectionChanged" Style="{StaticResource ListBoxNoneStyle}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
+                                    <Setter Property="Visibility" Value="{Binding Visibility}" />
+                                    <Setter Property="pu:TextBoxHelper.Icon" Value="{Binding Icon}" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Foreground="#CBC6CB" FontFamily="宋体" FontSize="16" Text="{Binding Path=Header}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Border Grid.Column="0" BorderBrush="#A0808080" BorderThickness="0 0 1 0"/>
+
+                        <TabControl Name="leftTabControl2" Grid.Column="1" Background="{StaticResource RightPanel.Background}" Style="{StaticResource TabControlNoneStyle}">
                         </TabControl>
-                        <Canvas>
-                            <Button Content="1234" Width="100" Height="100" Canvas.Right="10"/>
-                        </Canvas>
                     </Grid>
                 </TabItem>
                 <TabItem Header="云数据库" Visibility="Collapsed">

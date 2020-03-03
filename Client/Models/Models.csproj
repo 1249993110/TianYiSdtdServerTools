@@ -54,6 +54,8 @@
     <Compile Include="ConsoleTempList\CommandLevel.cs" />
     <Compile Include="ConsoleTempList\TempListDataType.cs" />
     <Compile Include="MvvmMessages\CommonEnumMessage.cs" />
+    <Compile Include="MvvmMessages\FunctionEnableChangedMessage.cs" />
+    <Compile Include="ObservableClasses\FunctionSwitchModel.cs" />
     <Compile Include="ObservableClasses\ListViewItemModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerPrefModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerStateModel.cs" />

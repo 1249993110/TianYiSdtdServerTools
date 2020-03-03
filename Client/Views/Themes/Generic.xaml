@@ -71,6 +71,8 @@
     </Style>
 
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="CanUserDeleteRows" Value="False"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="AutoGenerateColumns" Value="False"/>
@@ -79,6 +81,17 @@
         <Setter Property="pu:DataGridHelper.SelectedBackground" Value="#EEE8AA"/>
     </Style>
 
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="WrapTextBoxStyle">
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Background" Value="#393A3C"/>
+        <Setter Property="Foreground" Value="#AFAFAF"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+    </Style>
     <!--<convert:VisibilityConverter x:Key="VisibilityConverter"></convert:VisibilityConverter>-->
  
 </ResourceDictionary>

@@ -22,6 +22,7 @@ using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 using TianYiSdtdServerTools.Client.Views.Services;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
+using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -48,45 +49,98 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             InitializeComponent();
             ViewModel = Autofac.Resolve<MainWindowViewModel>(new TypedParameter(typeof(IRichTextBoxService),new RichTextBoxService(richTextBox_runLog)));
             base.DataContext = ViewModel;
+            
+            Messenger.Default.Register<CommonEnumMessage>(this, InitChatMessageAndTelnetConsoleView);
+            Messenger.Default.Register<FunctionEnableChangedMessage>(this, OnFunctionEnableChanged);
+        }
 
+        private void OnFunctionEnableChanged(FunctionEnableChangedMessage message)
+        {
+            System.Diagnostics.Debug.Assert(_partialViewDic.ContainsKey(message.FunctionTag));
 
-            Messenger.Default.Register<CommonEnumMessage>(this, InitAheadTelnetConsoleView);
+            foreach (TabItem tab in this.leftTabControl2.Items)
+            {
+                if (tab.Tag.ToString() == message.FunctionTag)
+                {
+                    return;
+                }
+            }
+
+            // 创建视图
+            FrameworkElement view = (FrameworkElement)Activator.CreateInstance(_partialViewDic[message.FunctionTag], 
+                new object[] { message.FunctionTag });
+
+            this.leftTabControl2.Items.Add(new TabItem()
+            {
+                Header = ViewModel.FunctionPanelItems.First(p => p.Tag == message.FunctionTag).Header,
+                Tag = message.FunctionTag,
+                Content = view
+            });
+
+            // 再次发送一条通知消息
+            Messenger.Default.Send(message, view.DataContext.GetType());
         }
 
         /// <summary>
-        /// 提前初始化Telnet控制台View
+        /// 提前初始化聊天信息和Telnet控制台View
         /// </summary>
-        private void InitAheadTelnetConsoleView(CommonEnumMessage enumMessage)
+        private void InitChatMessageAndTelnetConsoleView(CommonEnumMessage enumMessage)
         {
-            if(enumMessage == CommonEnumMessage.InitTelnetConsoleView)
+            if(enumMessage == CommonEnumMessage.InitControlPanelView)
             {
-                string tag = "TelnetConsole";
-                foreach (TabItem tab in this.leftTabControl1.Items)
-                {
-                    if (tab.Tag.ToString() == tag)
-                    {
-                        return;
-                    }
-                }
+                CheckControlPanelView("ChatMessage");
+                CheckControlPanelView("TelnetConsole");
+                Messenger.Default.UnregisterAllRecipientByType<CommonEnumMessage>();
+            }
+        }
 
-                this.leftTabControl1.Items.Add(new TabItem()
+        private void CheckControlPanelView(string tag)
+        {
+            foreach (TabItem tab in this.leftTabControl1.Items)
+            {
+                if (tab.Tag.ToString() == tag)
                 {
-                    Header = "Telnet控制台",
-                    Tag = tag,
-                    Content = Activator.CreateInstance(_partialViewDic["TelnetConsole"])
-                });
+                    return;
+                }
+            }
+
+            this.leftTabControl1.Items.Add(new TabItem()
+            {
+                Header = ViewModel.ControlPanelItems.First(p => p.Tag == tag).Header,
+                Tag = tag,
+                // 创建视图
+                Content = Activator.CreateInstance(_partialViewDic[tag])
+            });
+        }
+
+
+        private void OnClickCloseButton(object sender, EventArgs e)
+        {
+            if (MessageBoxX.Show("确定退出程序吗？", "提示", this, MessageBoxButton.OKCancel, configKey: "CommonTheme") == MessageBoxResult.OK)
+            {
+                this.Close();
             }
         }
 
         private void OnLeftListBox1SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListViewItemModel selectedItem = this.leftListBox1.SelectedItem as ListViewItemModel;
+            ChangeSelectItem(this.leftListBox1, this.leftTabControl1);
+        }
 
-            foreach (TabItem tab in this.leftTabControl1.Items)
+        private void OnLeftListBox2SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ChangeSelectItem(this.leftListBox2, this.leftTabControl2);
+        }
+
+        private void ChangeSelectItem(ListBox listBox, TabControl tabControl)
+        {
+            ListViewItemModel selectedItem = listBox.SelectedItem as ListViewItemModel;
+
+            foreach (TabItem tab in tabControl.Items)
             {
                 if (tab.Tag.ToString() == selectedItem.Tag)
                 {
-                    this.leftTabControl1.SelectedItem = tab;
+                    tabControl.SelectedItem = tab;
                     return;
                 }
             }
@@ -97,19 +151,14 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             {
                 Header = selectedItem.Header,
                 Tag = selectedItem.Tag,
-                Content = Activator.CreateInstance(_partialViewDic[selectedItem.Tag])
+                // 创建视图
+                Content = listBox == this.leftListBox1 ? Activator.CreateInstance(_partialViewDic[selectedItem.Tag]) :
+                                                         Activator.CreateInstance(_partialViewDic[selectedItem.Tag], 
+                                                         new object[] { selectedItem.Tag })
             };
 
-            this.leftTabControl1.Items.Add(tabItem);
-            this.leftTabControl1.SelectedItem = tabItem;            
-        }
-
-        private void OnClickCloseButton(object sender, EventArgs e)
-        {
-            if (MessageBoxX.Show("确定退出程序吗？", "提示", this, MessageBoxButton.OKCancel, configKey: "CommonTheme") == MessageBoxResult.OK)
-            {
-                this.Close();
-            }
+            tabControl.Items.Add(tabItem);
+            tabControl.SelectedItem = tabItem;
         }
     }
 

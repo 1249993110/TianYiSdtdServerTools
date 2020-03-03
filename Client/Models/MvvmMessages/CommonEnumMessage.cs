@@ -12,8 +12,8 @@ namespace TianYiSdtdServerTools.Client.Models.MvvmMessages
     public enum CommonEnumMessage
     {
         /// <summary>
-        /// 初始化Telnet控制台View
+        /// 初始化ControlPanelView
         /// </summary>
-        InitTelnetConsoleView
+        InitControlPanelView
     }
 }

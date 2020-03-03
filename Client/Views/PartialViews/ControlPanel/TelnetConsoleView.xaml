@@ -11,9 +11,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TextBox Name="textBox_TelnetData" TextWrapping="Wrap" Text="{Binding TelnetData, Mode=OneWay}" VerticalContentAlignment="Top"
-                 Padding="4" TextChanged="OnTextBox_TelnetData_TextChanged"
-                 Height="Auto" VerticalScrollBarVisibility="Auto" Background="#393A3C" Foreground="#AFAFAF" FontSize="14"></TextBox>
+        <TextBox Name="textBox_TelnetData" Text="{Binding TelnetData, Mode=OneWay}" TextChanged="OnTextBox_TelnetData_TextChanged"
+                 FontSize="14" Style="{StaticResource WrapTextBoxStyle}"></TextBox>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"></ColumnDefinition>
@@ -21,7 +20,8 @@
                 <ColumnDefinition Width="100"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <CheckBox Grid.Column="0" Content="自动刷新" IsChecked="{Binding AutoRefresh}"></CheckBox>
-            <ComboBox Focusable="True" Grid.Column="1" IsEditable="True" Height="25" SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}"
+            <!--SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}"-->
+            <ComboBox Focusable="True" Grid.Column="1" IsEditable="True" Height="25"
                       ItemsSource="{Binding RecentCommands, Mode=OneWay}" Text="{Binding Command, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.InputBindings>
                     <KeyBinding Command="{Binding SendCommand}" Key="Enter"/>

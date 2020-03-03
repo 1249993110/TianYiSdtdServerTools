@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
@@ -23,7 +24,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public List<PlayerInfo> OnlinePlayers { get; [NPCA_Method]set; }
 
-        [ConfigNode(ConfigNodeType.Attribute)]
+        [ConfigNode(XmlNodeType.Attribute)]
         public bool AutoRefresh { get; [NPCA_Method]set; }
 
         public int SelectedIndex { get; set; } = -1;
