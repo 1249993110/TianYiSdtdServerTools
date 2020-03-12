@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using IceCoffee.Wpf.MvvmFrame;
+using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
@@ -54,7 +55,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             SdtdConsole.Instance.ReceivedServerPartialPref += (serverPartialPref) => { SdtdServerPrefs.ServerPartialPref = serverPartialPref; };
             SdtdConsole.Instance.ReceivedServerPartialState += (serverPartialState) => { SdtdServerStates.ServerPartialState = serverPartialState; };
 
-            base.dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
+            base._dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
 
             ConnectServer = new RelayCommand(() =>
             {
@@ -98,14 +99,18 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
                     SendFunctionEnableChangedMessage(propertyName, propertySource);
                 });
 
-                SendFunctionEnableChangedMessage(propertyName, FunctionSwitchs);                
+                // 如果开关已经打开
+                if ((bool)propertyInfo.GetValue(FunctionSwitchs))
+                {
+                    SendFunctionEnableChangedMessage(propertyName, FunctionSwitchs);
+                }
             }
 
         }
 
         private void SendFunctionEnableChangedMessage(string propertyName, FunctionSwitchModel propertySource)
         {
-            Messenger.Default.Send(new FunctionEnableChangedMessage()
+            Messenger.Default.Send(new FunctionSwitchStateChangedMessage()
             {
                 FunctionTag = propertyName,
                 IsOpen = (bool)propertySource.GetType().GetProperty(propertyName).GetValue(propertySource)

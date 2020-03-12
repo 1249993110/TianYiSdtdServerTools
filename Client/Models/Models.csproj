@@ -53,8 +53,14 @@
     <Compile Include="ConsoleTempList\Administrator.cs" />
     <Compile Include="ConsoleTempList\CommandLevel.cs" />
     <Compile Include="ConsoleTempList\TempListDataType.cs" />
+    <Compile Include="Dtos\Primitives\MyDtoBase.cs" />
+    <Compile Include="Dtos\ScoreInfoModel.cs" />
+    <Compile Include="Entitys\Primitives\IMyEntityBase.cs" />
+    <Compile Include="Entitys\Primitives\MyEntityBase.cs" />
+    <Compile Include="Entitys\ScoreInfo.cs" />
+    <Compile Include="EventArgs\DataGridItemChangedEventArgs.cs" />
     <Compile Include="MvvmMessages\CommonEnumMessage.cs" />
-    <Compile Include="MvvmMessages\FunctionEnableChangedMessage.cs" />
+    <Compile Include="MvvmMessages\FunctionSwitchStateChangedMessage.cs" />
     <Compile Include="ObservableClasses\FunctionSwitchModel.cs" />
     <Compile Include="ObservableClasses\ListViewItemModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerPrefModel.cs" />
@@ -71,13 +77,15 @@
     <Compile Include="SdtdServerInfo\ServerPartialState.cs" />
     <Compile Include="SdtdServerInfo\ServerVersion.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entitys\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
       <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
       <Name>IceCoffee.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore.csproj">
+      <Project>{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}</Project>
+      <Name>IceCoffee.DbCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
       <Project>{ce167778-381d-487f-845a-d96258015e17}</Project>

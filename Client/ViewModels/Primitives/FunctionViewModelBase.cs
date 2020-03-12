@@ -48,7 +48,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
             SdtdConsole.Instance.ConnectionStateChanged += OnConnectionStateChanged;
 
-            Messenger.Default.Register<FunctionEnableChangedMessage>(this, OnFunctionEnableChanged);
+            Messenger.Default.Register<FunctionSwitchStateChangedMessage>(this, OnFunctionSwitchStateChanged);
         }
 
         private void OnConnectionStateChanged(ConnectionState connectionState)
@@ -63,7 +63,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
             }
         }
 
-        private void OnFunctionEnableChanged(FunctionEnableChangedMessage message)
+        private void OnFunctionSwitchStateChanged(FunctionSwitchStateChangedMessage message)
         {
             if (message.FunctionTag == FunctionTag)
             {

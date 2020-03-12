@@ -54,6 +54,7 @@
     <Compile Include="ControlPanel\PermissionManagementViewModel.cs" />
     <Compile Include="ControlPanel\TelnetConsoleViewModel.cs" />
     <Compile Include="FunctionPanel\GameNoticeViewModel.cs" />
+    <Compile Include="FunctionPanel\ScoreSystemViewModel.cs" />
     <Compile Include="Primitives\FunctionViewModelBase.cs" />
     <Compile Include="MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Primitives\ViewModelBase.cs" />
@@ -67,6 +68,10 @@
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
       <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
       <Name>IceCoffee.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore.csproj">
+      <Project>{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}</Project>
+      <Name>IceCoffee.DbCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
       <Project>{ce167778-381d-487f-845a-d96258015e17}</Project>

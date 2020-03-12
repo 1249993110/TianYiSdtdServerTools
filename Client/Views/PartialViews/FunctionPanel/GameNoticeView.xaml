@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="10">
@@ -12,7 +13,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
@@ -32,11 +33,8 @@
             <Label Grid.Row="0" Content="轮播公告，定时重复公屏发送"/>
             <TextBox Grid.Row="1" Style="{StaticResource WrapTextBoxStyle}" Text="{Binding AlternateNotice}" FontSize="15"></TextBox>
         </Grid>
-        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
-            <Label>轮播周期</Label>
-            <TextBox MinWidth="60" Text="{Binding AlternateInterval}"/>
-            <Label>秒</Label>
-        </StackPanel>
+        <iceCtrl:TextBoxWithLabel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                                  BoxText="{Binding AlternateInterval}" LeftText="轮播周期" RightText="秒"></iceCtrl:TextBoxWithLabel>
         <Button Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Content="发送一次本窗口内容" Width="150"
                 Command="{Binding SendAlternateNotice}"/>
     </Grid>

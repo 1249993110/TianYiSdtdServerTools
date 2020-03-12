@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using IceCoffee.Wpf.MvvmFrame;
+using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;

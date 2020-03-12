@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
              xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
+             xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -62,19 +63,14 @@
             <Label Content="{Binding SdtdServerPrefs.ServerPartialPref.GameDifficulty}" ContentStringFormat="游戏难度：{0}" MinWidth="100" Margin="10"></Label>
         </WrapPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <StackPanel Orientation="Horizontal" Margin="10 0">
-                <Label Content="自动重连最大次数："/>
-                <TextBox Text="{Binding AutoReconnectMaxCount}" MinWidth="50" HorizontalContentAlignment="Center"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10 0">
-                <Label Content="自动重连间隔(秒)："/>
-                <TextBox Text="{Binding AutoReconnectInterval}" MinWidth="50" HorizontalContentAlignment="Center"></TextBox>
-            </StackPanel>
+            <iceCtrl:TextBoxWithLabel LeftText="自动重连最大次数" BoxText="{Binding AutoReconnectMaxCount}"/>
+            <iceCtrl:TextBoxWithLabel LeftText="自动重连间隔(秒):" BoxText="{Binding AutoReconnectInterval}"/>
         </StackPanel>
         <WrapPanel Grid.Row="4" Margin="10">
-            <CheckBox pu:CheckBoxHelper.Header="游戏公告"
-                      IsChecked="{Binding FunctionSwitchs.GameNotice}" Style="{StaticResource CheckBoxSwitchStyle}"/>
-            <CheckBox pu:CheckBoxHelper.Header="积分系统" Style="{StaticResource CheckBoxSwitchStyle}"/>
+            <CheckBox pu:CheckBoxHelper.Header="游戏公告" IsChecked="{Binding FunctionSwitchs.GameNotice}" 
+                      Style="{StaticResource CheckBoxSwitchStyle}"/>
+            <CheckBox pu:CheckBoxHelper.Header="积分系统" IsChecked="{Binding FunctionSwitchs.ScoreSystem}" 
+                      Style="{StaticResource CheckBoxSwitchStyle}"/>
         </WrapPanel>
     </Grid>
 </UserControl>

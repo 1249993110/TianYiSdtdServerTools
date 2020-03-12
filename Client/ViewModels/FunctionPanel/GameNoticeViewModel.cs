@@ -1,12 +1,9 @@
 ﻿using IceCoffee.Common;
 using IceCoffee.Wpf.MvvmFrame;
+using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
@@ -67,7 +64,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         {
             foreach (var item in WelcomeNotice.Split(Environment.NewLine))
             {
-                SdtdConsole.Instance.SendMessageToPlayer(playerInfo, item);
+                SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, item);
             }            
         }
 

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
              xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+             xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="10">
@@ -22,7 +23,7 @@
                     </Style.Triggers>
                 </Style>
             </ScrollViewer.Style>
-            <DataGrid Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow"
+            <iceCtrl:SerialDataGrid
                   ItemsSource="{Binding OnlinePlayers, Mode=OneWay}" CanUserAddRows="False"
                   SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}">
                 <DataGrid.Columns>
@@ -61,7 +62,7 @@
                         <MenuItem Header="查看背包(开发中)" Command="{Binding ViewPlayerInventory}" IsEnabled="False"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-            </DataGrid>
+            </iceCtrl:SerialDataGrid>
         </ScrollViewer>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <CheckBox Content="自动刷新" IsChecked="{Binding AutoRefresh}" Margin="10"></CheckBox>

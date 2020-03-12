@@ -27,6 +27,9 @@ namespace TianYiSdtdServerTools.Client.Views
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
 #endif
+
+            Client.Services.SQLiteConfig.Init();
+
             App app = new App();
             app.InitializeComponent();            
             app.Run();

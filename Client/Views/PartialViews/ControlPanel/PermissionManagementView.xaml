@@ -7,6 +7,7 @@
              xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
              xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
              xmlns:behavior="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Behaviors;assembly=IceCoffee.Wpf.CustomControlLibrary"
+             xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
              behavior:ReadOnlyPropertyToModelBindingBehavior.ReadOnlyDependencyProperty="{Binding IsVisible, RelativeSource={RelativeSource Self}}"
@@ -30,7 +31,7 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="管理员列表"></Label>
-                <DataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding Administrators, Mode=OneWay}"
+                <iceCtrl:SerialDataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding Administrators, Mode=OneWay}"
                       SelectedIndex="{Binding SelectedIndex1, Mode=OneWayToSource}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="SteamID" Binding="{Binding SteamID}"/>
@@ -42,7 +43,7 @@
                             <MenuItem Header="移除所有管理员" Command="{Binding RemoveAllAdministrator}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
-                </DataGrid>
+                </iceCtrl:SerialDataGrid>
                 <Grid Grid.Row="2">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBox pu:TextBoxHelper.Watermark="SteamID" Width="150" 
@@ -65,7 +66,7 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="命令权限列表"></Label>
-                <DataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding CommandLevels, Mode=OneWay}"
+                <iceCtrl:SerialDataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding CommandLevels, Mode=OneWay}"
                       SelectedIndex="{Binding SelectedIndex2, Mode=OneWayToSource}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="命令" Binding="{Binding Command}"/>
@@ -76,7 +77,7 @@
                             <MenuItem Header="移除权限" Command="{Binding RemoveCommandLevel}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
-                </DataGrid>
+                </iceCtrl:SerialDataGrid>
                 <Grid Grid.Row="2">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBox Text="{Binding Command, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"

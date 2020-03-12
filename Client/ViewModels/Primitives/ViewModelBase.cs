@@ -8,6 +8,7 @@ using System.Xml;
 using IceCoffee.Common.LogManager;
 using IceCoffee.Common.Xml;
 using IceCoffee.Wpf.MvvmFrame;
+using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.Utils;
 using TianYiSdtdServerTools.Client.Services.Primitives.UI;
 
@@ -15,7 +16,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 {
     public abstract class ViewModelBase : ObservableObject
     {
-        protected IDispatcherService dispatcherService;
+        protected IDispatcherService _dispatcherService;
 
         private static readonly List<Action<XmlDocument>> _saveConfigActions;
 
@@ -26,7 +27,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
         public ViewModelBase(IDispatcherService dispatcherService)
         {
-            this.dispatcherService = dispatcherService;            
+            this._dispatcherService = dispatcherService;            
 
             _saveConfigActions.Add(this.SaveConfig);
 

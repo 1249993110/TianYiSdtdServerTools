@@ -105,6 +105,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                 };
 
                 result.Add(historyPlayerInfo);
+
             }
             return result;
         }

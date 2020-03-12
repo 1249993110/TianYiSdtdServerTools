@@ -47,14 +47,14 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<MainWindowViewModel>(new TypedParameter(typeof(IRichTextBoxService),new RichTextBoxService(richTextBox_runLog)));
+            ViewModel = Autofac.Resolve<MainWindowViewModel>(new TypedParameter(typeof(IRichTextBoxService), new RichTextBoxService(richTextBox_runLog)));
             base.DataContext = ViewModel;
-            
+
             Messenger.Default.Register<CommonEnumMessage>(this, InitChatMessageAndTelnetConsoleView);
-            Messenger.Default.Register<FunctionEnableChangedMessage>(this, OnFunctionEnableChanged);
+            Messenger.Default.Register<FunctionSwitchStateChangedMessage>(this, OnFunctionSwitchStateChanged);
         }
 
-        private void OnFunctionEnableChanged(FunctionEnableChangedMessage message)
+        private void OnFunctionSwitchStateChanged(FunctionSwitchStateChangedMessage message)
         {
             System.Diagnostics.Debug.Assert(_partialViewDic.ContainsKey(message.FunctionTag));
 
@@ -67,7 +67,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             }
 
             // 创建视图
-            FrameworkElement view = (FrameworkElement)Activator.CreateInstance(_partialViewDic[message.FunctionTag], 
+            FrameworkElement view = (FrameworkElement)Activator.CreateInstance(_partialViewDic[message.FunctionTag],
                 new object[] { message.FunctionTag });
 
             this.leftTabControl2.Items.Add(new TabItem()
@@ -86,7 +86,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
         /// </summary>
         private void InitChatMessageAndTelnetConsoleView(CommonEnumMessage enumMessage)
         {
-            if(enumMessage == CommonEnumMessage.InitControlPanelView)
+            if (enumMessage == CommonEnumMessage.InitControlPanelView)
             {
                 CheckControlPanelView("ChatMessage");
                 CheckControlPanelView("TelnetConsole");
@@ -152,9 +152,8 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
                 Header = selectedItem.Header,
                 Tag = selectedItem.Tag,
                 // 创建视图
-                Content = listBox == this.leftListBox1 ? Activator.CreateInstance(_partialViewDic[selectedItem.Tag]) :
-                                                         Activator.CreateInstance(_partialViewDic[selectedItem.Tag], 
-                                                         new object[] { selectedItem.Tag })
+                Content = listBox == this.leftListBox2 ? Activator.CreateInstance(_partialViewDic[selectedItem.Tag], new object[] { selectedItem.Tag })
+                                                       : Activator.CreateInstance(_partialViewDic[selectedItem.Tag])
             };
 
             tabControl.Items.Add(tabItem);

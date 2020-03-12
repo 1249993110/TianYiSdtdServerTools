@@ -29,13 +29,5 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
             ViewModel = Autofac.Resolve<OnlinePlayerViewModel>();
             base.DataContext = ViewModel;
         }
-
-        private void OnDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            if (e.Row.IsNewItem == false)
-            {
-                e.Row.Header = (e.Row.GetIndex() + 1).ToString();
-            }
-        }
     }
 }

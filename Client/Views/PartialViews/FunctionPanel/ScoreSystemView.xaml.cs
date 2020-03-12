@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +13,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TianYiSdtdServerTools.Client.ViewModels.ControlPanel;
+using TianYiSdtdServerTools.Client.ViewModels.FunctionPanel;
 
-namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
+namespace TianYiSdtdServerTools.Client.Views.PartialViews.FunctionPanel
 {
     /// <summary>
-    /// HistoryPlayerView.xaml 的交互逻辑
+    /// ScoreSystemView.xaml 的交互逻辑
     /// </summary>
-    public partial class HistoryPlayerView : UserControl
+    public partial class ScoreSystemView : UserControl
     {
-        public HistoryPlayerViewModel ViewModel { get; set; }
+        public ScoreSystemViewModel ViewModel { get; set; }
 
-        public HistoryPlayerView()
+        public ScoreSystemView(string functionTag)
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<HistoryPlayerViewModel>();
+
+            ViewModel = Autofac.Resolve<ScoreSystemViewModel>(new NamedParameter(nameof(functionTag), functionTag));
+
             base.DataContext = ViewModel;
         }
     }

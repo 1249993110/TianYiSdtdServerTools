@@ -7,6 +7,7 @@
              xmlns:convert="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
              xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel"
              xmlns:behavior="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Behaviors;assembly=IceCoffee.Wpf.CustomControlLibrary"
+             xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              behavior:ReadOnlyPropertyToModelBindingBehavior.ReadOnlyDependencyProperty="{Binding IsVisible, RelativeSource={RelativeSource Self}}"
@@ -21,17 +22,10 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" Name="dataGrid" LoadingRow="OnDataGrid_LoadingRow"
-                  ItemsSource="{Binding HistoryPlayers, Mode=OneWay}" CanUserAddRows="False"
-                  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" SelectionChanged="OnDataGrid_SelectionChanged">
+        <iceCtrl:SerialDataGrid Grid.Row="0"
+                  ItemsSource="{Binding HistoryPlayers, Mode=OneWay}" CanUserAddRows="False" SelectedItem="{Binding SelectedItem, Mode=OneWay}"
+                  SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn MinWidth="64" Header="序号" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock HorizontalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="状态" Binding="{Binding IsOnline, Converter={StaticResource BoolConvert2}}"/>
                 <DataGridTextColumn Header="短位ID" Binding="{Binding EntityID}"/>
                 <DataGridTextColumn Header="玩家昵称" Binding="{Binding PlayerName}"/>
@@ -52,7 +46,7 @@
                     <MenuItem Header="查看背包(开发中)" Command="{Binding ViewPlayerInventory}" IsEnabled="False"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </DataGrid>
+        </iceCtrl:SerialDataGrid>
         <Grid Grid.Row="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Content="刷新列表" Command="{Binding RefreshList}"></Button>

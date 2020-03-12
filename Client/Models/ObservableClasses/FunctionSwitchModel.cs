@@ -21,5 +21,11 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
         /// </summary>
         [ConfigNode(XmlNodeType.Attribute)]
         public bool GameNotice { get; set; }
+
+        /// <summary>
+        /// 积分系统
+        /// </summary>
+        [ConfigNode(XmlNodeType.Attribute)]
+        public bool ScoreSystem { get; set; }
     }
 }

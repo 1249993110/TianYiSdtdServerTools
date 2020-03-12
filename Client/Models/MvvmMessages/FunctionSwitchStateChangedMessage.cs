@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TianYiSdtdServerTools.Client.Models.MvvmMessages
 {
-    public class FunctionEnableChangedMessage
+    public class FunctionSwitchStateChangedMessage
     {
         /// <summary>
         /// 功能标记

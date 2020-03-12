@@ -42,7 +42,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.MainWindow
             FunctionPanelItems = new ObservableCollection<ListViewItemModel>()
             {
                 new ListViewItemModel("游戏公告", "GameNotice"),
-                //new ListViewItemModel("积分系统", "ScoreSystem"),                
+                new ListViewItemModel("积分系统", "ScoreSystem"),                
             };
         }
 

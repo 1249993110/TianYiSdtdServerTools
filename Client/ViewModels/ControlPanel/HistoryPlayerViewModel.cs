@@ -1,4 +1,4 @@
-﻿using IceCoffee.Wpf.MvvmFrame;
+﻿using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
 using System;
@@ -21,7 +21,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public List<HistoryPlayerInfo> HistoryPlayers { get; [NPCA_Method]set; }
 
-        public int SelectedIndex { get; [NPCA_Method]set; } = -1;
+        public int SelectedIndex { get; set; } = -1;
+
+        public object SelectedItem { get; [NPCA_Method]set; }
 
         [ConfigNode(XmlNodeType.Attribute)]
         public int ComboBoxSelectedIndex { get; [NPCA_Method]set; }
@@ -110,45 +112,24 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             ClearList = new RelayCommand(() => { HistoryPlayers = null; });
             SearchPlayer = new RelayCommand(() => 
             {
-                int i = 0;
                 if (ComboBoxSelectedIndex == 0)
                 {
-                    for (; i < HistoryPlayers.Count; ++i)
-                    {
-                        if (HistoryPlayers[i].PlayerName == SearchText)
-                        {
-                            SelectedIndex = i;
-                            break;
-                        }
-                    }
+                    SelectedItem = HistoryPlayers.Find(p=>p.PlayerName == SearchText);
                 }
                 else if (ComboBoxSelectedIndex == 1)
                 {
-                    for (; i < HistoryPlayers.Count; ++i)
-                    {
-                        if (HistoryPlayers[i].SteamID == SearchText)
-                        {
-                            SelectedIndex = i;
-                            break;
-                        }
-                    }
+                    SelectedItem = HistoryPlayers.Find(p => p.SteamID == SearchText);
                 }
                 else if(ComboBoxSelectedIndex == 2)
                 {
-                    for (; i < HistoryPlayers.Count; ++i)
-                    {
-                        if (HistoryPlayers[i].EntityID.ToString() == SearchText)
-                        {
-                            SelectedIndex = i;
-                            break;
-                        }
-                    }
+                    SelectedItem = HistoryPlayers.Find(p => p.EntityID.ToString() == SearchText);
                 }
 
-                if( i == HistoryPlayers.Count)
+                if(SelectedItem == null)
                 {
                     _dialogService.ShowInformation("没有找到此玩家");
                 }
+
             }, () => { return HistoryPlayers != null; });
         }
 

@@ -24,10 +24,13 @@ namespace TianYiSdtdServerTools.Client.Views
         {
             _builder = new ContainerBuilder();
 
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith("ViewModels"));
+            var assemblys = AppDomain.CurrentDomain.GetAssemblies();
 
-            // 在程序集ViewModels.dll中自动查找类型
-            _builder.RegisterAssemblyTypes(assembly);
+            // 在程序集 ViewModels.dll 中自动查找类型
+            _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("ViewModels")));
+
+            // 在程序集 Services.dll 中自动查找类型
+            _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("Services"))).SingleInstance();
 
             _builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             _builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();
