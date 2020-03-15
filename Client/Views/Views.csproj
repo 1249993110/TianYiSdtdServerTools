@@ -31,6 +31,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -110,8 +112,8 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Panuon.UI.Silver, Version=1.0.9.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Panuon.UI.Silver.1.0.9.7\lib\net45\Panuon.UI.Silver.dll</HintPath>
+    <Reference Include="Panuon.UI.Silver, Version=1.0.9.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Panuon.UI.Silver.1.0.9.8\lib\net45\Panuon.UI.Silver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

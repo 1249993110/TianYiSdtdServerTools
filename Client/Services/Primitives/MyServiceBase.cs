@@ -1,14 +1,14 @@
 ﻿using IceCoffee.DbCore;
 using IceCoffee.DbCore.Primitives;
-using IceCoffee.DbCore.SQLite;
+using IceCoffee.DbCore.Repositorys;
 using TianYiSdtdServerTools.Client.Services.CatchException;
 
 namespace TianYiSdtdServerTools.Client.Services.Primitives
 {
     public abstract class MyServiceBase<TEntity> : ServiceBase<TEntity>, IExceptionCaughtSignal where TEntity : class, IEntityBase
     {
-        public MyServiceBase(bool useConnectionPool = false) 
-            : base(new SQLiteRepository<TEntity>(SQLiteConfig.DefaultDbConnectionString, useConnectionPool))
+        public MyServiceBase(bool useConnectionPool)
+            : base(new SQLiteRepository<TEntity>(Database.DefaultDbConnectionString, useConnectionPool))
         {
         }
 
@@ -17,7 +17,7 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives
         /// </summary>
         public static event ExceptionCaughtEventHandler ExceptionCaught;
 
-        void IExceptionCaughtSignal.EmitExceptionCaughtSignal(object sender, DALException e)
+        void IExceptionCaughtSignal.EmitExceptionCaughtSignal(object sender, ServiceException e)
         {
             ExceptionCaught?.Invoke(this, e);
         }

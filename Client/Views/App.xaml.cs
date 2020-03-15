@@ -32,11 +32,6 @@ namespace TianYiSdtdServerTools.Client.Views
         }
 
         #region 捕获未处理异常
-        private void OnCurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Log.Error("UI线程未处理异常",(Exception)e.ExceptionObject);
-        }
-
         private void OnTaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             Log.Error("Task线程内未处理异常", e.Exception);
@@ -45,6 +40,11 @@ namespace TianYiSdtdServerTools.Client.Views
         private void OnApp_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             Log.Error("当前应用程序域未处理异常", e.Exception);
+        }
+
+        private void OnCurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Log.Error("UI线程未处理异常", (Exception)e.ExceptionObject);
         }
         #endregion
 

@@ -4,7 +4,7 @@ using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 
 namespace TianYiSdtdServerTools.Client.Models.Dtos
 {
-    public class ScoreInfoModel : MyDtoBase<ScoreInfoModel, ScoreInfo>
+    public class ScoreInfoDto : MyDtoBase<ScoreInfoDto, ScoreInfo>
     {
         /// <summary>
         /// 玩家昵称

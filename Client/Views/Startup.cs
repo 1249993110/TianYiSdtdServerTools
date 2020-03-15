@@ -28,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.Views
             }
 #endif
 
-            Client.Services.SQLiteConfig.Init();
+            Client.Services.Database.Initialize();
 
             App app = new App();
             app.InitializeComponent();            

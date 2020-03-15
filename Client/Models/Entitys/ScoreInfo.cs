@@ -3,7 +3,7 @@ using TianYiSdtdServerTools.Client.Models.Entitys.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Models.Entitys
 {
-    public class ScoreInfo : MyEntityBase<ScoreInfo, ScoreInfoModel>
+    public class ScoreInfo : MyEntityBase<ScoreInfo, ScoreInfoDto>
     {
         /// <summary>
         /// 玩家昵称

@@ -11,12 +11,12 @@ using IceCoffee.Common.LogManager;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
-    public static class SQLiteConfig
+    public static class Database
     {
         /// <summary>
         /// 初始化
         /// </summary>
-        public static void Init()
+        public static void Initialize()
         {
             Task.Run(() =>
             {

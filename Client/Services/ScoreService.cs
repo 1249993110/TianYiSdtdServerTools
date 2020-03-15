@@ -7,6 +7,8 @@ using TianYiSdtdServerTools.Client.Models.Entitys;
 using TianYiSdtdServerTools.Client.Models.Dtos;
 using TianYiSdtdServerTools.Client.Services.Primitives;
 using TianYiSdtdServerTools.Client.Services.CatchException;
+using System.Threading;
+using System.Diagnostics;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
@@ -16,72 +18,71 @@ namespace TianYiSdtdServerTools.Client.Services
 
         private const string keyName = "SteamID";
 
-        public ScoreService()
+        public ScoreService() : base(false)
         {
-            
+
         }
 
         /// <summary>
         /// 插入积分信息
         /// </summary>
-        /// <param name="scoreDataModel"></param>
+        /// <param name="scoreInfoDto"></param>
         [CatchException("插入积分信息异常")]
-        public void InsertScoreInfo(ScoreInfoModel scoreDataModel)
+        public async Task InsertScoreInfo(ScoreInfoDto scoreInfoDto)
         {
-            Repository.InsertData(scoreDataModel.CreateEntity());
+            await Repository.InsertDataAsync(scoreInfoDto.CreateEntity());
         }
 
         /// <summary>
         /// 得到全部积分信息
         /// </summary>
         /// <returns></returns>
-        [CatchException("读取全部积分信息异常")]
-        public List<ScoreInfoModel> GetAllScoreInfo()
+        public async Task<List<ScoreInfoDto>> GetAllScoreInfo()
         {
-            List<ScoreInfoModel> scoreInfoModels = new List<ScoreInfoModel>();
-            foreach (var item in Repository.QueryAllData(tableName))
+            List<ScoreInfoDto> scoreInfoDtos = new List<ScoreInfoDto>();
+            foreach (var item in await Repository.QueryAllDataAsync(tableName))
             {
-                scoreInfoModels.Add(item.ToDto());
+                scoreInfoDtos.Add(item.ToDto());
             }
-            return scoreInfoModels;
+            return scoreInfoDtos;
         }
 
         /// <summary>
         /// 更新积分信息
         /// </summary>
-        /// <param name="scoreDataModel"></param>
+        /// <param name="scoreInfoDto"></param>
         [CatchException("更新积分信息异常")]
-        public void UpdateScoreInfo(ScoreInfoModel scoreDataModel)
+        public async Task UpdateScoreInfo(ScoreInfoDto scoreInfoDto)
         {
-            Repository.UpdateDataByID(scoreDataModel.ColumnNames, keyName, scoreDataModel.ToEntity());
+            await Repository.UpdateDataByIDAsync(scoreInfoDto.ColumnNames, keyName, scoreInfoDto.ToEntity());
         }
 
         /// <summary>
         /// 删除积分信息
         /// </summary>
-        /// <param name="scoreDataModel"></param>
+        /// <param name="scoreInfoDto"></param>
         [CatchException("删除积分信息异常")]
-        public void RemoveItem(ScoreInfoModel scoreDataModel)
+        public async Task RemoveItem(ScoreInfoDto scoreInfoDto)
         {
-            Repository.DeleteDataByID(tableName, keyName, scoreDataModel.SteamID);
+            await Repository.DeleteDataByIDAsync(tableName, keyName, scoreInfoDto.SteamID);
         }
 
         /// <summary>
         /// 重置签到天数
         /// </summary>
         [CatchException("重置签到天数异常")]
-        public void ResetLastSignDate()
+        public async Task ResetLastSignDate()
         {
-            Repository.UpdateData(tableName, "LastSignDate", 0);
+            await Repository.UpdateDataAsync(tableName, "LastSignDate", 0);
         }
 
         /// <summary>
         /// 删除全部积分信息
         /// </summary>
         [CatchException("删除全部积分信息异常")]
-        public void RemoveAll()
+        public async Task RemoveAll()
         {
-            Repository.DeleteAllData(tableName);
+            await Repository.DeleteAllDataAsync(tableName);
         }
     }
 }

@@ -12,6 +12,6 @@ namespace TianYiSdtdServerTools.Client.Services.CatchException
         /// 发射异常捕获信号
         /// </summary>
         /// <param name="e"></param>
-        void EmitExceptionCaughtSignal(object sender, DALException e);
+        void EmitExceptionCaughtSignal(object sender, ServiceException e);
     }
 }

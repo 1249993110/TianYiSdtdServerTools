@@ -1,4 +1,5 @@
 ﻿using IceCoffee.Common;
+using IceCoffee.Common.LogManager;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Wpf.MvvmFrame.Utils;
@@ -7,8 +8,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using TianYiSdtdServerTools.Client.Models.Dtos;
@@ -25,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
         private IDialogService _dialogService;
 
-        public List<ScoreInfoModel> ScoreInfos { get; [NPCA_Method]set; }
+        public ObservableCollection<ScoreInfoDto> ScoreInfos { get; [NPCA_Method]set; }
 
         public int SelectedIndex { get; set; } = -1;
 
@@ -68,54 +71,58 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (ComboBoxSelectedIndex == 0)
                 {
-                    SelectedItem = ScoreInfos.Find(p => p.PlayerName == SearchText);
+                    SelectedItem = ScoreInfos.FirstOrDefault(p => p.PlayerName == SearchText);
                 }
                 else if (ComboBoxSelectedIndex == 1)
                 {
-                    SelectedItem = ScoreInfos.Find(p => p.SteamID == SearchText);
+                    SelectedItem = ScoreInfos.FirstOrDefault(p => p.SteamID == SearchText);
                 }
 
                 if (SelectedItem == null)
                 {
                     _dialogService.ShowInformation("没有找到此玩家");
                 }                
-            },()=> { return ScoreInfos != null; });            
+            }, CanExecuteCmd_ScoreInfosNotNull);            
 
             DataGridItemChanged = new RelayCommand<DataGridItemChangedEventArgs>(OnDataGridItemChanged);
 
-            RemoveItem = new RelayCommand(()=>
+            RemoveItem = new RelayCommand(() =>
             {
                 if (dialogService.ShowOKCancel("确定删除选中数据吗？"))
                 {
-                    _scoreService.RemoveItem(SelectedItem as ScoreInfoModel);
-                    ScoreInfos = _scoreService.GetAllScoreInfo();
+                    var scoreInfo = SelectedItem as ScoreInfoDto;
+                    ScoreInfos.Remove(scoreInfo);
+                    _ = _scoreService.RemoveItem(scoreInfo);
                 }
-            }, CanExecuteCommand);
+            }, () => { return SelectedIndex != -1 && SelectedItem != null; });
 
             ResetLastSignDate = new RelayCommand(() =>
             {
                 if (dialogService.ShowOKCancel("确定重置所有签到天数吗？"))
                 {
-                    _scoreService.ResetLastSignDate();
-                    ScoreInfos = _scoreService.GetAllScoreInfo();
+                    foreach (var item in ScoreInfos)
+                    {
+                        item.LastSignDate = 0;
+                    }
+                    _ = _scoreService.ResetLastSignDate();
                 }
-            }, CanExecuteCommand);
+            }, CanExecuteCmd_ScoreInfosNotNull);
 
             RemoveAllScoreInfo = new RelayCommand(() =>
             {
                 if (dialogService.ShowOKCancel("确定删除所有数据吗？"))
                 {
-                    _scoreService.RemoveAll();
-                    ScoreInfos = _scoreService.GetAllScoreInfo();
+                    ScoreInfos = null;
+                    _ = _scoreService.RemoveAll();
                 }
-            }, CanExecuteCommand);
+            }, CanExecuteCmd_ScoreInfosNotNull);
 
             PrivateRefreshList();
         }
 
-        private bool CanExecuteCommand()
+        private bool CanExecuteCmd_ScoreInfosNotNull()
         {
-            return SelectedIndex != -1 && SelectedItem != null;
+            return ScoreInfos != null;
         }
 
         private void OnDataGridItemChanged(DataGridItemChangedEventArgs eventArgs)
@@ -125,45 +132,22 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                 return;
             }
 
-            if (eventArgs.NewItem is ScoreInfoModel newItem)
+            if (eventArgs.NewItem is ScoreInfoDto newItem && eventArgs.OldItem is ScoreInfoDto oldItem)
             {
-                if (eventArgs.IsNewItem)
+                if (newItem.SteamID != oldItem.SteamID)
                 {
-                    if (string.IsNullOrEmpty(newItem.SteamID) == false)
-                    {
-                        if (ScoreInfos.Find(p => p.SteamID == newItem.SteamID && object.ReferenceEquals(p, newItem) == false) != null)
-                        {
-                            _dialogService.ShowInformation("无法添加重复的SteamID");
-                            newItem.SteamID = string.Empty;// 此时新值还未更新至ui
-                        }
-                        else
-                        {
-                            Task.Run(() =>
-                            {
-                                _scoreService.InsertScoreInfo(newItem);
-                            });
-                        }
-                    }
+                    _dialogService.ShowInformation("无法更改SteamID\r\n请删除此条记录以添加新记录");
+                    newItem.SteamID = oldItem.SteamID;// 此时新值还未更新至ui
                 }
-                else if (eventArgs.OldItem is ScoreInfoModel oldItem)
+                else
                 {
-                    if (newItem.SteamID != oldItem.SteamID)
-                    {
-                        _dialogService.ShowInformation("无法更改SteamID\r\n请删除此条记录以添加新记录");
-                        newItem.SteamID = oldItem.SteamID;// 此时新值还未更新至ui
-                    }
-                    else
-                    {
-                        Task.Run(() =>
-                        {
-                            _scoreService.UpdateScoreInfo(newItem);                            
-                        });
-                    }
+                    _ = _scoreService.UpdateScoreInfo(newItem);
                 }
+                
             }
         }
 
-        private void OnExceptionCaught(object sender, Services.CatchException.DALException e)
+        private void OnExceptionCaught(object sender, Services.CatchException.ServiceException e)
         {
             StringBuilder messageBuilder = new StringBuilder();
             Exception exception = e.InnerException;
@@ -173,17 +157,31 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                 exception = exception.InnerException;
             }
 
-            _dispatcherService.Invoke(() => 
+            _dispatcherService.InvokeAsync(() => 
             {
                 _dialogService.ShowInformation(messageBuilder.ToString(), e.Message);
-            });            
+            });
 
             PrivateRefreshList();
         }
 
-        private void PrivateRefreshList()
+        private async void PrivateRefreshList()
         {
-            ScoreInfos = _scoreService.GetAllScoreInfo();
+            try
+            {
+                var scoreInfos = await _scoreService.GetAllScoreInfo();
+
+                ScoreInfos = new ObservableCollection<ScoreInfoDto>(scoreInfos);
+            }
+            catch (Exception e)
+            {
+                string msg = "读取全部积分信息异常";
+                Log.Error(msg, e);
+                _dispatcherService.InvokeAsync(() =>
+                {
+                    _dialogService.ShowInformation(e.Message, msg);
+                });
+            }
         }
 
         protected override void DisableFunction()

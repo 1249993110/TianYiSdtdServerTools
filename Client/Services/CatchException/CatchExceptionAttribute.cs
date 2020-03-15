@@ -22,16 +22,19 @@ namespace TianYiSdtdServerTools.Client.Services.CatchException
         public CatchExceptionAttribute(string error)
         {
             Error = error;
+
+            // 确定应用于迭代器或异步方法（编译为状态机）时方面的行为方式
+            // 从PostSharp 5.0开始，FlowBehavior也适用于异步方法，ApplyToStateMachine默认为true
+            // ApplyToStateMachine = true;
         }
 
         public override void OnException(MethodExecutionArgs args)
-        {
-            Exception e = args.Exception;
+        {            
             args.FlowBehavior = FlowBehavior.Return;
 
             if(args.Instance is IExceptionCaughtSignal instance)
             {
-                instance.EmitExceptionCaughtSignal(instance, new DALException(Error, e));
+                instance.EmitExceptionCaughtSignal(instance, new ServiceException(Error, args.Exception));
             }
         }
 
@@ -39,5 +42,6 @@ namespace TianYiSdtdServerTools.Client.Services.CatchException
         {
             return typeof(DbCoreException);
         }
+        
     }
 }
