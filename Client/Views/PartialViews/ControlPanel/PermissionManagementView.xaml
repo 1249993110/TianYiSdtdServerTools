@@ -32,13 +32,15 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="管理员列表"></Label>
                 <iceCtrl:SerialDataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding Administrators, Mode=OneWay}"
-                      SelectedIndex="{Binding SelectedIndex1, Mode=OneWayToSource}">
+                      SelectedItem="{Binding SelectedItem2, Mode=OneWayToSource}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="SteamID" Binding="{Binding SteamID}"/>
                         <DataGridTextColumn Header="权限等级" Binding="{Binding PermissionLevel}"/>
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
+                            <MenuItem Header="刷新列表" Command="{Binding RefreshList}"/>
+                            <Separator></Separator>
                             <MenuItem Header="撤销管理员" Command="{Binding RemoveAdministrator}"/>
                             <MenuItem Header="移除所有管理员" Command="{Binding RemoveAllAdministrator}"/>
                         </ContextMenu>
@@ -67,13 +69,15 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="命令权限列表"></Label>
                 <iceCtrl:SerialDataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding CommandLevels, Mode=OneWay}"
-                      SelectedIndex="{Binding SelectedIndex2, Mode=OneWayToSource}">
+                      SelectedItem="{Binding SelectedItem2, Mode=OneWayToSource}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="命令" Binding="{Binding Command}"/>
                         <DataGridTextColumn Header="所需等级" Binding="{Binding PermissionLevel}"/>
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
+                            <MenuItem Header="刷新列表" Command="{Binding RefreshList}"/>
+                            <Separator></Separator>
                             <MenuItem Header="移除权限" Command="{Binding RemoveCommandLevel}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>

@@ -12,7 +12,12 @@ namespace TianYiSdtdServerTools.Client.Models.Dtos.Primitives
         where TEntity : MyEntityBase<TEntity, TDto>, new()
     {
         /// <summary>
-        /// 转换为实体对象
+        /// GUID
+        /// </summary>
+        public string UUID { get; internal set; }
+
+        /// <summary>
+        /// 转换为实体对象，仅拷贝Dto的数据
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
@@ -23,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.Models.Dtos.Primitives
         }
 
         /// <summary>
-        /// 创建一个实体，包括UUID、CreateDateTime等信息
+        /// 从Dto创建一个实体，包括UUID、CreateDateTime等信息
         /// </summary>
         /// <returns></returns>
         public virtual TEntity CreateEntity()
@@ -34,29 +39,29 @@ namespace TianYiSdtdServerTools.Client.Models.Dtos.Primitives
             return entity;
         }
 
-        private static string[] _columnNames;
+        private static string[] _needUpdateColumnNames;
 
         /// <summary>
-        /// 当前Dto的所有列
+        /// 当前Dto的需要更新的所有列
         /// </summary>
-        public virtual string[] ColumnNames
+        public virtual string[] NeedUpdateColumnNames
         {
             get
             {
-                if (_columnNames == null)
+                if (_needUpdateColumnNames == null)
                 {
                     PropertyInfo[] properties = this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
                     List<string> db_TableColumnNames = new List<string>();
                     foreach (PropertyInfo pi in properties)
                     {
-                        if (pi.CanWrite)
+                        if (pi.CanWrite && pi.Name != MyEntityBase<TEntity, TDto>.KeyName)
                         {
                             db_TableColumnNames.Add(pi.Name);
                         }
                     }
-                    _columnNames = db_TableColumnNames.ToArray();
+                    _needUpdateColumnNames = db_TableColumnNames.ToArray();
                 }
-                return _columnNames;
+                return _needUpdateColumnNames;
             }
         }
     }

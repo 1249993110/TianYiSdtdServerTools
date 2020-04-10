@@ -14,7 +14,7 @@
              behavior:ReadOnlyPropertyToModelBindingBehavior.ModelProperty="{Binding IsVisible, Mode=OneWayToSource}">
     
     <UserControl.Resources>
-        <convert:MinuteToStrConvert x:Key="MinuteToStrConvert"></convert:MinuteToStrConvert>
+        <convert:MinuteToStrConverter x:Key="MinuteToStrConverter"></convert:MinuteToStrConverter>
         <convert:BoolConvert2 x:Key="BoolConvert2"></convert:BoolConvert2>
     </UserControl.Resources>
     <Grid Margin="10">
@@ -23,19 +23,20 @@
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
         <iceCtrl:SerialDataGrid Grid.Row="0"
-                  ItemsSource="{Binding HistoryPlayers, Mode=OneWay}" CanUserAddRows="False" SelectedItem="{Binding SelectedItem, Mode=OneWay}"
-                  SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}">
+                  ItemsSource="{Binding HistoryPlayers, Mode=OneWay}" CanUserAddRows="False" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="状态" Binding="{Binding IsOnline, Converter={StaticResource BoolConvert2}}"/>
                 <DataGridTextColumn Header="短位ID" Binding="{Binding EntityID}"/>
                 <DataGridTextColumn Header="玩家昵称" Binding="{Binding PlayerName}"/>
                 <DataGridTextColumn Header="SteamID" Binding="{Binding SteamID}"/>
                 <DataGridTextColumn Header="IP地址" Binding="{Binding IP}"/>
-                <DataGridTextColumn Header="总游戏时长" Binding="{Binding TotalPlayTime, Converter={StaticResource MinuteToStrConvert}}"/>
+                <DataGridTextColumn Header="总游戏时长" Binding="{Binding TotalPlayTime, Converter={StaticResource MinuteToStrConverter}}"/>
                 <DataGridTextColumn Header="最后在线" Binding="{Binding LastOnlineTime}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="刷新列表" Command="{Binding RefreshList}"/>
+                    <Separator></Separator>
                     <MenuItem Header="封禁玩家100年" Command="{Binding BanPlayer100Year}"/>
                     <MenuItem Header="移除领地石" Command="{Binding RemoveLandclaims}"/>
                     <MenuItem Header="设为0级管理员" Command="{Binding AddSuperAdministrator}"/>

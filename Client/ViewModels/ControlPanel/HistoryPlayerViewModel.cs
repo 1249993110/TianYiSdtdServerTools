@@ -1,6 +1,6 @@
 ﻿using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+using IceCoffee.Common.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
 using TianYiSdtdServerTools.Client.Models.Players;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
@@ -17,13 +17,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 {
     public class HistoryPlayerViewModel : ViewModelBase
     {
-        private IDialogService _dialogService;
+        private readonly IDialogService _dialogService;
 
         public List<HistoryPlayerInfo> HistoryPlayers { get; [NPCA_Method]set; }
 
-        public int SelectedIndex { get; set; } = -1;
-
-        public object SelectedItem { get; [NPCA_Method]set; }
+        public HistoryPlayerInfo SelectedItem { get; [NPCA_Method]set; }
 
         [ConfigNode(XmlNodeType.Attribute)]
         public int ComboBoxSelectedIndex { get; [NPCA_Method]set; }
@@ -85,27 +83,27 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             BanPlayer100Year = new RelayCommand(() =>
             {
                 string result = _dialogService.ShowInputDialog("请输入封禁原因：", "你因违规被管理员封禁");
-                SdtdConsole.Instance.BanPlayerWithYear(HistoryPlayers[SelectedIndex].SteamID, 100, result);
+                SdtdConsole.Instance.BanPlayerWithYear(SelectedItem.SteamID, 100, result);
             }, CanExecuteCommand);
             RemoveLandclaims = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemovePlayerLandclaims(HistoryPlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.RemovePlayerLandclaims(SelectedItem.SteamID);
             }, CanExecuteCommand);
             AddSuperAdministrator = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.AddAdministrator(HistoryPlayers[SelectedIndex].SteamID, 0);
+                SdtdConsole.Instance.AddAdministrator(SelectedItem.SteamID, 0);
             }, CanExecuteCommand);
             RemoveAdministrator = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemoveAdministrator(HistoryPlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.RemoveAdministrator(SelectedItem.SteamID);
             }, CanExecuteCommand);
             RemovePlayerArchive = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemovePlayerArchive(HistoryPlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.RemovePlayerArchive(SelectedItem.SteamID);
             }, CanExecuteCommand);
             ViewPlayerInventory = new RelayCommand(() =>
             {
-                string steamID = HistoryPlayers[SelectedIndex].SteamID;
+                string steamID = SelectedItem.SteamID;
             }, CanExecuteCommand);
 
             RefreshList = new RelayCommand(PrivateRefreshList);
@@ -143,7 +141,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         private bool CanExecuteCommand()
         {
-            return SelectedIndex != -1;
+            return SelectedItem != null;
         }
     }
 }

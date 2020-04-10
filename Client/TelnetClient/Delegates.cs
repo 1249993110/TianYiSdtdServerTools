@@ -41,13 +41,9 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
     public delegate void ReceivedServerPartialStateEventHandler(ServerPartialState serverPartialState);
 
     /// <summary>
-    /// 玩家聊天信息钩子事件处理器
+    /// 捕获聊天信息事件处理器
     /// </summary>
-    /// <param name="playerInfo"></param>
-    /// <param name="message"></param>
-    /// <param name="chatType"></param>
-    /// <param name="senderType"></param>
-    public delegate void ChatHookEventHandler(PlayerInfo playerInfo, string message, ChatType chatType, SenderType senderType);
+    public delegate void ChatHookEventHandler(ChatInfo chatInfo);
 
     /// <summary>
     /// 玩家进入游戏事件处理器

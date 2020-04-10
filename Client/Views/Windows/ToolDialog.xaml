@@ -1,0 +1,46 @@
+﻿<Window x:Class="TianYiSdtdServerTools.Client.Views.Windows.ToolDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.Windows"
+        xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+        xmlns:controls="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
+        xmlns:converters="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Converters;assembly=IceCoffee.Wpf.CustomControlLibrary"
+        xmlns:tooldialog="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog"
+        xmlns:loaclConverters="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
+        mc:Ignorable="d"
+        Title="工具" Height="540" Width="750" Background="Black" MinHeight="420" MinWidth="510">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Resources;Component/Assets/Images/background.png" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <TabControl Name="tabControl" Background="#E0F0F0F0">
+            <TabItem Header="物品">
+                <tooldialog:ItemView/>
+            </TabItem>
+            <TabItem Header="方块">
+                <tooldialog:BlockView/>
+            </TabItem>
+            <TabItem Header="实体">
+                <tooldialog:EntityView/>
+            </TabItem>
+            <TabItem Header="颜色选择器">
+                <Grid>
+                    <Grid.Resources>
+                        <loaclConverters:HexColorConverter x:Key="HexColorConverter"/>
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0">
+                        <pu:ColorSelector x:Name="colorSelector" Width="742" Height="429" IsOpacityEnabled="False"/>
+                    </Border>
+                    <TextBox Grid.Row="1" TextAlignment="Center" 
+                             Text="{Binding Path=Hex,ElementName=colorSelector,Mode=OneWay,Converter={StaticResource HexColorConverter}}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

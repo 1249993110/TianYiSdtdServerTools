@@ -8,6 +8,7 @@
              xmlns:i="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors"
              xmlns:cmd="clr-namespace:IceCoffee.Wpf.MvvmFrame.Command;assembly=IceCoffee.Wpf.MvvmFrame"
              xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="10">
@@ -21,9 +22,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <iceCtrl:SerialDataGrid Grid.Row="0"
-                  ItemsSource="{Binding ScoreInfos, Mode=OneWay}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                  SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}">
+            <iceCtrl:SerialDataGrid Grid.Row="0" ItemsSource="{Binding ScoreInfos, Mode=OneWay}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="CellEditEnding" >
                         <cmd:EventToCommand Command="{Binding DataGridItemChanged}" PassEventArgsToCommand="True"
@@ -39,6 +38,7 @@
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="刷新列表" Command="{Binding RefreshList}"/>
+                        <Separator></Separator>
                         <MenuItem Header="删除数据" Command="{Binding RemoveItem}"/>
                         <Separator></Separator>
                         <MenuItem Header="重置签到天数" Command="{Binding ResetLastSignDate}"/>
@@ -47,11 +47,12 @@
                 </DataGrid.ContextMenu>
             </iceCtrl:SerialDataGrid>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <ComboBox Width="100" HorizontalContentAlignment="Center" SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}">
+                <Button Content="刷新列表" Command="{Binding RefreshList}"  Margin="5 0"></Button>
+                <ComboBox Width="100" HorizontalContentAlignment="Center" SelectedIndex="{Binding ComboBoxSelectedIndex, Mode=TwoWay}" Margin="5 0">
                     <ComboBoxItem Content="玩家昵称"></ComboBoxItem>
                     <ComboBoxItem Content="SteamID"></ComboBoxItem>
                 </ComboBox>
-                <TextBox Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="150" Margin="5 0 0 0">
+                <TextBox Text="{Binding SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="150">
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding SearchPlayer}" Key="Enter"/>
                     </TextBox.InputBindings>
@@ -71,6 +72,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="0 10" HorizontalAlignment="Center">
+                <ComboBox ItemsSource="{Binding AvailableVariables, Mode=OneTime}" Margin="0 0 0 10" Style="{StaticResource AvailableVariableComboBoxStyle}"/>
                 <iceCtrl:TextBoxWithLabel BoxText="{Binding SignCmd}" LeftText="每日签到命令"/>
                 <iceCtrl:TextBoxWithLabel BoxText="{Binding GainScore}" LeftText="签到获得积分"/>
                 <iceCtrl:TextBoxWithLabel BoxText="{Binding QueryScore}" LeftText="查询积分信息"/>

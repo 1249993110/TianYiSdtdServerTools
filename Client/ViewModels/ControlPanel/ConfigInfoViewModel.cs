@@ -6,16 +6,18 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using IceCoffee.Common.Xml;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
+using TianYiSdtdServerTools.Client.ViewModels.Managers;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
@@ -23,7 +25,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
     public class ConfigInfoViewModel : ViewModelBase
     {
         #region 字段
-        private PropertyObserver<FunctionSwitchModel> _functionSwitchModelObserver;
+        private List<PropertyObserver<FunctionPanelViewItemModel>> _functionPanelViewItemModelObservers;
         #endregion
 
         #region 属性
@@ -33,27 +35,27 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         public SdtdServerStateModel SdtdServerStates { get; set; } = new SdtdServerStateModel();
 
         [ConfigNode(XmlNodeType.Attribute)]
-        public int AutoReconnectMaxCount { get; [NPCA_Method]set; } = 10;
+        public int AutoReconnectMaxCount { get; set; } = 10;
 
         [ConfigNode(XmlNodeType.Attribute)]
-        public int AutoReconnectInterval { get; [NPCA_Method]set; } = 20;
+        public int AutoReconnectInterval { get; set; } = 20;
 
-        [ConfigNode(XmlNodeType.Element)]
-        public FunctionSwitchModel FunctionSwitchs { get; set; } = new FunctionSwitchModel();
+        public List<FunctionPanelViewItemModel> FunctionPanelItems { get; set; }
+        #endregion
+
         #region 命令
         public RelayCommand ConnectServer { get; private set; }
 
         public RelayCommand DisconnectServer { get; private set; }
         #endregion
 
-        #endregion
-
         #region 构造方法
-        public ConfigInfoViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService)
+        public ConfigInfoViewModel(IDispatcherService dispatcherService) : base(dispatcherService)
         {
-            SdtdConsole.Instance.ConnectionStateChanged += (connectionState) => { SdtdServerStates.ConnectionState = connectionState; };
             SdtdConsole.Instance.ReceivedServerPartialPref += (serverPartialPref) => { SdtdServerPrefs.ServerPartialPref = serverPartialPref; };
+            SdtdConsole.Instance.ConnectionStateChanged += (connectionState) => { SdtdServerStates.ConnectionState = connectionState; };            
             SdtdConsole.Instance.ReceivedServerPartialState += (serverPartialState) => { SdtdServerStates.ServerPartialState = serverPartialState; };
+            SdtdConsole.Instance.GameDateTimeChanged += (gameDateTime) => { SdtdServerStates.GameDateTime = gameDateTime; };
 
             base._dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
 
@@ -61,10 +63,10 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             {
                 if (SdtdServerPrefs.TelnetPort.HasValue)
                 {
-                    if(_functionSwitchModelObserver == null)
-                    {
-                        InitFunctionSwitchModelObserver();
+                    if(_functionPanelViewItemModelObservers == null)
+                    {                        
                         Messenger.Default.Send(CommonEnumMessage.InitControlPanelView);
+                        dispatcherService.InvokeAsync(InitFunctionSwitchModelObservers, DispatcherPriority.ApplicationIdle);
                     }                    
 
                     SdtdConsole.Instance.ConnectServer(
@@ -86,35 +88,53 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             SdtdConsole.Instance.Disconnect();
         }
 
-        private void InitFunctionSwitchModelObserver()
+        private void InitFunctionSwitchModelObservers()
         {
-            _functionSwitchModelObserver = new PropertyObserver<FunctionSwitchModel>(FunctionSwitchs);
+            _functionPanelViewItemModelObservers = new List<PropertyObserver<FunctionPanelViewItemModel>>();
 
-            foreach (var propertyInfo in FunctionSwitchs.GetType().GetProperties())
+            foreach (var item in FunctionPanelItems)
             {
-                string propertyName = propertyInfo.Name;
-
-                _functionSwitchModelObserver.RegisterHandler(propertyName, (propertySource) =>
-                {
-                    SendFunctionEnableChangedMessage(propertyName, propertySource);
-                });
+                _functionPanelViewItemModelObservers.Add(new PropertyObserver<FunctionPanelViewItemModel>(item).
+                    RegisterHandler(p => p.IsOpen, (propertySource) =>
+                    {
+                        SendFunctionEnableChangedMessage(propertySource.Tag, propertySource.IsOpen);
+                    }));
 
                 // 如果开关已经打开
-                if ((bool)propertyInfo.GetValue(FunctionSwitchs))
+                if (item.IsOpen)
                 {
-                    SendFunctionEnableChangedMessage(propertyName, FunctionSwitchs);
+                    SendFunctionEnableChangedMessage(item.Tag, true);
                 }
             }
-
         }
 
-        private void SendFunctionEnableChangedMessage(string propertyName, FunctionSwitchModel propertySource)
+        private void SendFunctionEnableChangedMessage(string functionTag, bool isOpen)
         {
             Messenger.Default.Send(new FunctionSwitchStateChangedMessage()
             {
-                FunctionTag = propertyName,
-                IsOpen = (bool)propertySource.GetType().GetProperty(propertyName).GetValue(propertySource)
+                FunctionTag = functionTag,
+                IsOpen = isOpen
             });
+        }
+
+        protected override void OnLoadConfig(XmlDocument contextDoc, XmlNode baseNode)
+        {
+            FunctionPanelItems = ViewItemManager.Instance.FunctionPanelItems;
+
+            baseNode = baseNode.GetSingleChildNode(contextDoc, nameof(FunctionPanelViewItemModel));
+            foreach (var item in FunctionPanelItems)
+            {
+                XmlHelper.LoadConfig(item, baseNode.GetSingleChildNode(contextDoc, item.Tag));
+            }
+        }
+
+        protected override void OnSaveConfig(XmlDocument contextDoc, XmlNode baseNode)
+        {
+            baseNode = baseNode.GetSingleChildNode(contextDoc, nameof(FunctionPanelViewItemModel));
+            foreach (var item in FunctionPanelItems)
+            {
+                XmlHelper.SaveConfig(item, contextDoc, baseNode.GetSingleChildNode(contextDoc, item.Tag));
+            }            
         }
         #endregion
     }

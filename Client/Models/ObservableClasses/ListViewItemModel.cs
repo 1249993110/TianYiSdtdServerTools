@@ -1,4 +1,5 @@
 ﻿using IceCoffee.Wpf.MvvmFrame;
+using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,8 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
 
         public string Tag { get; set; }
 
-        public Visibility Visibility
-        {
-            get { return _visibility; }
-            set { _visibility = value; RaisePropertyChanged(); }
-        }
-        private Visibility _visibility = Visibility.Visible;
+        public Visibility Visibility { get; [NPCA_Method]set; }
+
+        public bool IsEnabled { get; [NPCA_Method]set; } = true;
     }
 }

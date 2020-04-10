@@ -15,5 +15,5 @@ namespace TianYiSdtdServerTools.Client.Services.CatchException
         }
     }
 
-    public delegate void ExceptionCaughtEventHandler(object sender, ServiceException e);
+    public delegate void AsyncExceptionCaughtEventHandler(object sender, ServiceException e);
 }

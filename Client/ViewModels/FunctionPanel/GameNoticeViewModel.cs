@@ -2,10 +2,10 @@
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+using IceCoffee.Common.Xml;
 using System;
 using System.Timers;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
@@ -19,19 +19,19 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         /// 欢迎公告
         /// </summary>
         [ConfigNode(System.Xml.XmlNodeType.Attribute)]
-        public string WelcomeNotice { get; [NPCA_Method]set; }
+        public string WelcomeNotice { get; set; }
 
         /// <summary>
         /// 轮播公告
         /// </summary>
         [ConfigNode(System.Xml.XmlNodeType.Attribute)]
-        public string AlternateNotice { get; [NPCA_Method]set; }
+        public string AlternateNotice { get; set; }
 
         /// <summary>
         /// 轮播周期
         /// </summary>
         [ConfigNode(System.Xml.XmlNodeType.Attribute)]
-        public int AlternateInterval { get; [NPCA_Method]set; } = 300;
+        public int AlternateInterval { get; set; } = 300;
 
         public RelayCommand SendWelcomeNotice { get; private set; }
 
@@ -43,34 +43,23 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         {
             SendWelcomeNotice = new RelayCommand(()=>
             {
-                FormatAlternate(WelcomeNotice);
+                SdtdConsole.Instance.SendGlobalMessage(WelcomeNotice);
             });
 
             SendAlternateNotice = new RelayCommand(() =>
             {
-                FormatAlternate(AlternateNotice);
+                SdtdConsole.Instance.SendGlobalMessage(AlternateNotice);
             });
-        }
-
-        private static void FormatAlternate(string msg)
-        {            
-            foreach (var item in msg.Split(Environment.NewLine))
-            {
-                SdtdConsole.Instance.SendGlobalMessage(item);
-            }
         }
 
         private void OnPlayerEnterGame(Models.Players.PlayerInfo playerInfo)
         {
-            foreach (var item in WelcomeNotice.Split(Environment.NewLine))
-            {
-                SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, item);
-            }            
+            SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, WelcomeNotice);                      
         }
 
         private void OnTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            SendAlternateNotice.Execute(AlternateNotice);
+            SdtdConsole.Instance.SendGlobalMessage(AlternateNotice);
         }
 
         protected override void DisableFunction()
@@ -88,11 +77,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
                 _currentViewModelObserver = new PropertyObserver<GameNoticeViewModel>(this);
                 _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.AlternateInterval,
-                    (propertySource) =>
+                    (vm) =>
                     {
-                        if (propertySource.AlternateInterval > 0)
+                        if (AlternateInterval > 0)
                         {
-                            Timer.Interval = propertySource.AlternateInterval * 1000;
+                            Timer.Interval = AlternateInterval * 1000;
                         }
                     });
             }

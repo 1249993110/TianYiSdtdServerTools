@@ -12,6 +12,11 @@ namespace TianYiSdtdServerTools.Client.Services.CatchException
         /// 发射异常捕获信号
         /// </summary>
         /// <param name="e"></param>
-        void EmitExceptionCaughtSignal(object sender, ServiceException e);
+        void EmitAsyncExceptionCaughtSignal(object sender, ServiceException e);
+
+        /// <summary>
+        /// 是否自动处理异步服务层异常
+        /// </summary>
+        bool IsAutoHandleAsyncServiceException { get; set; }
     }
 }

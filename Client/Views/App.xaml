@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:converters="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Converters;assembly=IceCoffee.Wpf.CustomControlLibrary"
              StartupUri="Windows/MainWindow.xaml" ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
@@ -11,6 +12,6 @@
                 <ResourceDictionary Source="pack://application:,,,/Panuon.UI.Silver;component/Control.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Themes/Generic.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>        
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

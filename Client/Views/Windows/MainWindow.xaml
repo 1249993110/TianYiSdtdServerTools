@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TianYiSdtdServerTools.Client"
         xmlns:iceWind="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Windows;assembly=IceCoffee.Wpf.CustomControlLibrary"
         xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
         xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
@@ -11,6 +10,7 @@
         MinHeight="618" MinWidth="1000" Height="600" Width="1000" Style="{StaticResource FramelessWindowStyle}"
         Background="Black" WindowStartupLocation="CenterScreen" Title="天依七日杀服主工具" HeadHeight="80">
     <iceWind:FramelessWindow.Resources>
+        <SolidColorBrush x:Key="TopPanel.Background" Color="#AA000000"/>
         <SolidColorBrush x:Key="LeftPanel.Background" Color="#AA000000"/>
         <SolidColorBrush x:Key="RightPanel.Background" Color="#E0F0F0F0"/>
     </iceWind:FramelessWindow.Resources>
@@ -19,7 +19,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="/Resources;Component/Assets/Images/background.png" Stretch="UniformToFill"/>
         </Grid.Background>
-        <Border BorderBrush="White" Panel.ZIndex="0" BorderThickness="1" Opacity="0.5"/>
+        <Border BorderBrush="White" BorderThickness="1" Opacity="0.5"/>
         <!--<Image Source="/Resources;Component/Assets/Images/background2.png" Panel.ZIndex="2" IsHitTestVisible="False"  Stretch="Fill" Opacity="1"></Image>-->
 
         <!--内层边框-->
@@ -29,7 +29,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Background="#AA000000">
+            <Grid Grid.Row="0" Background="{StaticResource TopPanel.Background}">
                 <StackPanel Orientation="Horizontal">
                     <Image Height="80" Source="/Resources;Component/Assets/Images/logo.png"/>
                     <iceCtrl:ButtonGroupPanel Name="buttonGroup_top" Orientation="Horizontal">
@@ -39,7 +39,14 @@
                         <RadioButton Content="运行日志" Style="{StaticResource TopRadioButtonStyle}"/>
                     </iceCtrl:ButtonGroupPanel>
                     <!--<RadioButton Content="推广" Style="{StaticResource TopRadioButtonStyle}"/>-->
-                    <Button Content="..." Padding="1 0 1 6" FontSize="14" FontFamily="Consolas" Style="{StaticResource TopButtonStyle}" FontWeight="Bold"/>
+                    <Button Name="buttonMenu_more" Initialized="OnButtonMenu_more_Initialized"
+                            Content="..." Padding="1 0 1 6" FontSize="14" FontFamily="Consolas" Style="{StaticResource TopButtonStyle}" FontWeight="Bold">
+                        <Button.ContextMenu>
+                            <ContextMenu Name="contextMenu_more">
+                                <MenuItem Header="工具" Click="OnMenuItem_Tools_Click"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <iceCtrl:WindowButton Margin="0 0 10 0" ClickCloseButton="OnClickCloseButton">
@@ -58,14 +65,8 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <ListBox Name="leftListBox1" Grid.Column="0" Padding="1 20 0 0" Background="{StaticResource LeftPanel.Background}" SelectedIndex="0"
-                                 ItemsSource="{Binding ControlPanelItems}"
-                                 SelectionChanged="OnLeftListBox1SelectionChanged" Style="{StaticResource ListBoxNoneStyle}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
-                                    <Setter Property="Visibility" Value="{Binding Visibility}" />
-                                    <Setter Property="pu:TextBoxHelper.Icon" Value="{Binding Icon}" />
-                                </Style>
-                            </ListBox.ItemContainerStyle>
+                                 ItemsSource="{Binding ControlPanelItems}" ListBox.ItemContainerStyle="{StaticResource LeftListBoxItemStyle}"
+                                 SelectionChanged="OnLeftListBox1SelectionChanged" Style="{StaticResource VerticalListBoxStyle}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Foreground="#CBC6CB" FontFamily="宋体" FontSize="16" Text="{Binding Path=Header}"/>
@@ -85,14 +86,8 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <ListBox Name="leftListBox2" Grid.Column="0" Padding="1 20 0 0" Background="{StaticResource LeftPanel.Background}" SelectedIndex="0"
-                                 ItemsSource="{Binding FunctionPanelItems}"
-                                 SelectionChanged="OnLeftListBox2SelectionChanged" Style="{StaticResource ListBoxNoneStyle}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemStyle}">
-                                    <Setter Property="Visibility" Value="{Binding Visibility}" />
-                                    <Setter Property="pu:TextBoxHelper.Icon" Value="{Binding Icon}" />
-                                </Style>
-                            </ListBox.ItemContainerStyle>
+                                 ItemsSource="{Binding FunctionPanelItems}" ListBox.ItemContainerStyle="{StaticResource LeftListBoxItemStyle}"
+                                 SelectionChanged="OnLeftListBox2SelectionChanged" Style="{StaticResource VerticalListBoxStyle}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Foreground="#CBC6CB" FontFamily="宋体" FontSize="16" Text="{Binding Path=Header}"/>

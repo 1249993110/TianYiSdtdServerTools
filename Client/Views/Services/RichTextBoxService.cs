@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using TianYiSdtdServerTools.Client.Models.Chat;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel;
 
 namespace TianYiSdtdServerTools.Client.Views.Services

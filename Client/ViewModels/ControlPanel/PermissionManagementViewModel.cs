@@ -1,13 +1,13 @@
 ﻿using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
@@ -31,12 +31,12 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         /// <summary>
         /// 管理员列表当前选中索引
         /// </summary>
-        public int SelectedIndex1 { get; set; } = -1;
+        public Administrator SelectedItem1 { get; set; }
 
         /// <summary>
         /// 命令权限列表当前选中索引
         /// </summary>
-        public int SelectedIndex2 { get; set; } = -1;
+        public CommandLevel SelectedItem2 { get; set; }
 
 
         private bool _isVisible;
@@ -87,7 +87,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             
             RemoveAdministrator = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemoveAdministrator(Administrators[SelectedIndex1].SteamID);
+                SdtdConsole.Instance.RemoveAdministrator(SelectedItem1.SteamID);
                 PrivateRefreshList();
             }, CanRemoveAdministrator);
 
@@ -111,7 +111,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
             RemoveCommandLevel = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemoveCommandPermissionLevel(CommandLevels[SelectedIndex2].Command);
+                SdtdConsole.Instance.RemoveCommandPermissionLevel(SelectedItem2.Command);
                 PrivateRefreshList();
             }, CanRemoveCommandLevel);
 
@@ -132,12 +132,12 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         private bool CanRemoveAdministrator()
         {
-            return SelectedIndex1 != -1;
+            return SelectedItem1 != null;
         }
 
         private bool CanRemoveCommandLevel()
         {
-            return SelectedIndex2 != -1;
+            return SelectedItem2 != null;
         }
 
         private void OnReceivedTempListData(object twoDimensionalList, TempListDataType tempListDataType)

@@ -7,11 +7,11 @@ using System.Xml;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+using IceCoffee.Common.Xml;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
@@ -19,16 +19,24 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 {
     public class OnlinePlayerViewModel : ViewModelBase
     {
-        private IDialogService _dialogService;
-
-        private PropertyObserver<OnlinePlayerViewModel> _currentViewModelObserver;
+        private readonly IDialogService _dialogService;
 
         public List<PlayerInfo> OnlinePlayers { get; [NPCA_Method]set; }
 
-        [ConfigNode(XmlNodeType.Attribute)]
-        public bool AutoRefresh { get; [NPCA_Method]set; }
+        private bool _autoRefresh;
 
-        public int SelectedIndex { get; set; } = -1;
+        [ConfigNode(XmlNodeType.Attribute)]
+        public bool AutoRefresh
+        {
+            get { return _autoRefresh; }
+            set
+            {
+                _autoRefresh = value;
+                ConnectAutoRefresh();
+            }
+        }
+
+        public PlayerInfo SelectedItem { get; set; }
         #region 命令
         public RelayCommand TelePlayer { get; private set; }
 
@@ -59,56 +67,46 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             TelePlayer = new RelayCommand(() =>
             {
                 string result = _dialogService.ShowInputDialog("请输入目标：");
-                SdtdConsole.Instance.TelePlayer(OnlinePlayers[SelectedIndex].SteamID, result);
+                SdtdConsole.Instance.TelePlayer(SelectedItem.SteamID, result);
             }, CanExecuteCommand);
             KickPlayer = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.KickPlayer(OnlinePlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.KickPlayer(SelectedItem.SteamID);
             }, CanExecuteCommand);
             KillPlayer = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.KillPlayer(OnlinePlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.KillPlayer(SelectedItem.SteamID);
             }, CanExecuteCommand);
             BanPlayer100Year = new RelayCommand(() =>
             {
                 string result = _dialogService.ShowInputDialog("请输入封禁原因：", "你因违规被管理员封禁");
-                SdtdConsole.Instance.BanPlayerWithYear(OnlinePlayers[SelectedIndex].SteamID, 100, result);
+                SdtdConsole.Instance.BanPlayerWithYear(SelectedItem.SteamID, 100, result);
             }, CanExecuteCommand);
             RemoveLandclaims = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemovePlayerLandclaims(OnlinePlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.RemovePlayerLandclaims(SelectedItem.SteamID);
             }, CanExecuteCommand);
             AddSuperAdministrator = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.AddAdministrator(OnlinePlayers[SelectedIndex].SteamID, 0);
+                SdtdConsole.Instance.AddAdministrator(SelectedItem.SteamID, 0);
             }, CanExecuteCommand);
             RemoveAdministrator = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemoveAdministrator(OnlinePlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.RemoveAdministrator(SelectedItem.SteamID);
             }, CanExecuteCommand);
             RemovePlayerArchive = new RelayCommand(() =>
             {
-                SdtdConsole.Instance.RemovePlayerArchive(OnlinePlayers[SelectedIndex].SteamID);
+                SdtdConsole.Instance.RemovePlayerArchive(SelectedItem.SteamID);
             }, CanExecuteCommand);
             ViewPlayerInventory = new RelayCommand(() =>
             {
-                string steamID = OnlinePlayers[SelectedIndex].SteamID;
+                string steamID = SelectedItem.SteamID;
             }, CanExecuteCommand);
-        }
-
-        protected override void OnPrepareLoadConfig()
-        {
-            _currentViewModelObserver = new PropertyObserver<OnlinePlayerViewModel>(this);
-            _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.AutoRefresh,
-                (propertySource) =>
-                {
-                    ConnectAutoRefresh();
-                });
         }
 
         private bool CanExecuteCommand()
         {
-            return SelectedIndex != -1;
+            return SelectedItem != null;
         }
 
         private void OnReceivedOnlinePlayerInfo(List<PlayerInfo> players)
@@ -123,7 +121,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         /// <param name="autoRefresh"></param>
         private void ConnectAutoRefresh()
         {
-            if (this.AutoRefresh)
+            if (this._autoRefresh)
             {
                 SdtdConsole.Instance.ReceivedOnlinePlayerInfo -= OnReceivedOnlinePlayerInfo;
                 SdtdConsole.Instance.ReceivedOnlinePlayerInfo += OnReceivedOnlinePlayerInfo;

@@ -5,9 +5,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using IceCoffee.Common.Xml;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 
 namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
@@ -15,7 +16,6 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
     /// <summary>
     /// 服务器首选项
     /// </summary>
-    [NPCA_Class]
     public class SdtdServerPrefModel : ObservableObject
     {
         /// <summary>
@@ -45,7 +45,7 @@ namespace TianYiSdtdServerTools.Client.Models.ObservableClasses
         /// <summary>
         /// 服务器部分首选项 Preference
         /// </summary>
-        public ServerPartialPref ServerPartialPref { get; set; } = new ServerPartialPref();
+        public ServerPartialPref ServerPartialPref { get; [NPCA_Method]set; } = new ServerPartialPref();
 
     }
 }

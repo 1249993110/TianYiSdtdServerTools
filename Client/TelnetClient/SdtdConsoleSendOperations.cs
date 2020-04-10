@@ -30,13 +30,21 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
             }                     
         }
 
+        #region 发送信息
+
         /// <summary>
         /// 发送公屏信息 Global
         /// </summary>
         /// <param name="msg"></param>
         public void SendGlobalMessage(string msg)
         {
-            SendCmd(string.Format("say \"{0}\"", msg));
+            foreach (var item in msg.Split(Environment.NewLine))
+            {
+                if (string.IsNullOrEmpty(item) == false)
+                {
+                    SendCmd(string.Format("say \"{0}\"", item));
+                }
+            }
         }
         
         /// <summary>
@@ -46,7 +54,13 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <param name="msg"></param>
         public void SendMessageToPlayer(string steamID, string msg)
         {
-            SendCmd(string.Format("pm {0} \"{1}\"", steamID, msg));
+            foreach (var item in msg.Split(Environment.NewLine))
+            {
+                if(string.IsNullOrEmpty(item) == false)
+                {
+                    SendCmd(string.Format("pm {0} \"{1}\"", steamID, item));
+                }                
+            }                
         }
 
         /// <summary>
@@ -56,10 +70,15 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <param name="msg"></param>
         public void SendMessageToPlayer(int entityID, string msg)
         {
-            SendCmd(string.Format("pm {0} \"{1}\"", entityID.ToString(), msg));
+            foreach (var item in msg.Split(Environment.NewLine))
+            {
+                if (string.IsNullOrEmpty(item) == false)
+                {
+                    SendCmd(string.Format("pm {0} \"{1}\"", entityID.ToString(), item));
+                }
+            }
         }
-
-        #region 传送玩家
+        #endregion
 
         /// <summary>
         /// 传送玩家
@@ -78,7 +97,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <param name="reason"></param>
         public void KickPlayer(string steamID, string reason = "")
         {
-            SendCmd(string.Format("kick {0} {1}", steamID, reason));
+            SendCmd(string.Format("kick {0} \"{1}\"", steamID, reason));
         }
 
         /// <summary>
@@ -98,7 +117,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <param name="reason"></param>
         public void BanPlayerWithYear(string steamID, int year,string reason = "")
         {
-            SendCmd(string.Format("ban add {0} {1} year {2}", steamID, year, reason));
+            SendCmd(string.Format("ban add {0} {1} year \"{2}\"", steamID, year, reason));
         }
 
         /// <summary>
@@ -157,6 +176,6 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         {
             SendCmd(string.Format("cp remove {0}", cmd));
         }
-        #endregion
+        
     }
 }

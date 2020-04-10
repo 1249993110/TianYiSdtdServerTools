@@ -1,7 +1,7 @@
 ﻿using IceCoffee.Common.LogManager;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+using IceCoffee.Common.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using TianYiSdtdServerTools.Client.Models.Chat;
 using TianYiSdtdServerTools.Client.Models.Players;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
@@ -71,9 +71,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
                 new RichText(msg, "#00FA9A"));
         }
 
-        private void ChatHook(PlayerInfo playerInfo, string message, ChatType chatType, SenderType senderType)
+        private void ChatHook(ChatInfo chatInfo)
         {
-            if(senderType == SenderType.Server && FilteSystemMessage)
+            if(chatInfo.senderType == SenderType.Server && FilteSystemMessage)
             {
                 return;
             }
@@ -81,22 +81,22 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             RichText richText1 = new RichText(DateTime.Now.ToString());
             RichText richText2 = new RichText();
             RichText richText3 = new RichText();
-            switch (senderType)
+            switch (chatInfo.senderType)
             {
                 case SenderType.Server:
                     richText2.content = " 'Server': ";
                     richText2.color = "#FF0000";
                     break;
                 case SenderType.Player:
-                    richText2.content = string.Format(" '{0}': ", playerInfo.PlayerName);
+                    richText2.content = string.Format(" '{0}': ", chatInfo.playerInfo.PlayerName);
                     richText2.color = "#FFD700";
                     break;
             }
-            richText3.content = message;
+            richText3.content = chatInfo.message;
 
             _chatMessageViewService.AppendBlock(richText1, richText2, richText3);
 
-            SaveChatMessage(richText2.content, message, playerInfo?.SteamID);
+            SaveChatMessage(richText2.content, chatInfo.message, chatInfo.playerInfo?.SteamID);
         }
 
         /// <summary>

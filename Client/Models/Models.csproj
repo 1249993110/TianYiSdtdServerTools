@@ -49,21 +49,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat\ChatInfo.cs" />
     <Compile Include="Chat\ChatType.cs" />
     <Compile Include="Chat\RichText.cs" />
     <Compile Include="Chat\SenderType.cs" />
+    <Compile Include="ObservableClasses\ColoredImageData.cs" />
     <Compile Include="ConsoleTempList\Administrator.cs" />
     <Compile Include="ConsoleTempList\CommandLevel.cs" />
     <Compile Include="ConsoleTempList\TempListDataType.cs" />
+    <Compile Include="Dtos\CityPositionDto.cs" />
+    <Compile Include="Dtos\GoodsDto.cs" />
+    <Compile Include="Dtos\HomePositionDto.cs" />
+    <Compile Include="Dtos\LotteryDto.cs" />
     <Compile Include="Dtos\Primitives\MyDtoBase.cs" />
     <Compile Include="Dtos\ScoreInfoDto.cs" />
+    <Compile Include="Dtos\TeleRecordDto.cs" />
+    <Compile Include="Entitys\CityPosition.cs" />
+    <Compile Include="Entitys\Goods.cs" />
+    <Compile Include="Entitys\HomePosition.cs" />
+    <Compile Include="Entitys\Lottery.cs" />
     <Compile Include="Entitys\Primitives\IMyEntityBase.cs" />
     <Compile Include="Entitys\Primitives\MyEntityBase.cs" />
     <Compile Include="Entitys\ScoreInfo.cs" />
+    <Compile Include="Entitys\TeleRecord.cs" />
     <Compile Include="EventArgs\DataGridItemChangedEventArgs.cs" />
     <Compile Include="MvvmMessages\CommonEnumMessage.cs" />
     <Compile Include="MvvmMessages\FunctionSwitchStateChangedMessage.cs" />
-    <Compile Include="ObservableClasses\FunctionSwitchModel.cs" />
+    <Compile Include="ObservableClasses\FunctionPanelViewItemModel.cs" />
     <Compile Include="ObservableClasses\ListViewItemModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerPrefModel.cs" />
     <Compile Include="ObservableClasses\SdtdServerStateModel.cs" />

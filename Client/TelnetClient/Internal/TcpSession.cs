@@ -615,51 +615,51 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         private void HandleChatMessage()
         {
+            ChatInfo chatInfo = new ChatInfo();
+
             int outEnd = 0;
             string steamID = _line.GetMidStr("(from '", "'", out outEnd, _startIndexINF);// SteamID
 
             string chatTypeStr = _line.GetMidStr("to '", "'", out outEnd, outEnd);// 聊天类型
 
-            string message = _line.GetMidStr("': ", Environment.NewLine, outEnd);// 聊天信息                                                                                    
+            chatInfo.message = _line.GetMidStr("': ", Environment.NewLine, outEnd);// 聊天信息                                                                                    
 
-            ChatType chatType = ChatType.Global;
             if (chatTypeStr == "Global")
             {
-                chatType = ChatType.Global; // 公屏
+                chatInfo.chatType = ChatType.Global; // 公屏
             }
             else if (chatTypeStr == "Friends")
             {
-                chatType = ChatType.Friends;// 好友
+                chatInfo.chatType = ChatType.Friends;// 好友
             }
             else if (chatTypeStr == "Party")
             {
-                chatType = ChatType.Party;  // 队伍
+                chatInfo.chatType = ChatType.Party;  // 队伍
             }
             else if (chatTypeStr == "Whisper")
             {
-                chatType = ChatType.Whisper;// 私聊
+                chatInfo.chatType = ChatType.Whisper;// 私聊
             }
-
-            PlayerInfo playerInfo = null;
-
-            SenderType senderType = SenderType.Player;
+            
             if (steamID == "-non-player-")// 如果消息来源系统
             {
-                senderType = SenderType.Server;
+                chatInfo.senderType = SenderType.Server;
             }
             else
             {
+                chatInfo.senderType = SenderType.Player;
+
                 if (_onlinePlayers.ContainsKey(steamID) == false)// 如果在线列表中不存在该玩家
                 {
                     Log.Warn("无法处理此玩家的聊天信息 steamID: " + steamID + " 原因: 在线列表中不存在该玩家");
                 }
                 else
                 {
-                    playerInfo = _onlinePlayers[steamID];
+                    chatInfo.playerInfo = _onlinePlayers[steamID];
                 }
-            }            
-            
-            SdtdConsole.Instance.RaiseChatHookEvent(playerInfo, message, chatType, senderType);
+            }
+
+            SdtdConsole.Instance.RaiseChatHookEvent(chatInfo);
         }
 
         /// <summary>

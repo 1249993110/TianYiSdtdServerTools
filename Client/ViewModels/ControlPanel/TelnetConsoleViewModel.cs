@@ -1,7 +1,7 @@
 ﻿using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
-using IceCoffee.Wpf.MvvmFrame.Utils;
+using IceCoffee.Common.Xml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
@@ -17,14 +17,22 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 {
     public class TelnetConsoleViewModel : ViewModelBase
     {
-        private PropertyObserver<TelnetConsoleViewModel> _currentViewModelObserver;
-
         private const int maxRecordCommandCount = 10;
 
         private readonly StringBuilder _telnetDataStringBuilder = new StringBuilder();
 
+        private bool _autoRefresh;
+
         [ConfigNode(XmlNodeType.Attribute)]
-        public bool AutoRefresh { get; [NPCA_Method]set; }
+        public bool AutoRefresh
+        {
+            get { return _autoRefresh; }
+            set
+            {
+                _autoRefresh = value;
+                ConnectAutoRefresh();
+            }
+        }
 
         public ObservableCollection<string> RecentCommands { get; set; } = new ObservableCollection<string>() { "help" };
 
@@ -61,16 +69,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             //});
         }
 
-        protected override void OnPrepareLoadConfig()
-        {
-            _currentViewModelObserver = new PropertyObserver<TelnetConsoleViewModel>(this);
-            _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.AutoRefresh,
-                (propertySource) =>
-                {
-                    ConnectAutoRefresh();
-                });
-        }
-
         private void OnReceiveLine(string line)
         {
             if(_telnetDataStringBuilder.Length > 40960)
@@ -88,7 +86,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         /// </summary>
         private void ConnectAutoRefresh()
         {
-            if (this.AutoRefresh)
+            if (this._autoRefresh)
             {
                 SdtdConsole.Instance.ReceiveLine -= OnReceiveLine;
                 SdtdConsole.Instance.ReceiveLine += OnReceiveLine;

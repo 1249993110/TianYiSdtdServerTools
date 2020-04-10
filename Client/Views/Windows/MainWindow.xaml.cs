@@ -1,28 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using TianYiSdtdServerTools.Client.ViewModels.MainWindow;
-using System.Collections.ObjectModel;
+using TianYiSdtdServerTools.Client.ViewModels.Windows;
 using TianYiSdtdServerTools.Client.Models.ObservableClasses;
 using Panuon.UI.Silver;
 using Autofac;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.Views.Services;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
-using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -77,7 +65,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
                 Content = view
             });
 
-            // 再次发送一条通知消息
+            // 再次发送一条通知消息，因为在此之前ViewModel没有收到开关状态改变消息
             Messenger.Default.Send(message, view.DataContext.GetType());
         }
 
@@ -158,6 +146,30 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
 
             tabControl.Items.Add(tabItem);
             tabControl.SelectedItem = tabItem;
+        }
+
+        private void OnButtonMenu_more_Initialized(object sender, EventArgs e)
+        {
+            // 设置右键菜单为null
+            this.buttonMenu_more.ContextMenu = null;
+
+            this.buttonMenu_more.Click += OnButtonMenu_Click;
+        }
+
+        private void OnButtonMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // 目标
+            this.contextMenu_more.PlacementTarget = this.buttonMenu_more;
+            // 位置
+            //this.contextMenu_more.Placement = PlacementMode.Bottom;
+            // 显示菜单
+            this.contextMenu_more.IsOpen = true;
+        }
+
+        private void OnMenuItem_Tools_Click(object sender, RoutedEventArgs e)
+        {
+            ToolDialog toolDialog = new ToolDialog();
+            toolDialog.Show();
         }
     }
 

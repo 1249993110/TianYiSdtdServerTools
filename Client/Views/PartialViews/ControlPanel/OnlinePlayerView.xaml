@@ -25,7 +25,7 @@
             </ScrollViewer.Style>
             <iceCtrl:SerialDataGrid
                   ItemsSource="{Binding OnlinePlayers, Mode=OneWay}" CanUserAddRows="False"
-                  SelectedIndex="{Binding SelectedIndex, Mode=OneWayToSource}">
+                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn MinWidth="64" Header="序号" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>

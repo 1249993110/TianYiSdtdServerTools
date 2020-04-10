@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using IceCoffee.Common.AntiDebug;
 using IceCoffee.Common;
+using System.Configuration;
+using System.IO;
 
 namespace TianYiSdtdServerTools.Client.Views
 {
@@ -27,12 +29,30 @@ namespace TianYiSdtdServerTools.Client.Views
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
 #endif
-
-            Client.Services.Database.Initialize();
+            InitConfig();
 
             App app = new App();
             app.InitializeComponent();            
             app.Run();
+        }
+
+
+        /// <summary>
+        /// 初始化配置
+        /// </summary>
+        private static void InitConfig()
+        {
+            foreach (string directory in ConfigurationManager.AppSettings.Keys)
+            {
+                if (directory.EndsWith("Directory"))
+                {
+                    if (Directory.Exists(directory) == false)
+                    {
+                        Directory.CreateDirectory(ConfigurationManager.AppSettings[directory]);
+                    }
+                }
+            }
+            Client.Services.Database.Initialize();
         }
     }
 }

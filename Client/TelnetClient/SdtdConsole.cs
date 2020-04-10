@@ -89,7 +89,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         public event ReceivedServerPartialStateEventHandler ReceivedServerPartialState;
 
         /// <summary>
-        /// 玩家聊天信息钩子
+        /// 捕获聊天信息
         /// </summary>
         public event ChatHookEventHandler ChatHook;
 
@@ -270,11 +270,11 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         }
 
         /// <summary>
-        /// 引发玩家聊天信息钩子事件
+        /// 引发玩家捕获聊天信息事件
         /// </summary>
-        internal void RaiseChatHookEvent(PlayerInfo playerInfo, string message, ChatType chatType, SenderType senderType)
+        internal void RaiseChatHookEvent(ChatInfo chatInfo)
         {
-            ChatHook?.Invoke(playerInfo, message, chatType, senderType);
+            ChatHook?.Invoke(chatInfo);
         }
 
         /// <summary>

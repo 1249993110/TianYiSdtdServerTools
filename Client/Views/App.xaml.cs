@@ -5,8 +5,10 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using TianYiSdtdServerTools.Client.Services.UI;
 
 namespace TianYiSdtdServerTools.Client.Views
 {
@@ -23,47 +25,33 @@ namespace TianYiSdtdServerTools.Client.Views
             //Task线程内未处理异常处理事件
             TaskScheduler.UnobservedTaskException += OnTaskScheduler_UnobservedTaskException;
 
-            //当前应用程序域未处理异常处理事件
-            AppDomain.CurrentDomain.UnhandledException += OnCurrentDomain_UnhandledException;
-
-            InitConfig();
+            //当前应用程序域未处理异常处理事件，非UI线程未捕获异常处理事件(例如自己创建的一个子线程)
+            AppDomain.CurrentDomain.UnhandledException += OnCurrentDomain_UnhandledException;            
 
             base.OnStartup(e);
         }
 
         #region 捕获未处理异常
-        private void OnTaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
-        {
-            Log.Error("Task线程内未处理异常", e.Exception);
-        }
 
         private void OnApp_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Log.Error("当前应用程序域未处理异常", e.Exception);
+            Log.Fatal("UI线程未处理异常", e.Exception);
+            e.Handled = true;
+            Autofac.Resolve<IDialogService>().ShowInformation(e.Exception.Message + Environment.NewLine + "详情请查看日志文件：logs\\current\\Fatal.txt");
+        }
+
+        private void OnTaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            Log.Fatal("Task线程内未处理异常", e.Exception.InnerException);
+            e.SetObserved();
         }
 
         private void OnCurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Log.Error("UI线程未处理异常", (Exception)e.ExceptionObject);
+            Log.Fatal("当前应用程序域未处理异常", (Exception)e.ExceptionObject);
         }
         #endregion
 
-        /// <summary>
-        /// 初始化配置
-        /// </summary>
-        private static void InitConfig()
-        {
-            foreach (string directory in ConfigurationManager.AppSettings.Keys)
-            {
-                if (directory.EndsWith("Directory"))
-                {
-                    if (Directory.Exists(directory) == false)
-                    {
-                        Directory.CreateDirectory(ConfigurationManager.AppSettings[directory]);
-                    }
-                }
-            }
-        }
     }
     
 }

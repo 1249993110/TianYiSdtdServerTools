@@ -112,8 +112,8 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Panuon.UI.Silver, Version=1.0.9.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Panuon.UI.Silver.1.0.9.8\lib\net45\Panuon.UI.Silver.dll</HintPath>
+    <Reference Include="Panuon.UI.Silver, Version=1.0.9.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Panuon.UI.Silver.1.0.9.9\lib\net45\Panuon.UI.Silver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -137,6 +137,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\HexColorConverter.cs" />
+    <Compile Include="PartialViews\ToolDialog\BlockView.cs" />
+    <Compile Include="PartialViews\ToolDialog\EntityView.xaml.cs">
+      <DependentUpon>EntityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PartialViews\ToolDialog\ItemView.xaml.cs">
+      <DependentUpon>ItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ToolDialog.xaml.cs">
+      <DependentUpon>ToolDialog.xaml</DependentUpon>
+    </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -169,7 +180,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PartialViews\FunctionPanel\GameStoreView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PartialViews\FunctionPanel\LotterySystemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PartialViews\FunctionPanel\ScoreSystemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PartialViews\FunctionPanel\TeleportCityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PartialViews\FunctionPanel\TeleportHomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PartialViews\ToolDialog\EntityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PartialViews\ToolDialog\ItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,8 +227,7 @@
     <Compile Include="Autofac.cs" />
     <Compile Include="Converters\BoolConvert2.cs" />
     <Compile Include="Converters\DataGridEventArgsConverter.cs" />
-    <Compile Include="Converters\MinuteToStrConvert.cs" />
-    <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="Converters\MinuteToStrConverter.cs" />
     <Compile Include="PartialViews\FunctionPanel\GameNoticeView.xaml.cs">
       <DependentUpon>GameNoticeView.xaml</DependentUpon>
     </Compile>
@@ -211,8 +249,20 @@
     <Compile Include="PartialViews\ControlPanel\TelnetConsoleView.xaml.cs">
       <DependentUpon>TelnetConsoleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PartialViews\FunctionPanel\GameStoreView.xaml.cs">
+      <DependentUpon>GameStoreView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PartialViews\FunctionPanel\LotterySystemView.xaml.cs">
+      <DependentUpon>LotterySystemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PartialViews\FunctionPanel\ScoreSystemView.xaml.cs">
       <DependentUpon>ScoreSystemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PartialViews\FunctionPanel\TeleportCityView.xaml.cs">
+      <DependentUpon>TeleportCityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PartialViews\FunctionPanel\TeleportHomeView.xaml.cs">
+      <DependentUpon>TeleportHomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -224,7 +274,7 @@
     <Compile Include="Services\RichTextBoxService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Converters\BoolConvert1.cs" />
-    <Compile Include="Converters\ConnectStateConvert.cs" />
+    <Compile Include="Converters\ConnectStateConverter.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -238,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ToolDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -265,7 +319,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
@@ -313,6 +369,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

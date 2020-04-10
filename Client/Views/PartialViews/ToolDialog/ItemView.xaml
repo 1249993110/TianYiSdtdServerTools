@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog.ItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog"
+             xmlns:controls="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding SearchText,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 0 0"/>
+            <Button Grid.Column="1" Content="搜索" Command="{Binding Search}" Margin="10 0"/>
+        </Grid>
+        <ListBox x:Name="listBox" Grid.Row="1" ItemsSource="{Binding ColoredImageDatas}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 Style="{StaticResource VerticalListBoxStyle}"
+                 ListBox.ItemContainerStyle="{StaticResource IconListBoxItemStyle}"
+                 ItemTemplate="{StaticResource IconListBoxDataTemplate}"
+                 ItemsPanel="{StaticResource IconListBoxItemsPanelTemplate}"
+                 SelectedItem="{Binding SelectedItem,Mode=OneWayToSource}">
+        </ListBox>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock FontSize="14" Text="英文名称" VerticalAlignment="Center" Margin="10 0"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="4 0"
+                     MinWidth="150" Text="{Binding SelectedItem.English}"/>
+
+            <TextBlock FontSize="14" Text="中文名称" VerticalAlignment="Center" Margin="10 0"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="4 0"
+                     MinWidth="150" Text="{Binding SelectedItem.Chinese,Mode=OneWay}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

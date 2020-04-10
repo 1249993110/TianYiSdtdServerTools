@@ -49,16 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CatchException\CatchExceptionAttribute.cs" />
+    <Compile Include="CatchException\CatchAsyncExceptionAttribute.cs" />
+    <Compile Include="CatchException\CatchSyncExceptionAttribute.cs" />
     <Compile Include="CatchException\ServiceException.cs" />
     <Compile Include="CatchException\IExceptionCaughtSignal.cs" />
+    <Compile Include="CityPositionService.cs" />
+    <Compile Include="GoodsService.cs" />
+    <Compile Include="HomePositionService.cs" />
+    <Compile Include="LotteryService.cs" />
     <Compile Include="Primitives\MyServiceBase.cs" />
-    <Compile Include="Primitives\UI\IDialogService.cs" />
-    <Compile Include="Primitives\UI\IDispatcherService.cs" />
-    <Compile Include="Primitives\UI\IRichTextBoxService.cs" />
+    <Compile Include="UI\DispatcherPriority.cs" />
+    <Compile Include="UI\IDialogService.cs" />
+    <Compile Include="UI\IDispatcherService.cs" />
+    <Compile Include="UI\IRichTextBoxService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScoreService.cs" />
+    <Compile Include="ScoreInfoService.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="TeleRecordService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
@@ -68,10 +75,6 @@
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore.csproj">
       <Project>{a39dff8a-410a-496d-a7d4-30cde3f4670e}</Project>
       <Name>IceCoffee.DbCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
-      <Project>{CE167778-381D-487F-845A-D96258015E17}</Project>
-      <Name>IceCoffee.Wpf.MvvmFrame</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{AFF037C5-D34F-41CE-ACBF-209D93436159}</Project>

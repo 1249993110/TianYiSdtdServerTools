@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using System.Windows.Controls;
-using TianYiSdtdServerTools.Client.Services.Primitives.UI;
+using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.ViewModels.ControlPanel;
 using TianYiSdtdServerTools.Client.Views.Services;
 
