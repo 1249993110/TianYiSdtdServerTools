@@ -1,5 +1,6 @@
 ﻿using IceCoffee.Common.LogManager;
 using IceCoffee.Common.Xml;
+using IceCoffee.DbCore.CatchServiceException;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
@@ -94,7 +95,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除选中数据吗？"))
                 {
-                    _ = _goodsService.RemoveDataAsync(SelectedItem);
+                    _ = _goodsService.RemoveAsync(SelectedItem);
                     GoodsItems.Remove(SelectedItem);
                 }
             }, () => { return SelectedItem != null; });
@@ -103,7 +104,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除所有数据吗？"))
                 {
-                    _ = _goodsService.RemoveAllDataAsync();
+                    _ = _goodsService.RemoveAllAsync();
                     GoodsItems = null;
                 }
             }, () => { return GoodsItems != null; });
@@ -131,7 +132,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     Price = Price,
                     GoodsType = GoodsType
                 };
-                _ = _goodsService.InsertDataAsync(dto);
+                _ = _goodsService.InsertAsync(dto);
                 GoodsItems.Add(dto);
             });
 
@@ -156,19 +157,19 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                 }
                 else
                 {
-                    _ = _goodsService.UpdateDataByKeyAsync(newItem);
+                    _ = _goodsService.UpdateAsync(newItem);
                 }
             }
         }
 
-        private void OnAsyncExceptionCaught(object sender, Services.CatchException.ServiceException e)
+        private void OnAsyncExceptionCaught(object sender, ServiceException e)
         {
             ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()
         {
-            var result = await _goodsService.GetAllDataAsync(true, new string[] { nameof(Price) });
+            var result = await _goodsService.GetAllAsync("Price ASC");
 
             GoodsItems = result == null ? null : new ObservableCollection<GoodsDto>(result);
         }
@@ -214,7 +215,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         {
             if (message == QueryListCmd)
             {
-                List<GoodsDto> dtos = _goodsService.GetAllData(true, new string[] { nameof(Price) });
+                List<GoodsDto> dtos = _goodsService.GetAll("Price ASC");
 
                 if (dtos.Count == 0)
                 {

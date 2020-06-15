@@ -3,9 +3,11 @@
                     xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
                     xmlns:controls="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
                     xmlns:converters="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Converters;assembly=IceCoffee.Wpf.CustomControlLibrary">
+    
     <converters:UriToBitmapConverter x:Key="UriToBitmapConverter"/>
     <converters:VisibilityConverter x:Key="VisibilityConverter"/>
-
+    <converters:HexToBrushConverter x:Key="HexToBrushConverter"/>
+    
     <Style x:Key="VerticalListBoxStyle" TargetType="{x:Type ListBox}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -86,7 +88,7 @@
         <Setter Property="Padding" Value="10"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="Visibility" Value="{Binding Visibility,Converter={StaticResource VisibilityConverter}}"/>
+        <Setter Property="Visibility" Value="{Binding Visible,Converter={StaticResource VisibilityConverter}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -114,11 +116,27 @@
             </Grid.RowDefinitions>
             <controls:ColoredImage Grid.Row="0" ToolTip="{Binding ToolTip,Mode=OneTime}" HexColor="{Binding HexColor,Mode=OneTime}" 
                                                            Source="{Binding Source,Mode=OneTime,Converter={StaticResource UriToBitmapConverter}}" />
-            <pu:PUTextBlock Grid.Row="1" Width="100" Text="{Binding Chinese}" AutoAdaptation="True" TextAlignment="Center"/>
+            <pu:TextBlockX Grid.Row="1" Width="100" Text="{Binding Chinese}" TextAdaption="ClipToBounds" TextBlock.TextAlignment="Center"/>
         </Grid>
         <!--MatchText="{Binding MatchText}"-->
     </DataTemplate>
 
+    <DataTemplate x:Key="InventoryListBoxDataTemplate">
+        <Grid Width="100" Height="100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <controls:ColoredImage Grid.Row="0" ToolTip="{Binding ToolTip,Mode=OneTime}" HexColor="{Binding HexColor,Mode=OneTime}" 
+                                                           Source="{Binding Source,Mode=OneTime,Converter={StaticResource UriToBitmapConverter}}" />
+            <Label IsHitTestVisible="False" Panel.ZIndex="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#FFA500" FontSize="20" FontWeight="Bold"
+                    Content="{Binding Count,Mode=OneTime}"/>
+            <Label IsHitTestVisible="False" Panel.ZIndex="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 1" Height="10" Width="80"
+                   Background="{Binding QualityColor,Converter={StaticResource HexToBrushConverter}}"/>
+            <pu:TextBlockX Grid.Row="1" Width="100" Text="{Binding Chinese}" TextAdaption="ClipToBounds" TextBlock.TextAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+    
     <ItemsPanelTemplate x:Key="IconListBoxItemsPanelTemplate">
         <WrapPanel Orientation="Horizontal"/>
     </ItemsPanelTemplate>    

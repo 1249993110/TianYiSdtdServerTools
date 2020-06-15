@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using TianYiSdtdServerTools.Client.Models;
-using TianYiSdtdServerTools.Client.Models.ObservableClasses;
+using TianYiSdtdServerTools.Client.Models.ObservableObjects;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.ViewModels.Managers;
 
@@ -39,7 +39,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
         public string SearchText { get; [NPCA_Method]set; }
 
         public RelayCommand Search { get; private set; }
-
+        
         public ItemViewModel(IDispatcherService dispatcherService, IDialogService dialogService)
         {
             _dispatcherService = dispatcherService;
@@ -81,7 +81,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
                 {
                     foreach (var item in ColoredImageDatas)
                     {
-                        item.Visibility = true;
+                        item.Visible = true;
                     }
                 }
                 else
@@ -91,17 +91,17 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
                         if (item.Chinese.Contains(SearchText))
                         {
                             item.MatchText = SearchText;
-                            item.Visibility = true;
+                            item.Visible = true;
                         }
                         else if (item.English.Contains(SearchText))
                         {
                             item.MatchText = null;
-                            item.Visibility = true;
+                            item.Visible = true;
                         }
                         else
                         {
                             item.MatchText = null;
-                            item.Visibility = false;
+                            item.Visible = false;
                         }
                     }
                 }

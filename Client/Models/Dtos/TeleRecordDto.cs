@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TianYiSdtdServerTools.Client.Models.Dtos.Primitives;
+using IceCoffee.DbCore.Primitives.Dto;
 using TianYiSdtdServerTools.Client.Models.Entitys;
 
 namespace TianYiSdtdServerTools.Client.Models.Dtos
 {
-    public class TeleRecordDto : MyDtoBase<TeleRecordDto, TeleRecord>
+    public class TeleRecordDto : DtoBaseStr
     {
         /// <summary>
         /// SteamID

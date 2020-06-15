@@ -8,7 +8,7 @@ using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Common.Xml;
-using TianYiSdtdServerTools.Client.Models.ObservableClasses;
+using TianYiSdtdServerTools.Client.Models.ObservableObjects;
 using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 using TianYiSdtdServerTools.Client.Services.UI;
@@ -37,6 +37,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
         }
 
         public PlayerInfo SelectedItem { get; set; }
+
         #region 命令
         public RelayCommand TelePlayer { get; private set; }
 
@@ -100,7 +101,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             }, CanExecuteCommand);
             ViewPlayerInventory = new RelayCommand(() =>
             {
-                string steamID = SelectedItem.SteamID;
+                _dialogService.ShowPlayerInventory(SelectedItem.SteamID);
             }, CanExecuteCommand);
         }
 

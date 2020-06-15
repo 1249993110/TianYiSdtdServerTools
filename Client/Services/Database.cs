@@ -8,6 +8,7 @@ using System.Configuration;
 using System.IO;
 using IceCoffee.DbCore;
 using IceCoffee.Common.LogManager;
+using IceCoffee.DbCore.Domain;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
@@ -24,7 +25,7 @@ namespace TianYiSdtdServerTools.Client.Services
                 {
                     string sql = File.ReadAllText(ConfigurationManager.AppSettings["SQL"]);
 
-                    DBHelper.ExecuteSQlite(DefaultDbConnectionString, sql);
+                    DBHelper.ExecuteSQlite(new DbConnectionInfo(DefaultDbConnectionString, DatabaseType.SQLite), sql);
                 }
                 catch (Exception e)
                 {

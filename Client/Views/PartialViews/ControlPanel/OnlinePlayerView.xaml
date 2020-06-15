@@ -24,16 +24,9 @@
                 </Style>
             </ScrollViewer.Style>
             <iceCtrl:SerialDataGrid
-                  ItemsSource="{Binding OnlinePlayers, Mode=OneWay}" CanUserAddRows="False"
+                  ItemsSource="{Binding OnlinePlayers, Mode=OneWay}"
                   SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn MinWidth="64" Header="序号" IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="短位ID" Binding="{Binding EntityID}"/>
                     <DataGridTextColumn Header="玩家昵称" Binding="{Binding PlayerName}"/>
                     <DataGridTextColumn Header="当前坐标" Binding="{Binding Pos}"/>
@@ -59,7 +52,7 @@
                         <Separator></Separator>
                         <MenuItem Header="移除玩家存档" Command="{Binding RemovePlayerArchive}"/>
                         <Separator></Separator>
-                        <MenuItem Header="查看背包(开发中)" Command="{Binding ViewPlayerInventory}" IsEnabled="False"/>
+                        <MenuItem Header="查看背包" Command="{Binding ViewPlayerInventory}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </iceCtrl:SerialDataGrid>

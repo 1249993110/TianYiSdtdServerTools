@@ -1,14 +1,15 @@
-﻿using System;
+﻿using IceCoffee.DbCore.Primitives;
+using IceCoffee.DbCore.Primitives.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Client.Models.Dtos;
-using TianYiSdtdServerTools.Client.Models.Entitys.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Models.Entitys
 {
-    public class Goods : MyEntityBase<Goods, GoodsDto>
+    public class Goods : EntityBaseStr
     {
         /// <summary>
         /// 商品名称

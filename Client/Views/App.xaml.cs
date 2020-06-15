@@ -37,7 +37,7 @@ namespace TianYiSdtdServerTools.Client.Views
         {
             Log.Fatal("UI线程未处理异常", e.Exception);
             e.Handled = true;
-            Autofac.Resolve<IDialogService>().ShowInformation(e.Exception.Message + Environment.NewLine + "详情请查看日志文件：logs\\current\\Fatal.txt");
+            MessageBox.Show(e.Exception.Message + Environment.NewLine + "详情请查看日志文件：logs\\current\\Fatal.txt", "提示");
         }
 
         private void OnTaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using IceCoffee.Common.LogManager;
 using IceCoffee.Common.Xml;
+using IceCoffee.DbCore.CatchServiceException;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
@@ -103,7 +104,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除选中数据吗？"))
                 {
-                    _ = _cityPositionService.RemoveDataAsync(SelectedItem);
+                    _ = _cityPositionService.RemoveAsync(SelectedItem);
                     CityPositions.Remove(SelectedItem);
                 }
             }, () => { return SelectedItem != null; });
@@ -112,7 +113,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除所有数据吗？"))
                 {
-                    _ = _cityPositionService.RemoveAllDataAsync();
+                    _ = _cityPositionService.RemoveAllAsync();
                     CityPositions = null;
                 }
             }, () => { return CityPositions != null; });
@@ -137,7 +138,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     TeleNeedScore = TeleNeedScore,
                     Pos = Pos
                 };
-                _ = _cityPositionService.InsertDataAsync(cityPosition);
+                _ = _cityPositionService.InsertAsync(cityPosition);
                 CityPositions.Add(cityPosition);
             });
 
@@ -162,19 +163,19 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                 }
                 else
                 {
-                    _ = _cityPositionService.UpdateDataByKeyAsync(newItem);
+                    _ = _cityPositionService.UpdateAsync(newItem);
                 }
             }
         }       
 
-        private void OnAsyncExceptionCaught(object sender, Services.CatchException.ServiceException e)
+        private void OnAsyncExceptionCaught(object sender, ServiceException e)
         {
             ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()
         {
-            var result = await _cityPositionService.GetAllDataAsync(true, new string[] { nameof(CityName) });
+            var result = await _cityPositionService.GetAllAsync("CityName ASC");
 
             CityPositions = result == null ? null : new ObservableCollection<CityPositionDto>(result);
         }
@@ -230,7 +231,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         {
             if (message == QueryListCmd)
             {
-                List<CityPositionDto> dtos = _cityPositionService.GetAllData(true, new string[] { nameof(CityName) });
+                List<CityPositionDto> dtos = _cityPositionService.GetAll("CityName ASC");
 
                 if(dtos.Count == 0) 
                 {
@@ -289,11 +290,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                         var dto = new TeleRecordDto() { SteamID = playerInfo.SteamID, LastTeleDateTime = DateTime.Now.ToString() };
                         if(teleRecord == null)
                         {
-                            _teleRecordService.InsertData(dto);
+                            _teleRecordService.Insert(dto);
                         }
                         else
                         {
-                            _teleRecordService.UpdateData(dto);
+                            _teleRecordService.Update(dto);
                         }
 
                         Log.Info(string.Format("玩家: {0} SteamID: {1} 传送到了: {2}", playerInfo.PlayerName, playerInfo.SteamID, cityPosition.CityName));

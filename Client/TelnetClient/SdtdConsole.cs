@@ -19,6 +19,11 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
     public partial class SdtdConsole : Singleton3<SdtdConsole>
     {
         #region 字段
+        /// <summary>
+        /// 命令占位符
+        /// </summary>
+        public static string CmdPlaceholder = "***";
+
         private TcpClient _tcpClient;
 
         private ConnectionState _connectionState = ConnectionState.Disconnected;

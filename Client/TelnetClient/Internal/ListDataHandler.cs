@@ -169,6 +169,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// <returns></returns>
         public static void ParseWhitelist(List<string> lines)
         {
+
         }
 
         /// <summary>
@@ -203,8 +204,20 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static void ParseCanUseEntityList(List<string> lines)
+        public static List<CanUseEntity> ParseCanUseEntityList(List<string> lines)
         {
+            List<CanUseEntity> result = new List<CanUseEntity>();
+
+            for (int i = 2; i < lines.Count; ++i)
+            {
+                result.Add(new CanUseEntity()
+                {
+                    EntityID = i - 1,
+                    English = lines[i].GetMidStr(" - ", Environment.NewLine, 3)
+                });
+            }
+
+            return result;
         }
     }
 }

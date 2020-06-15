@@ -4,9 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"             
+             xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
+             xmlns:i="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors"
+             xmlns:cmd="clr-namespace:IceCoffee.Wpf.MvvmFrame.Command;assembly=IceCoffee.Wpf.MvvmFrame"
+             xmlns:iceCtrl="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Controls;assembly=IceCoffee.Wpf.CustomControlLibrary"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding SearchText,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 0 0"/>
+            <Button Grid.Column="1" Content="搜索" Command="{Binding Search}" Margin="10 0"/>
+        </Grid>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding CanUseEntitys, Mode=OneWay}">
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                    <Setter Property="Visibility" Value="{Binding Visible,Converter={StaticResource VisibilityConverter}}"/>
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="100" Header="实体ID" Binding="{Binding EntityID,Mode=OneTime}"/>
+                <DataGridTextColumn Width="*" Header="英文名称" Binding="{Binding English,Mode=OneTime}"/>
+                <DataGridTextColumn Width="*" Header="中文名称" Binding="{Binding Chinese,Mode=OneTime}"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="刷新列表" Command="{Binding RefreshList}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
     </Grid>
 </UserControl>

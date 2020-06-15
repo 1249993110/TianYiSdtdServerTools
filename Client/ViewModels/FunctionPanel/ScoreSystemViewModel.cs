@@ -17,6 +17,7 @@ using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 using TianYiSdtdServerTools.Client.ViewModels.Utils;
+using IceCoffee.DbCore.CatchServiceException;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 {
@@ -127,7 +128,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除选中数据吗？"))
                 {                    
-                    _ = _scoreInfoService.RemoveDataAsync(SelectedItem);
+                    _ = _scoreInfoService.RemoveAsync(SelectedItem);
                     ScoreInfos.Remove(SelectedItem);
                 }
             }, () => { return SelectedItem != null; });
@@ -145,7 +146,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除所有数据吗？"))
                 {                    
-                    _ = _scoreInfoService.RemoveAllDataAsync();
+                    _ = _scoreInfoService.RemoveAllAsync();
                     ScoreInfos = null;
                 }
             }, CanExecuteCmd_ListNotNull);
@@ -176,19 +177,19 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                 }
                 else
                 {
-                    _ = _scoreInfoService.UpdateDataAsync(newItem);
+                    _ = _scoreInfoService.UpdateAsync(newItem);
                 }                
             }
         }
 
-        private void OnAsyncExceptionCaught(object sender, Services.CatchException.ServiceException e)
+        private void OnAsyncExceptionCaught(object sender, ServiceException e)
         {
             ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()
         {
-            var result = await _scoreInfoService.GetAllDataAsync();
+            var result = await _scoreInfoService.GetAllAsync();
 
             ScoreInfos = result == null ? null : new ObservableCollection<ScoreInfoDto>(result);
         }
@@ -246,7 +247,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                         LastSignDate = currentDay
                     };
 
-                    _scoreInfoService.InsertData(scoreInfoDto);                    
+                    _scoreInfoService.Insert(scoreInfoDto);                    
                 }
                 else
                 {
@@ -268,7 +269,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                             Log.Info("更新玩家昵称   " + playerInfo.PlayerName);
                         }
 
-                        _scoreInfoService.UpdateData(scoreInfoDto);
+                        _scoreInfoService.Update(scoreInfoDto);
                     }
                 }
 

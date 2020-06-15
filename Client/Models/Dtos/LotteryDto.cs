@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TianYiSdtdServerTools.Client.Models.Dtos.Primitives;
+using IceCoffee.DbCore.Primitives.Dto;
 using TianYiSdtdServerTools.Client.Models.Entitys;
 
 
 namespace TianYiSdtdServerTools.Client.Models.Dtos
 {
-    public class LotteryDto : MyDtoBase<LotteryDto, Lottery>
+    public class LotteryDto : DtoBaseStr
     {
         /// <summary>
         /// 奖品名称

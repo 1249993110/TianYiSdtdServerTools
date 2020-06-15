@@ -13,7 +13,7 @@ using IceCoffee.Wpf.MvvmFrame.Messaging;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
-using TianYiSdtdServerTools.Client.Models.ObservableClasses;
+using TianYiSdtdServerTools.Client.Models.ObservableObjects;
 using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
@@ -61,26 +61,30 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
             ConnectServer = new RelayCommand(() =>
             {
-                if (SdtdServerPrefs.TelnetPort.HasValue)
+                if (_functionPanelViewItemModelObservers == null)
                 {
-                    if(_functionPanelViewItemModelObservers == null)
-                    {                        
-                        Messenger.Default.Send(CommonEnumMessage.InitControlPanelView);
-                        dispatcherService.InvokeAsync(InitFunctionSwitchModelObservers, DispatcherPriority.ApplicationIdle);
-                    }                    
-
-                    SdtdConsole.Instance.ConnectServer(
-                        SdtdServerPrefs.ServerIP, 
-                        SdtdServerPrefs.TelnetPort.Value, 
-                        SdtdServerPrefs.TelnetPassword,
-                        AutoReconnectMaxCount, AutoReconnectInterval);
+                    Messenger.Default.Send(CommonEnumMessage.InitControlPanelView);
+                    _dispatcherService.InvokeAsync(InitFunctionSwitchModelObservers, DispatcherPriority.ApplicationIdle);
                 }
+
+                SdtdServerInfoManager.Instance.SetServerInfo(
+                    SdtdServerPrefs.ServerIP,
+                    SdtdServerPrefs.TelnetPort,
+                    SdtdServerPrefs.TelnetPassword,
+                    SdtdServerPrefs.GPSPort);
+
+                SdtdConsole.Instance.ConnectServer(
+                    SdtdServerPrefs.ServerIP,
+                    SdtdServerPrefs.TelnetPort.GetValueOrDefault(),
+                    SdtdServerPrefs.TelnetPassword,
+                    AutoReconnectMaxCount, AutoReconnectInterval);
+
             }, () => { return SdtdConsole.Instance.ConnectionState != ConnectionState.Connecting; });
 
             DisconnectServer = new RelayCommand(() =>
             {
                 SdtdConsole.Instance.Disconnect();
-            });            
+            });
         }
 
         private void OnDispatcherService_ShutdownStarted(object sender, EventArgs e)

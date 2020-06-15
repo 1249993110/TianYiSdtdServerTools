@@ -1,14 +1,14 @@
-﻿using System;
+﻿using IceCoffee.DbCore.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using IceCoffee.DbCore.Primitives.Entity;
 using TianYiSdtdServerTools.Client.Models.Dtos;
-using TianYiSdtdServerTools.Client.Models.Entitys.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Models.Entitys
 {
-    public class Lottery : MyEntityBase<Lottery, LotteryDto>
+    public class Lottery : EntityBaseStr
     {
         /// <summary>
         /// 奖品名称

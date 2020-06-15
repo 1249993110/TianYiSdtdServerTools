@@ -1,14 +1,14 @@
-﻿using System;
+﻿using IceCoffee.DbCore.Primitives;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TianYiSdtdServerTools.Client.Models.Dtos;
-using TianYiSdtdServerTools.Client.Models.Entitys.Primitives;
+using IceCoffee.DbCore.Primitives.Entity;
 
 namespace TianYiSdtdServerTools.Client.Models.Entitys
 {
-    public class TeleRecord : MyEntityBase<TeleRecord, TeleRecordDto>
+    public class TeleRecord : EntityBaseStr
     {
         /// <summary>
         /// SteamID

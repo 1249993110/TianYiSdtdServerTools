@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using TianYiSdtdServerTools.Client.Services.UI;
+using TianYiSdtdServerTools.Client.Views.Windows;
 
 namespace TianYiSdtdServerTools.Client.Views.Services
 {
@@ -46,6 +47,11 @@ namespace TianYiSdtdServerTools.Client.Views.Services
                 return inputDialog.Answer;
             }
             return null;
+        }
+
+        public void ShowPlayerInventory(string steamID)
+        {
+            new PlayerInventoryDialog(steamID).Show();
         }
     }
 }

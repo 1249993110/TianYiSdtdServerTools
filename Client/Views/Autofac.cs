@@ -27,10 +27,10 @@ namespace TianYiSdtdServerTools.Client.Views
             var assemblys = AppDomain.CurrentDomain.GetAssemblies();
 
             // 在程序集 ViewModels.dll 中自动查找类型
-            _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("ViewModels")));
+            _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("TianYiSdtdServerTools.Client.ViewModels")));
 
             // 在程序集 Services.dll 中自动查找类型
-            _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("Services"))).SingleInstance();
+            _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("TianYiSdtdServerTools.Client.Services"))).SingleInstance();
 
             _builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             _builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using IceCoffee.DbCore.Primitives;
+using IceCoffee.DbCore.Primitives.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TianYiSdtdServerTools.Client.Models.Dtos.Primitives;
 using TianYiSdtdServerTools.Client.Models.Entitys;
 
 namespace TianYiSdtdServerTools.Client.Models.Dtos
 {
-    public class CityPositionDto : MyDtoBase<CityPositionDto, CityPosition>
+    public class CityPositionDto : DtoBaseStr
     {
         /// <summary>
         /// 城市名称

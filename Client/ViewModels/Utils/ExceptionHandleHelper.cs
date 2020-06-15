@@ -1,11 +1,12 @@
 ﻿using IceCoffee.Common.LogManager;
+using IceCoffee.DbCore.CatchServiceException;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TianYiSdtdServerTools.Client.Services.CatchException;
+
 using TianYiSdtdServerTools.Client.Services.UI;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.Utils
@@ -25,7 +26,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Utils
                 exception = exception.InnerException;
             }
 
-            Log.Error(e.Message, exception);
+            Log.Error(e.Message, e);
 
             if (SynchronizationContext.Current != null)// 如果为UI线程发起
             {

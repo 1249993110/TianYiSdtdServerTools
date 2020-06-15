@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\PostSharp.5.0.27\build\PostSharp.props" Condition="Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3351610-C535-40C8-BF40-05FA35DC3E4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TianYiSdtdServerTools.Client.ViewModels</RootNamespace>
+    <AssemblyName>TianYiSdtdServerTools.Client.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <DontImportPostSharp>True</DontImportPostSharp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CsvHelper.9.2.3\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp, Version=5.0.27.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PostSharp.Redist.5.0.27\lib\net45\PostSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CatchException\CatchAsyncExceptionAttribute.cs" />
+    <Compile Include="ControlPanel\ChatMessageViewModel.cs" />
+    <Compile Include="ControlPanel\ConfigInfoViewModel.cs" />
+    <Compile Include="ControlPanel\HistoryPlayerViewModel.cs" />
+    <Compile Include="ControlPanel\OnlinePlayerViewModel.cs" />
+    <Compile Include="ControlPanel\PermissionManagementViewModel.cs" />
+    <Compile Include="ControlPanel\TelnetConsoleViewModel.cs" />
+    <Compile Include="FunctionPanel\GameNoticeViewModel.cs" />
+    <Compile Include="FunctionPanel\GameStoreViewModel.cs" />
+    <Compile Include="FunctionPanel\LotterySystemViewModel.cs" />
+    <Compile Include="FunctionPanel\ScoreSystemViewModel.cs" />
+    <Compile Include="FunctionPanel\TeleportCityViewModel.cs" />
+    <Compile Include="FunctionPanel\TeleportHomeViewModel.cs" />
+    <Compile Include="Managers\SdtdLocalizationManager.cs" />
+    <Compile Include="Managers\SdtdServerInfoManager.cs" />
+    <Compile Include="Managers\ViewItemManager.cs" />
+    <Compile Include="Primitives\FunctionViewModelBase.cs" />
+    <Compile Include="ToolDialog\BlockViewModel.cs" />
+    <Compile Include="ToolDialog\EntityViewModel.cs" />
+    <Compile Include="ToolDialog\ItemViewModel.cs" />
+    <Compile Include="Windows\MainWindowViewModel.cs" />
+    <Compile Include="Primitives\ViewModelBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ExceptionHandleHelper.cs" />
+    <Compile Include="Utils\FileHelper.cs" />
+    <Compile Include="Windows\PlayerInventoryViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
+      <Name>IceCoffee.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore.csproj">
+      <Project>{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}</Project>
+      <Name>IceCoffee.DbCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
+      <Project>{ce167778-381d-487f-845a-d96258015e17}</Project>
+      <Name>IceCoffee.Wpf.MvvmFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\TianYiSdtdServerTools.Shared\TianYiSdtdServerTools.Shared.csproj">
+      <Project>{05DE2F54-996A-4675-9F0B-279EBADB6C57}</Project>
+      <Name>TianYiSdtdServerTools.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\TianYiSdtdServerTools.Client.Models.csproj">
+      <Project>{AFF037C5-D34F-41CE-ACBF-209D93436159}</Project>
+      <Name>TianYiSdtdServerTools.Client.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyClient\TianYiSdtdServerTools.Client.MyClient.csproj">
+      <Project>{e9d8d133-26e9-40f4-aace-2b713d773201}</Project>
+      <Name>TianYiSdtdServerTools.Client.MyClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\TianYiSdtdServerTools.Client.Services.csproj">
+      <Project>{1B8E81C3-5F49-4A58-A95B-1A427EBCBF2C}</Project>
+      <Name>TianYiSdtdServerTools.Client.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TelnetClient\TianYiSdtdServerTools.Client.TelnetClient.csproj">
+      <Project>{349f66c5-54de-43c8-ab6f-6c6f96c4ed3d}</Project>
+      <Name>TianYiSdtdServerTools.Client.TelnetClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PostSharp.5.0.27\build\PostSharp.props'))" />
+    <Error Condition="!Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PostSharp.5.0.27\build\PostSharp.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\PostSharp.5.0.27\build\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.targets')" />
+</Project>

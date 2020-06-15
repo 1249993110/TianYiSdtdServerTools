@@ -1,9 +1,9 @@
-﻿using TianYiSdtdServerTools.Client.Models.Dtos;
-using TianYiSdtdServerTools.Client.Models.Entitys.Primitives;
+﻿using IceCoffee.DbCore.Primitives;
+using IceCoffee.DbCore.Primitives.Entity;
 
 namespace TianYiSdtdServerTools.Client.Models.Entitys
 {
-    public class ScoreInfo : MyEntityBase<ScoreInfo, ScoreInfoDto>
+    public class ScoreInfo : EntityBaseStr
     {
         /// <summary>
         /// 玩家昵称

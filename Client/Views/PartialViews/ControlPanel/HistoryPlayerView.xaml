@@ -44,7 +44,7 @@
                     <Separator></Separator>
                     <MenuItem Header="移除玩家存档" Command="{Binding RemovePlayerArchive}"/>
                     <Separator></Separator>
-                    <MenuItem Header="查看背包(开发中)" Command="{Binding ViewPlayerInventory}" IsEnabled="False"/>
+                    <MenuItem Header="查看背包" Command="{Binding ViewPlayerInventory}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </iceCtrl:SerialDataGrid>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<item>
+    <version>4.0.0.0</version>
+    <url>https://oss.7daystodie.top/TianYiSdtdServertools/AutoUpdate/complete.zip</url>
+    <!-- <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog> -->
+	<mandatory minVersion="4.0.0.0">true</mandatory>
+</item>

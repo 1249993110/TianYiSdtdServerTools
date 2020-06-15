@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TianYiSdtdServerTools.Client.ViewModels.ToolDialog;
 
 namespace TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog
 {
@@ -20,9 +21,12 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog
     /// </summary>
     public partial class EntityView : UserControl
     {
+        public EntityViewModel ViewModel { get; set; }
         public EntityView()
         {
             InitializeComponent();
+            ViewModel = Autofac.Resolve<EntityViewModel>();
+            this.DataContext = ViewModel;
         }
     }
 }

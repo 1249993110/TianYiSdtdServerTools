@@ -9,7 +9,6 @@ namespace TianYiSdtdServerTools.Client.Services.UI
 {
     public interface IDialogService
     {
-
         /// <summary>
         /// 显示一个只有确定按钮无返回值的消息框
         /// </summary>
@@ -41,5 +40,12 @@ namespace TianYiSdtdServerTools.Client.Services.UI
         /// <param name="title"></param>
         /// <returns></returns>
         string ShowInputDialog(string question, string defaultAnswer = "", string title = "输入");
+
+        /// <summary>
+        /// 显示玩家背包
+        /// </summary>
+        /// <param name="steamID"></param>
+        /// <returns></returns>
+        void ShowPlayerInventory(string steamID);
     }
 }

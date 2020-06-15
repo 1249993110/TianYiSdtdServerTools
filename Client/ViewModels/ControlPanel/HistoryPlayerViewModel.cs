@@ -103,7 +103,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             }, CanExecuteCommand);
             ViewPlayerInventory = new RelayCommand(() =>
             {
-                string steamID = SelectedItem.SteamID;
+                dialogService.ShowPlayerInventory(SelectedItem.SteamID);
             }, CanExecuteCommand);
 
             RefreshList = new RelayCommand(PrivateRefreshList);

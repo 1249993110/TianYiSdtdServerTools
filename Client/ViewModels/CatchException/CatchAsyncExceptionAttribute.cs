@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using IceCoffee.DbCore;
-using IceCoffee.DbCore.CatchException;
+
 using PostSharp.Aspects;
-using TianYiSdtdServerTools.Client.Services.CatchException;
+
 using TianYiSdtdServerTools.Client.Services.Primitives;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.CatchException

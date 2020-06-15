@@ -126,8 +126,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         private void PrivateRefreshList()
         {
-            SdtdConsole.Instance.SendCmd("admin list" + Environment.NewLine + "0");
-            SdtdConsole.Instance.SendCmd("cp list" + Environment.NewLine + "0");
+            SdtdConsole.Instance.SendCmd("admin list" + Environment.NewLine + SdtdConsole.CmdPlaceholder);
+            SdtdConsole.Instance.SendCmd("cp list" + Environment.NewLine + SdtdConsole.CmdPlaceholder);
         }
 
         private bool CanRemoveAdministrator()

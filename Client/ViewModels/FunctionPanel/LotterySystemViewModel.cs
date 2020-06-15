@@ -1,6 +1,7 @@
 ﻿using IceCoffee.Common;
 using IceCoffee.Common.LogManager;
 using IceCoffee.Common.Xml;
+using IceCoffee.DbCore.CatchServiceException;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
@@ -121,7 +122,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除选中数据吗？"))
                 {
-                    _ = _lotteryService.RemoveDataByKeyAsync(SelectedItem);
+                    _ = _lotteryService.RemoveAsync(SelectedItem);
                     LotteryItems.Remove(SelectedItem);
                 }
             }, () => { return SelectedItem != null; });
@@ -130,7 +131,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除所有数据吗？"))
                 {
-                    _ = _lotteryService.RemoveAllDataAsync();
+                    _ = _lotteryService.RemoveAllAsync();
                     LotteryItems = null;
                 }
             }, () => { return LotteryItems != null; });
@@ -145,7 +146,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     Quality = Quality,
                     LotteryType = LotteryType
                 };
-                _ = _lotteryService.InsertDataAsync(dto);
+                _ = _lotteryService.InsertAsync(dto);
                 LotteryItems.Add(dto);
             });
 
@@ -163,18 +164,18 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
             if (eventArgs.NewItem is LotteryDto newItem && eventArgs.OldItem is LotteryDto oldItem)
             {
-                _ = _lotteryService.UpdateDataByKeyAsync(newItem);
+                _ = _lotteryService.UpdateAsync(newItem);
             }
         }
 
-        private void OnAsyncExceptionCaught(object sender, Services.CatchException.ServiceException e)
+        private void OnAsyncExceptionCaught(object sender, ServiceException e)
         {
             ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()
         {
-            var result = await _lotteryService.GetAllDataAsync(true, new string[] { nameof(LotteryName) });
+            var result = await _lotteryService.GetAllAsync("LotteryName ASC");
 
             LotteryItems = result == null ? null : new ObservableCollection<LotteryDto>(result);
         }
@@ -208,6 +209,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
         private void OnStartLottery(object sender, ElapsedEventArgs e)
         {
+            if(_lotteryService.GetRecordCount() < 1)
+            {
+                return;
+            }
+
             _isLotterying = true;
             base.EnableFunction();
 
@@ -276,7 +282,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
             foreach (var playerInfo in winners)
             {
-                var lotteryDtos = _lotteryService.GetAllData();
+                var lotteryDtos = _lotteryService.GetAll();
                 if (lotteryDtos.Count == 0)
                 {
                     SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, "暂无奖品，请等待管理员添加");

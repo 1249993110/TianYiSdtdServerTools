@@ -49,8 +49,9 @@
                     </Button>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <iceCtrl:WindowButton Margin="0 0 10 0" ClickCloseButton="OnClickCloseButton">
-                    </iceCtrl:WindowButton>
+                    <Image Source="{Binding HeaderIconUri,Mode=OneWay,Converter={StaticResource UriToBitmapConverter}}" ToolTip="{Binding HeaderIconToolTip,Mode=OneWay}"
+                           Width="40" Height="40" Margin="20 0"/>
+                    <iceCtrl:WindowButton Margin="0 0 10 0" ClickCloseButton="OnClickCloseButton"/>
                 </StackPanel>
             </Grid>
             <!--Header底部边框-->

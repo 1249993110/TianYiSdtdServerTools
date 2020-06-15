@@ -5,10 +5,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using IceCoffee.Common.AntiDebug;
+using IceCoffee.AntiDebugEngine;
 using IceCoffee.Common;
 using System.Configuration;
 using System.IO;
+using IceCoffee.Common.LogManager;
 
 namespace TianYiSdtdServerTools.Client.Views
 {
@@ -29,10 +30,17 @@ namespace TianYiSdtdServerTools.Client.Views
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
 #endif
-            InitConfig();
+            try
+            {
+                InitConfig();
+            }
+            catch (Exception e)
+            {
+                Log.Error("初始化配置错误", e);
+            }
 
             App app = new App();
-            app.InitializeComponent();            
+            app.InitializeComponent();
             app.Run();
         }
 
@@ -52,6 +60,12 @@ namespace TianYiSdtdServerTools.Client.Views
                     }
                 }
             }
+            string viewModelConfigPath =  ConfigurationManager.AppSettings["ViewModelConfigPath"];
+            if (File.Exists(viewModelConfigPath) == false)
+            {
+                File.Copy(ConfigurationManager.AppSettings["ViewModelConfigDefaultPath"], viewModelConfigPath);
+            }
+
             Client.Services.Database.Initialize();
         }
     }

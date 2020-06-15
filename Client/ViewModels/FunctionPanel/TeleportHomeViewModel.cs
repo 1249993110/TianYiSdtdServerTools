@@ -1,5 +1,6 @@
 ﻿using IceCoffee.Common.LogManager;
 using IceCoffee.Common.Xml;
+using IceCoffee.DbCore.CatchServiceException;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
@@ -158,7 +159,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除选中数据吗？"))
                 {
-                    _ = _homePositionService.RemoveByKeyAsync(SelectedItem);
+                    _ = _homePositionService.RemoveAsync(SelectedItem);
                     HomePositions.Remove(SelectedItem);
                 }
             }, () => { return SelectedItem != null; });
@@ -167,7 +168,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 if (_dialogService.ShowOKCancel("确定删除所有数据吗？"))
                 {
-                    _ = _homePositionService.RemoveAllDataAsync();
+                    _ = _homePositionService.RemoveAllAsync();
                     HomePositions = null;
                 }
             }, () => { return HomePositions != null; });
@@ -193,19 +194,19 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                 }
                 else
                 {
-                    _ = _homePositionService.UpdateDataByKeyAsync(newItem);
+                    _ = _homePositionService.UpdateAsync(newItem);
                 }                
             }
         }
 
-        private void OnAsyncExceptionCaught(object sender, Services.CatchException.ServiceException e)
+        private void OnAsyncExceptionCaught(object sender, ServiceException e)
         {
             ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()
         {
-            var result = await _homePositionService.GetAllDataAsync(true, new string[] { _homePositionService.IdColumnName, "HomeName" });
+            var result = await _homePositionService.GetAllAsync("SteamID,HomeName ASC");
 
             HomePositions = result == null ? null : new ObservableCollection<HomePositionDto>(result);
         }
@@ -287,7 +288,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
         private void QueryList(PlayerInfo playerInfo)
         {
-            List<HomePositionDto> dtos = _homePositionService.GetAllData(true, new string[] { _homePositionService.IdColumnName, "HomeName" });
+            List<HomePositionDto> dtos = _homePositionService.GetAll("SteamID,HomeName ASC");
             _currentPlayerOwnedHomeCount = dtos.Count;
             if (_currentPlayerOwnedHomeCount == 0)
             {
@@ -354,7 +355,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                                 SteamID = playerInfo.SteamID,
                                 Pos = playerInfo.Pos
                             };
-                            _homePositionService.InsertData(homePositionDto);
+                            _homePositionService.Insert(homePositionDto);
 
                             SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips6, homePositionDto));
 
@@ -403,11 +404,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                         var tempDto = new TeleRecordDto() { SteamID = playerInfo.SteamID, LastTeleDateTime = DateTime.Now.ToString() };
                         if (teleRecord == null)
                         {
-                            _teleRecordService.InsertData(tempDto);
+                            _teleRecordService.Insert(tempDto);
                         }
                         else
                         {
-                            _teleRecordService.UpdateData(tempDto);
+                            _teleRecordService.Update(tempDto);
                         }
 
                         Log.Info(string.Format("玩家: {0} SteamID: {1} 传送到了: {2}", playerInfo.PlayerName, playerInfo.SteamID, dto.HomeName));

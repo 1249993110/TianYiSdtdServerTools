@@ -110,8 +110,9 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         private void SendPassword()
         {
-            // "0\r\n"确保密码发送成功，被服务端接受
-            this.Send(("0" + Environment.NewLine + SdtdConsole.Instance.Password + Environment.NewLine).ToUtf8());
+            // 占位符确保密码发送成功，被服务端接受
+            this.SendCmd(SdtdConsole.CmdPlaceholder);
+            this.SendCmd(SdtdConsole.Instance.Password);
         }
 
         /// <summary>
@@ -371,8 +372,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                         continue;
                     }
                     else if (_line.StartsWith("Total"))
-                    {
-                        //ControlPanel::Instance()->tempListData.setActiveEntityList(cmdBufferList);
+                    {                        
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;
@@ -391,16 +391,16 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                 do
                 {
                     ReadLineToBuffer();
-                    string StartsWith2 = _line.Substring(0, 2);
-                    if (StartsWith2 == "1s" || StartsWith2 == "2n" || StartsWith2 == "  ")
+                    string startsWith = _line.Substring(0, 2);
+                    if (startsWith == "1s" || startsWith == "2n" || startsWith == "  ")
                     {
                         _lineList.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
-                    else if (StartsWith2 == "**")
+                    else if (startsWith == "**")
                     {
-                        //ControlPanel::Instance()->tempListData.setCanUseEntityList(cmdBufferList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseCanUseEntityList(_lineList), TempListDataType.CanUseEntityList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;

@@ -4,13 +4,16 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TianYiSdtdServerTools.Client.ViewModels.Windows;
-using TianYiSdtdServerTools.Client.Models.ObservableClasses;
+using TianYiSdtdServerTools.Client.Models.ObservableObjects;
 using Panuon.UI.Silver;
 using Autofac;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.Views.Services;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
+using System.Windows.Media.Imaging;
+using IceCoffee.Common.LogManager;
+using System.Reflection;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -26,10 +29,24 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
         static MainWindow()
         {
             _partialViewDic = new Dictionary<string, Type>();
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith("SdtdServerTools"));
-            assembly.GetTypes().Where(x => x.Namespace.StartsWith("TianYiSdtdServerTools.Client.Views.PartialViews")
-                                        && x.IsSubclassOf(typeof(UserControl)))
-                                        .ToList().ForEach(x => _partialViewDic.Add(x.Name.Remove(x.Name.Length - 4), x));
+            //AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith("SdtdServerTools"));
+            var assembly = Assembly.GetExecutingAssembly();
+
+            foreach (var item in assembly.GetTypes())
+            {
+                if (string.IsNullOrEmpty(item.Namespace))
+                {
+                    continue;
+                }
+
+                if (item.Namespace.StartsWith("TianYiSdtdServerTools.Client.Views.PartialViews") && item.IsSubclassOf(typeof(UserControl)))
+                {
+                    _partialViewDic.Add(item.Name.Remove(item.Name.Length - 4), item);
+                }
+            }
+            //assembly.GetTypes().Where(x => x.Namespace.StartsWith("TianYiSdtdServerTools.Client.Views.PartialViews")
+            //                            && x.IsSubclassOf(typeof(UserControl)))
+            //                            .ToList().ForEach(x => _partialViewDic.Add(x.Name.Remove(x.Name.Length - 4), x));
         }
 
         public MainWindow()

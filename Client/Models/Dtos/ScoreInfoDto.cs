@@ -1,10 +1,10 @@
-﻿using TianYiSdtdServerTools.Client.Models.Dtos.Primitives;
+﻿using IceCoffee.DbCore.Primitives.Dto;
 using TianYiSdtdServerTools.Client.Models.Entitys;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 
 namespace TianYiSdtdServerTools.Client.Models.Dtos
 {
-    public class ScoreInfoDto : MyDtoBase<ScoreInfoDto, ScoreInfo>
+    public class ScoreInfoDto : DtoBaseStr
     {
         /// <summary>
         /// 玩家昵称
