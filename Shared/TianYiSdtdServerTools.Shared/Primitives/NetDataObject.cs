@@ -9,11 +9,13 @@ namespace TianYiSdtdServerTools.Shared.Primitives
     [Serializable]
     public class NetDataObject
     {
-        public NetDataType NetDataType { get; private set; }
+        private NetDataType _netDataType;
+
+        public NetDataType NetDataType { get => _netDataType; set => _netDataType = value; }
 
         public NetDataObject(NetDataType netDataType)
         {
-            NetDataType = netDataType;
+            _netDataType = netDataType;
         }
     }
 }

@@ -9,7 +9,7 @@ using TianYiSdtdServerTools.Client.Services.Primitives;
 
 using System.Threading;
 using System.Diagnostics;
-using IceCoffee.DbCore.UnitOfWork;
+using IceCoffee.DbCore.UnitWork;
 using IceCoffee.Common.LogManager;
 using IceCoffee.DbCore.CatchServiceException;
 
@@ -27,12 +27,12 @@ namespace TianYiSdtdServerTools.Client.Services
         [CatchSyncException("获取玩家拥有积分数量异常")]
         public int GetPlayerScore(string steamID)
         {
-            ScoreInfo scoreInfo = Repository.QueryOneById(steamID, IdColumnName);
+            ScoreInfo scoreInfo = Repository.QueryById(steamID, IdColumnName).FirstOrDefault();
             if (scoreInfo == null)
             {
                 scoreInfo = ScoreInfo.Create<ScoreInfo>();
                 scoreInfo.SteamID = steamID;
-                Repository.InsertOne(scoreInfo);
+                Repository.Insert(scoreInfo);
                 return 0;
             }
             else

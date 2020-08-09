@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IceCoffee.Common;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
     {
         public override string XmlPath
         {
-            get { return ConfigurationManager.AppSettings["BlocksXmlPath"]; }
+            get { return CommonHelper.GetAppSettings("BlocksXmlPath"); }
         }
 
         public BlockViewModel(IDispatcherService dispatcherService, IDialogService dialogService) : base(dispatcherService, dialogService)

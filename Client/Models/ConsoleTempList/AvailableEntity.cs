@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TianYiSdtdServerTools.Client.Models.ConsoleTempList
 {
-    public class CanUseEntity : ObservableObject
+    public class AvailableEntity : ObservableObject
     {
         public int EntityID { get; set; }
 

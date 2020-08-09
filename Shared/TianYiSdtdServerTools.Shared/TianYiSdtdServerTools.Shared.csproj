@@ -43,18 +43,17 @@
   <ItemGroup>
     <Compile Include="Models\NetDataObjects\Return_ClientInfo.cs" />
     <Compile Include="Models\NetDataObjects\Submit_ClientInfo.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="SocketConfig.cs" />
     <Compile Include="Models\NetDataObjects\AutoUpdaterConfig.cs" />
     <Compile Include="Primitives\NetDataType.cs" />
     <Compile Include="Primitives\NetDataObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\UserGroups\UserRole.cs" />
-    <Compile Include="Models\VersionInfo.cs" />
     <Compile Include="VersionManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
-      <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{6ec8ad06-bf8c-472a-9df8-4188ae7ee38b}</Project>
       <Name>IceCoffee.Common</Name>
     </ProjectReference>
   </ItemGroup>

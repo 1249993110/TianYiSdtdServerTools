@@ -46,6 +46,6 @@ namespace TianYiSdtdServerTools.Client.Models.ConsoleTempList
         /// <summary>
         /// 可用实体列表
         /// </summary>
-        CanUseEntityList
+        AvailableEntityList
     };
 }

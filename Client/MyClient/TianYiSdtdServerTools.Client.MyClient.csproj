@@ -46,17 +46,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
-      <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{6ec8ad06-bf8c-472a-9df8-4188ae7ee38b}</Project>
       <Name>IceCoffee.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network.csproj">
-      <Project>{7B659542-1F9E-449B-AB6F-43AA61D22038}</Project>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj">
+      <Project>{e91ae132-d500-42dc-9fdb-50234949bca2}</Project>
       <Name>IceCoffee.Network</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Shared\TianYiSdtdServerTools.Shared\TianYiSdtdServerTools.Shared.csproj">
-      <Project>{05de2f54-996a-4675-9f0b-279ebadb6c57}</Project>
-      <Name>TianYiSdtdServerTools.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

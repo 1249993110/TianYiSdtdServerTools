@@ -27,11 +27,13 @@ namespace TianYiSdtdServerTools.Shared
 
     public static class VersionManager
     {
-        public static VersionInfo CurrentVersion { get; set; }
+        private static readonly Version _currentVersion;
+
+        public static Version CurrentVersion => _currentVersion;
 
         static VersionManager()
         {
-            CurrentVersion = new VersionInfo(4, 0, 0, 0);
+            _currentVersion = new Version(4, 0, 0, 0);
         }
 
         /// <summary>
@@ -39,21 +41,24 @@ namespace TianYiSdtdServerTools.Shared
         /// </summary>
         /// <param name="versionInfo"></param>
         /// <returns></returns>
-        public static UpdateLevel CheckVersion(VersionInfo versionInfo)
+        public static UpdateLevel CheckVersion(Version versionInfo)
         {
-            if (CurrentVersion == versionInfo)
+            if (_currentVersion == versionInfo)
             {
                 return UpdateLevel.Unnecessary;
             }
-            else if (versionInfo.Major < CurrentVersion.Major)
+            else if (versionInfo.Major < _currentVersion.Major)
             {
                 return UpdateLevel.Necessary;
             }
-            else if (versionInfo.Major == CurrentVersion.Major && versionInfo.Minor < CurrentVersion.Minor)
+            else if (versionInfo.Major == _currentVersion.Major && versionInfo.Minor < _currentVersion.Minor)
             {
                 return UpdateLevel.Necessary;
             }
-            return UpdateLevel.Optional;
+            else
+            {
+                return UpdateLevel.Optional;
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
 
         private readonly IDialogService _dialogService;
 
-        public List<CanUseEntity> CanUseEntitys { get; [NPCA_Method]set; }
+        public List<AvailableEntity> AvailableEntitys { get; [NPCA_Method]set; }
 
         public string SearchText { get; [NPCA_Method]set; }
 
@@ -65,30 +65,30 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
 
         private void OnReceivedTempListData(object twoDimensionalList, TempListDataType tempListDataType)
         {
-            if(tempListDataType == TempListDataType.CanUseEntityList && twoDimensionalList is List<CanUseEntity> canUseEntitys)
+            if(tempListDataType == TempListDataType.AvailableEntityList && twoDimensionalList is List<AvailableEntity> availableEntitys)
             {
-                foreach (var item in canUseEntitys)
+                foreach (var item in availableEntitys)
                 {
                     item.Chinese = SdtdLocalizationManager.Instance.GetTranslation(item.English);
                 }
-                CanUseEntitys = canUseEntitys;
+                AvailableEntitys = availableEntitys;
             }
         }
 
         private void PrivateSearch()
         {
-            if (CanUseEntitys != null)
+            if (AvailableEntitys != null)
             {
                 if (string.IsNullOrEmpty(SearchText))
                 {
-                    foreach (var item in CanUseEntitys)
+                    foreach (var item in AvailableEntitys)
                     {
                         item.Visible = true;
                     }
                 }
                 else
                 {
-                    foreach (var item in CanUseEntitys)
+                    foreach (var item in AvailableEntitys)
                     {
                         if (item.Chinese.Contains(SearchText) || item.English.Contains(SearchText))
                         {

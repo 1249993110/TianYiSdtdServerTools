@@ -50,12 +50,12 @@
     <Compile Include="SdtdConsoleSendOperations.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
-      <Project>{35734be9-1c96-4048-9d6e-c9bad609002e}</Project>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{6ec8ad06-bf8c-472a-9df8-4188ae7ee38b}</Project>
       <Name>IceCoffee.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network.csproj">
-      <Project>{7b659542-1f9e-449b-ab6f-43aa61d22038}</Project>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj">
+      <Project>{e91ae132-d500-42dc-9fdb-50234949bca2}</Project>
       <Name>IceCoffee.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\TianYiSdtdServerTools.Client.Models.csproj">

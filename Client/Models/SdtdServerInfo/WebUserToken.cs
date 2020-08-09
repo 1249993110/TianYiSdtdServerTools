@@ -8,10 +8,10 @@ namespace TianYiSdtdServerTools.Client.Models.SdtdServerInfo
 {
     public class WebUserToken
     {
-        public string adminuser;
+        public string AdminUser { get; set; }
 
-        public string admintoken;
+        public string AdminToken { get; set; }
 
-        public int permissionLevel;
+        public int PermissionLevel { get; set; }
     }
 }

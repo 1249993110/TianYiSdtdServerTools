@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\PostSharp.5.0.27\build\PostSharp.props" Condition="Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.props')" />
+  <Import Project="..\..\packages\PostSharp.6.6.12\build\PostSharp.props" Condition="Exists('..\..\packages\PostSharp.6.6.12\build\PostSharp.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PostSharp, Version=5.0.27.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\PostSharp.Redist.5.0.27\lib\net45\PostSharp.dll</HintPath>
+    <Reference Include="PostSharp, Version=6.6.12.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PostSharp.Redist.6.6.12\lib\net45\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -53,7 +53,7 @@
     <Compile Include="Chat\ChatType.cs" />
     <Compile Include="Chat\RichText.cs" />
     <Compile Include="Chat\SenderType.cs" />
-    <Compile Include="ConsoleTempList\CanUseEntity.cs" />
+    <Compile Include="ConsoleTempList\AvailableEntity.cs" />
     <Compile Include="ObservableObjects\ColoredImageData.cs" />
     <Compile Include="ConsoleTempList\Administrator.cs" />
     <Compile Include="ConsoleTempList\CommandLevel.cs" />
@@ -94,17 +94,17 @@
     <Compile Include="SdtdServerInfo\WebUserToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common.csproj">
-      <Project>{35734BE9-1C96-4048-9D6E-C9BAD609002E}</Project>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
+      <Project>{6ec8ad06-bf8c-472a-9df8-4188ae7ee38b}</Project>
       <Name>IceCoffee.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore.csproj">
-      <Project>{A39DFF8A-410A-496D-A7D4-30CDE3F4670E}</Project>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore\IceCoffee.DbCore.csproj">
+      <Project>{99101e9e-ba03-4192-9ca9-272614fdcc7b}</Project>
       <Name>IceCoffee.DbCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\MvvmFrame\IceCoffee.Wpf.MvvmFrame.csproj">
-      <Project>{ce167778-381d-487f-845a-d96258015e17}</Project>
-      <Name>IceCoffee.Wpf.MvvmFrame</Name>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\Icecoffee.Wpf.MvvmFrame\Icecoffee.Wpf.MvvmFrame.csproj">
+      <Project>{F82A5AFC-D119-4CDE-8A65-1470947C5993}</Project>
+      <Name>Icecoffee.Wpf.MvvmFrame</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -115,8 +115,8 @@
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PostSharp.5.0.27\build\PostSharp.props'))" />
-    <Error Condition="!Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PostSharp.5.0.27\build\PostSharp.targets'))" />
+    <Error Condition="!Exists('..\..\packages\PostSharp.6.6.12\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PostSharp.6.6.12\build\PostSharp.props'))" />
+    <Error Condition="!Exists('..\..\packages\PostSharp.6.6.12\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PostSharp.6.6.12\build\PostSharp.targets'))" />
   </Target>
-  <Import Project="..\..\packages\PostSharp.5.0.27\build\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.5.0.27\build\PostSharp.targets')" />
+  <Import Project="..\..\packages\PostSharp.6.6.12\build\PostSharp.targets" Condition="Exists('..\..\packages\PostSharp.6.6.12\build\PostSharp.targets')" />
 </Project>

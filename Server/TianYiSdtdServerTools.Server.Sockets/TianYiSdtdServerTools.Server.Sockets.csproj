@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj" />
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore\IceCoffee.DbCore.csproj" />
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj" />
+    <ProjectReference Include="..\..\Shared\TianYiSdtdServerTools.Shared\TianYiSdtdServerTools.Shared.csproj" />
+    <ProjectReference Include="..\LuoShuiTianYi.Sdtd.Domain\LuoShuiTianYi.Sdtd.Domain.csproj" />
+    <ProjectReference Include="..\LuoShuiTianYi.Sdtd.Services\LuoShuiTianYi.Sdtd.Services.csproj" />
+  </ItemGroup>
+
+</Project>

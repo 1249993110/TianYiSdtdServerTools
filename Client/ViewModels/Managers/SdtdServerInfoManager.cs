@@ -1,4 +1,5 @@
 ﻿using IceCoffee.Common;
+using IceCoffee.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,9 +47,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Managers
             }
             WebUserToken = new WebUserToken()
             {
-                adminuser = "admin_tianyi",
-                admintoken = admintokenBuilder.ToString(),
-                permissionLevel = 0
+                AdminUser = "admin_tianyi",
+                AdminToken = admintokenBuilder.ToString(),
+                PermissionLevel = 0
             };
 
             SdtdConsole.Instance.ConnectionStateChanged += OnConnectionStateChanged;
@@ -59,7 +60,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Managers
             if(connectionState == ConnectionState.Connected)
             {
                 SdtdConsole.Instance.SendCmd(string.Format("webtokens add {0} {1} {2}",
-                    WebUserToken.adminuser, WebUserToken.admintoken, WebUserToken.permissionLevel));
+                    WebUserToken.AdminUser, WebUserToken.AdminToken, WebUserToken.PermissionLevel));
             }
         }
 

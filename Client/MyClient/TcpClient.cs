@@ -1,5 +1,7 @@
 ﻿using IceCoffee.Common;
+using IceCoffee.Common.Extensions;
 using IceCoffee.Common.LogManager;
+using IceCoffee.Network.CatchException;
 using IceCoffee.Network.Sockets.MulitThreadTcpClient;
 using System;
 using System.Collections.Generic;
@@ -46,9 +48,9 @@ namespace TianYiSdtdServerTools.Client.MyClient
             base.AutoReconnectMaxCount = 3;
         }
 
-        private void OnExceptionCaught(IceCoffee.Network.CatchException.NetworkException e)
+        private void OnExceptionCaught(object sender, NetworkException ex)
         {
-            Log.Error("MyClient异常捕获", e);
+            Log.Error("MyClient异常捕获", ex);
         }
 
         protected override void OnReconnectDefeated()

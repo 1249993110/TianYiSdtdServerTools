@@ -59,8 +59,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
                     SdtdServerInfoManager.Instance.ServerIP,
                     SdtdServerInfoManager.Instance.GPSPort,
                     SteamID,
-                    SdtdServerInfoManager.Instance.WebUserToken.adminuser,
-                    SdtdServerInfoManager.Instance.WebUserToken.admintoken);
+                    SdtdServerInfoManager.Instance.WebUserToken.AdminUser,
+                    SdtdServerInfoManager.Instance.WebUserToken.AdminToken);
 
                 string json = await NetHelper.GetStringAsync(url);
 

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using IceCoffee.Common;
 using IceCoffee.Common.LogManager;
 using IceCoffee.Common.Xml;
 using IceCoffee.Wpf.MvvmFrame;
@@ -42,7 +43,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
             Type type = this.GetType();
             try
             {
-                string modelConfigPath = System.Configuration.ConfigurationManager.AppSettings["ViewModelConfigPath"];
+                string modelConfigPath = CommonHelper.GetAppSettings("ViewModelConfigPath");
 
                 XmlDocument doc = new XmlDocument();
                 doc.Load(modelConfigPath);
@@ -100,7 +101,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
         {
             try
             {
-                string configPath = System.Configuration.ConfigurationManager.AppSettings["ViewModelConfigPath"];
+                string configPath = CommonHelper.GetAppSettings("ViewModelConfigPath");
 
                 XmlDocument contextDoc = new XmlDocument();
 

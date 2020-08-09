@@ -17,12 +17,12 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
         /// <summary>
         /// 客户版本
         /// </summary>
-        public VersionInfo ClientVersion { get; set; }
+        public Version ClientVersion { get; set; }
 
         /// <summary>
-        /// 客户令牌
+        /// 用户ID
         /// </summary>
-        public string ClientToken { get; set; }
+        public string UserID { get; set; }
 
         /// <summary>
         /// 是否已经授权

@@ -13,6 +13,7 @@ using TianYiSdtdServerTools.Client.Models.Players;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
+using IceCoffee.Common;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 {
@@ -42,7 +43,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
             ViewRecord = new RelayCommand(() =>
             {
-                Utils.FileHelper.OpenTextFileByNotepad(_dialogService, System.Configuration.ConfigurationManager.AppSettings["ChatMessageRecordPath"]);
+                Utils.FileHelper.OpenTextFileByNotepad(_dialogService, CommonHelper.GetAppSettings("ChatMessageRecordPath"));
             });
 
             SdtdConsole.Instance.ChatHook += ChatHook;
@@ -114,7 +115,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
             try
             {
-                System.IO.File.AppendAllText(System.Configuration.ConfigurationManager.AppSettings["ChatMessageRecordPath"],
+                System.IO.File.AppendAllText(CommonHelper.GetAppSettings("ChatMessageRecordPath"),
                     stringBuilder.ToString(), Encoding.UTF8);
             }
             catch (Exception ex)

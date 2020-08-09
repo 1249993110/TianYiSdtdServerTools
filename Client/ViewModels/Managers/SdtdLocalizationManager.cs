@@ -21,7 +21,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Managers
         {
             _localizationDict = new Dictionary<string, string>();
 
-            string path = ConfigurationManager.AppSettings["SdtdLocalizationPath"];
+            string path = CommonHelper.GetAppSettings("SdtdLocalizationPath");
 
             try
             {

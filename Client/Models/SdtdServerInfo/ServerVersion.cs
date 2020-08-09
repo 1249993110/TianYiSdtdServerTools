@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TianYiSdtdServerTools.Client.Models.SdtdServerInfo
 {
-    public enum ServerVersion : int
+    public enum ServerVersion : byte
     {
         /// <summary>
         /// 更早期的版本
@@ -23,6 +23,18 @@ namespace TianYiSdtdServerTools.Client.Models.SdtdServerInfo
 
         A18 = 18,
 
-        A19 = 19
+        A19 = 19,
+
+        A20 = 20,
+
+        A21 = 21,
+
+        A22 = 22,
+
+        A23 = 23,
+
+        A24 = 24,
+
+        A25 = 25
     }
 }

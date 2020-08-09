@@ -16,19 +16,24 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
         }
 
         /// <summary>
-        /// 客户昵称
+        /// 用户ID
         /// </summary>
-        public string Nickname { get; set; }
+        public string UserID { get; set; }
 
         /// <summary>
-        /// 大小为40×40像素的QQ头像URL
+        /// 显示名称
         /// </summary>
-        public string Figureurl_40 { get; set; }
+        public string DisplayName { get; set; }
 
         /// <summary>
-        /// 性别
+        /// 上次登录时间
         /// </summary>
-        public string Gender { get; set; }
+        public DateTime? LastLoginTime { get; set; }
+
+        /// <summary>
+        /// 上次登录IP
+        /// </summary>
+        public string LastLoginIP { get; set; }
 
         /// <summary>
         /// 用户角色ID
@@ -36,18 +41,13 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
         public int RoleID { get; set; }
 
         /// <summary>
-        /// 用户角色ID名称
+        /// 角色名称
         /// </summary>
         public string RoleName { get; set; }
 
         /// <summary>
-        /// 会员过期时间
+        /// 使用期限
         /// </summary>
-        public DateTime ExpiryTime { get; set; }
-
-        /// <summary>
-        /// 上次登录时间
-        /// </summary>
-        public DateTime LastLoginTime { get; set; }
+        public DateTime? ExpiryTime { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using IceCoffee.Common;
+using IceCoffee.Common.Extensions;
 using IceCoffee.Common.LogManager;
 using IceCoffee.Network.Sockets;
 using TianYiSdtdServerTools.Client.Models.Chat;
@@ -26,7 +27,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// <summary>
         /// 数据缓冲区列表
         /// </summary>
-        private readonly List<string> _lineList = new List<string>();
+        private readonly List<string> _linesBuffer = new List<string>();
 
         /// <summary>
         /// 正在执行的命令
@@ -61,7 +62,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// <summary>
         /// 获取服务器游戏在线玩家等数据时钟
         /// </summary>
-        private readonly Timer _requestDataTimer = new Timer() { AutoReset = true, Enabled = false, Interval = 10000 };
+        private readonly Timer _requestDataTimer;
 
         #endregion
 
@@ -77,6 +78,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         #region 构造方法
         public TcpSession()
         {
+            _requestDataTimer = new Timer() { AutoReset = true, Enabled = false, Interval = 10000 };
             _requestDataTimer.Elapsed += RequestData;
         }
 
@@ -140,7 +142,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         {
             if (_isWritingToBufferList == false)
             {
-                _lineList.Clear();
+                _linesBuffer.Clear();
             }
             if (_executingCmd == "lp")    //列表在线玩家
             {
@@ -149,13 +151,13 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     ReadLineToBuffer();
                     if (_line.Contains(". id="))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
                     else if (_line.StartsWith("Total"))
                     {
-                        if (_lineList.Count == 0)
+                        if (_linesBuffer.Count == 0)
                         {
                             _requestDataTimer.Stop();
                             _onlinePlayers.Clear();
@@ -163,7 +165,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                         }
                         else if (_onlinePlayers.Count == 0)
                         {
-                            ListDataHandler.ParseOnlinePlayers(_lineList, ref _onlinePlayers);
+                            ListDataHandler.ParseOnlinePlayers(_linesBuffer, ref _onlinePlayers);
                             SdtdConsole.Instance.RaiseServerHavePlayerAgainEvent();
                         }                        
 
@@ -189,13 +191,13 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     ReadLineToBuffer();
                     if (_line.Contains(" id="))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
                     else if (_line.StartsWith("Total"))
                     {
-                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseHistoryPlayers(_lineList), TempListDataType.HistoryPlayerList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseHistoryPlayers(_linesBuffer), TempListDataType.HistoryPlayerList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;
@@ -220,13 +222,13 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("   "))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
                     else if (_line.StartsWith("***"))
                     {
-                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseAdmins(_lineList), TempListDataType.AdminList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseAdmins(_linesBuffer), TempListDataType.AdminList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;
@@ -251,13 +253,13 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("   "))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
                     else if (_line.StartsWith("***"))
                     {
-                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParsePermissions(_lineList), TempListDataType.PermissionList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParsePermissions(_linesBuffer), TempListDataType.PermissionList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;
@@ -282,7 +284,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("  "))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
@@ -313,7 +315,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     }
                     else if (_line.StartsWith("  "))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
@@ -340,7 +342,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     ReadLineToBuffer();
                     if (_line.StartsWith("Player") || _line.StartsWith("   "))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
@@ -367,7 +369,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     ReadLineToBuffer();
                     if (_line.Contains(". id="))
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
@@ -394,13 +396,13 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     string startsWith = _line.Substring(0, 2);
                     if (startsWith == "1s" || startsWith == "2n" || startsWith == "  ")
                     {
-                        _lineList.Add(_line);
+                        _linesBuffer.Add(_line);
                         _isWritingToBufferList = true;
                         continue;
                     }
                     else if (startsWith == "**")
                     {
-                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseCanUseEntityList(_lineList), TempListDataType.CanUseEntityList);
+                        SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseAvailableEntityList(_linesBuffer), TempListDataType.AvailableEntityList);
                         _isWritingToBufferList = false;
                         _isExecutingCmd = false;
                         return;

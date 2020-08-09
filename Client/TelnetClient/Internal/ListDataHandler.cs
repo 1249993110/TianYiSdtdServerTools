@@ -1,4 +1,5 @@
 ﻿using IceCoffee.Common;
+using IceCoffee.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -204,13 +205,13 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static List<CanUseEntity> ParseCanUseEntityList(List<string> lines)
+        public static List<AvailableEntity> ParseAvailableEntityList(List<string> lines)
         {
-            List<CanUseEntity> result = new List<CanUseEntity>();
+            List<AvailableEntity> result = new List<AvailableEntity>();
 
             for (int i = 2; i < lines.Count; ++i)
             {
-                result.Add(new CanUseEntity()
+                result.Add(new AvailableEntity()
                 {
                     EntityID = i - 1,
                     English = lines[i].GetMidStr(" - ", Environment.NewLine, 3)

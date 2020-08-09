@@ -1,4 +1,5 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.Common;
+using IceCoffee.Common.LogManager;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
@@ -25,7 +26,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
 
         private readonly IDispatcherService _dispatcherService;
 
-        private string _xmlPath = ConfigurationManager.AppSettings["ItemsXmlPath"];
+        private string _xmlPath = CommonHelper.GetAppSettings("ItemsXmlPath");
 
         public virtual string XmlPath
         {
@@ -110,7 +111,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
 
         private void LoadXml(ObservableCollection<ColoredImageData> imageDatas, string path)
         {
-            string itemIconsDirectory = ConfigurationManager.AppSettings["ItemIconsDirectory"].Replace("/", "\\");
+            string itemIconsDirectory = CommonHelper.GetAppSettings("ItemIconsDirectory").Replace("/", "\\");
 
             XmlDocument doc = new XmlDocument();
             doc.Load(path);

@@ -1,5 +1,6 @@
 ﻿using IceCoffee.Common;
 using IceCoffee.Common.LogManager;
+using IceCoffee.Network.CatchException;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -163,9 +164,9 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         }
 
 
-        private void OnExceptionCaught(IceCoffee.Network.CatchException.NetworkException e)
+        private void OnExceptionCaught(object sender, NetworkException ex)
         {
-            Log.Error("Telnet异常捕获", e);
+            Log.Error("Telnet异常捕获", ex);
         }
 
 

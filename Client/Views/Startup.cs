@@ -34,9 +34,9 @@ namespace TianYiSdtdServerTools.Client.Views
             {
                 InitConfig();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Error("初始化配置错误", e);
+                Log.Error("初始化配置错误", ex);
             }
 
             App app = new App();
@@ -56,17 +56,17 @@ namespace TianYiSdtdServerTools.Client.Views
                 {
                     if (Directory.Exists(directory) == false)
                     {
-                        Directory.CreateDirectory(ConfigurationManager.AppSettings[directory]);
+                        Directory.CreateDirectory(CommonHelper.GetAppSettings(directory));
                     }
                 }
             }
-            string viewModelConfigPath =  ConfigurationManager.AppSettings["ViewModelConfigPath"];
+            string viewModelConfigPath = CommonHelper.GetAppSettings("ViewModelConfigPath");
             if (File.Exists(viewModelConfigPath) == false)
             {
-                File.Copy(ConfigurationManager.AppSettings["ViewModelConfigDefaultPath"], viewModelConfigPath);
+                File.Copy(CommonHelper.GetAppSettings("ViewModelConfigDefaultPath"), viewModelConfigPath);
             }
 
-            Client.Services.Database.Initialize();
+            Client.Services.DatabaseConfig.InitializeDatabase();
         }
     }
 }

@@ -7,6 +7,6 @@
         xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="登录会员账号" pu:WindowXCaption.Foreground="#A96565" pu:WindowXCaption.Background="#F8F8F8" Height="450" Width="800">
-    <Grid Name="grid1">
+    <Grid>
     </Grid>
 </pu:WindowX>

@@ -5,9 +5,10 @@ using IceCoffee.DbCore.Primitives.Dto;
 using IceCoffee.DbCore.Primitives.Entity;
 using IceCoffee.DbCore.Primitives.Repository;
 using IceCoffee.DbCore.Primitives.Service;
-using IceCoffee.DbCore.UnitOfWork;
+using IceCoffee.DbCore.UnitWork;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace TianYiSdtdServerTools.Client.Services.Primitives
 {
@@ -17,8 +18,8 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives
     {
         public abstract string IdColumnName { get; }
 
-        public MyServiceBase(bool useConnectionPool = false)
-            : base(new SQLiteRepositoryStr<TEntity>(Database.DefaultDbConnectionString, useConnectionPool))
+        public MyServiceBase()
+            : base(new SQLiteRepositoryStr<TEntity>(DatabaseConfig.DefaultSQLiteConnectionInfo))
         {
         }
 
@@ -33,7 +34,7 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives
         [CatchSyncException("通过ID获取数据异常")]
         public TDto GetDataByID<TId>(TId id)
         {
-            return EntityToDto(Repository.QueryOneById(id, IdColumnName));
+            return EntityToDto(Repository.QueryById(id, IdColumnName).FirstOrDefault());
         }
         #endregion
 
@@ -46,7 +47,7 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives
         {
             if(dto != null)
             {
-                await Repository.DeleteOneByIdAsync(typeof(TDto).GetProperty(IdColumnName).GetValue(dto) as string, IdColumnName);
+                await Repository.DeleteByIdAsync(typeof(TDto).GetProperty(IdColumnName).GetValue(dto) as string, IdColumnName);
             }
         }
         #endregion
