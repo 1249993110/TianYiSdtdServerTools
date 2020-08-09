@@ -41,10 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\NetDataObjects\Return_ClientInfo.cs" />
-    <Compile Include="Models\NetDataObjects\Submit_ClientInfo.cs" />
+    <Compile Include="Models\NetDataObjects\RSP_ClientInfo.cs" />
+    <Compile Include="Models\NetDataObjects\RSP_DialogueBox.cs" />
+    <Compile Include="Models\NetDataObjects\REQ_ClientInfo.cs" />
     <Compile Include="SocketConfig.cs" />
-    <Compile Include="Models\NetDataObjects\AutoUpdaterConfig.cs" />
+    <Compile Include="Models\NetDataObjects\RSP_AutoUpdaterConfig.cs" />
     <Compile Include="Primitives\NetDataType.cs" />
     <Compile Include="Primitives\NetDataObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

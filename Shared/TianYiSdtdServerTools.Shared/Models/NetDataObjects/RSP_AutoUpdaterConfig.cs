@@ -8,9 +8,9 @@ using TianYiSdtdServerTools.Shared.Primitives;
 namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
 {
     [Serializable]
-    public class AutoUpdaterConfig : NetDataObject
+    public class RSP_AutoUpdaterConfig : NetDataObject
     {
-        public AutoUpdaterConfig() : base(NetDataType.Return_AutoUpdaterConfig)
+        public RSP_AutoUpdaterConfig() : base(NetDataType.RSP_AutoUpdaterConfig)
         {
              
         }

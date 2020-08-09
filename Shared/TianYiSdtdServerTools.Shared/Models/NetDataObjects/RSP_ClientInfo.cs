@@ -8,9 +8,9 @@ using TianYiSdtdServerTools.Shared.Primitives;
 namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
 {
     [Serializable]
-    public class Return_ClientInfo : NetDataObject
+    public class RSP_ClientInfo : NetDataObject
     {
-        public Return_ClientInfo() : base(NetDataType.Return_ClientInfo)
+        public RSP_ClientInfo() : base(NetDataType.RSP_ClientInfo)
         {
 
         }
@@ -28,7 +28,7 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
         /// <summary>
         /// 上次登录时间
         /// </summary>
-        public DateTime? LastLoginTime { get; set; }
+        public DateTime LastLoginTime { get; set; }
 
         /// <summary>
         /// 上次登录IP
@@ -48,6 +48,6 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
         /// <summary>
         /// 使用期限
         /// </summary>
-        public DateTime? ExpiryTime { get; set; }
+        public DateTime ExpiryTime { get; set; }
     }
 }

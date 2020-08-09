@@ -8,9 +8,9 @@ using TianYiSdtdServerTools.Shared.Primitives;
 namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
 {
     [Serializable]
-    public class Submit_ClientInfo : NetDataObject
+    public class REQ_ClientInfo : NetDataObject
     {
-        public Submit_ClientInfo() : base(NetDataType.Submit_ClientInfo)
+        public REQ_ClientInfo() : base(NetDataType.REQ_ClientInfo)
         {
         }
 
@@ -23,6 +23,11 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
         /// 用户ID
         /// </summary>
         public string UserID { get; set; }
+
+        /// <summary>
+        /// 密码哈希值
+        /// </summary>
+        public string PasswordHash { get; set; }
 
         /// <summary>
         /// 是否已经授权

@@ -17,12 +17,12 @@ namespace TianYiSdtdServerTools.Shared.Primitives
         /// <summary>
         /// 提交客户信息
         /// </summary>
-        Submit_ClientInfo,
+        REQ_ClientInfo,
 
         /// <summary>
         /// 提交cdkey
         /// </summary>
-        Submit_CDkey,
+        REQ_CDkey,
         #endregion
 
 
@@ -30,22 +30,22 @@ namespace TianYiSdtdServerTools.Shared.Primitives
         /// <summary>
         /// 关闭客户端
         /// </summary>
-        CloseClient,
+        RSP_CloseClient,
 
         /// <summary>
         /// 弹出对话框
         /// </summary>
-        PopDialogueBox,
+        RSP_PopDialogueBox,
 
         /// <summary>
         /// 返回客户信息
         /// </summary>
-        Return_ClientInfo,
+        RSP_ClientInfo,
 
         /// <summary>
         /// 返回自动更新器配置
         /// </summary>
-        Return_AutoUpdaterConfig
+        RSP_AutoUpdaterConfig
         #endregion
     }
 }

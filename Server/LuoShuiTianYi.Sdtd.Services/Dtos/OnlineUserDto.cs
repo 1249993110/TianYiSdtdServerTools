@@ -30,7 +30,7 @@ namespace LuoShuiTianYi.Sdtd.Services.Dtos
         /// <summary>
         /// 使用期限
         /// </summary>
-        public string ExpiryTime { get; set; }
+        public DateTime? ExpiryTime { get; set; }
 
         /// <summary>
         /// 用户角色ID

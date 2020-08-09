@@ -21,6 +21,8 @@ namespace TianYiSdtdServerTools.Server.Sockets
 
         private readonly LoginHandler _loginHandler;
 
+        internal string clientIPEndPoint;
+
         public TcpSession()
         {
             _loginHandler = IocContainer.Resolve<LoginHandler>(new TypedParameter(typeof(TcpSession), this));
@@ -33,8 +35,14 @@ namespace TianYiSdtdServerTools.Server.Sockets
             base.OnInitialized();
         }
 
+        protected override void OnStarted()
+        {
+            clientIPEndPoint = base.RemoteIPEndPoint.ToString();
+            base.OnStarted();
+        }
+
         protected override void OnReceived(object obj)
-        {           
+        {
             NetDataObject netObj = obj as NetDataObject;
             if (netObj == null)
             {
@@ -45,14 +53,14 @@ namespace TianYiSdtdServerTools.Server.Sockets
             {
                 switch (netObj.NetDataType)
                 {
-                    case NetDataType.Submit_ClientInfo:
-                        _loginHandler.RequestLogin(obj as Submit_ClientInfo);
+                    case NetDataType.REQ_ClientInfo:
+                        _loginHandler.RequestLogin(obj as REQ_ClientInfo);
                         break;
                     default:
                         Log.Error("错误的NetDataType" + netObj.NetDataType);
                         break;
                 }
-            }               
+            }
         }
     }
 }

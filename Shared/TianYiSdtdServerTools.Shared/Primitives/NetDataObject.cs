@@ -11,7 +11,7 @@ namespace TianYiSdtdServerTools.Shared.Primitives
     {
         private NetDataType _netDataType;
 
-        public NetDataType NetDataType { get => _netDataType; set => _netDataType = value; }
+        public NetDataType NetDataType => _netDataType;
 
         public NetDataObject(NetDataType netDataType)
         {
