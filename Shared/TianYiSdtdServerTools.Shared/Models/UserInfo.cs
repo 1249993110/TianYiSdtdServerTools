@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TianYiSdtdServerTools.Shared.Primitives;
 
-namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
+namespace TianYiSdtdServerTools.Shared.Models
 {
+    /// <summary>
+    /// 用户信息
+    /// </summary>
     [Serializable]
-    public class RSP_ClientInfo : NetDataObject
+    public class UserInfo
     {
-        public RSP_ClientInfo() : base(NetDataType.RSP_ClientInfo)
-        {
-
-        }
-
         /// <summary>
         /// 用户ID
         /// </summary>

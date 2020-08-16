@@ -41,15 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\NetDataObjects\RSP_ClientInfo.cs" />
-    <Compile Include="Models\NetDataObjects\RSP_DialogueBox.cs" />
-    <Compile Include="Models\NetDataObjects\REQ_ClientInfo.cs" />
+    <Compile Include="Models\MessageBoxBody.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\NetDataObjects\REQ_RegisterAccount.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Models\NetDataObjects\RSP_LoginResult.cs" />
+    <Compile Include="Models\NetDataObjects\RSP_PopMessageBox.cs" />
+    <Compile Include="Models\NetDataObjects\REQ_Login.cs" />
     <Compile Include="SocketConfig.cs" />
     <Compile Include="Models\NetDataObjects\RSP_AutoUpdaterConfig.cs" />
     <Compile Include="Primitives\NetDataType.cs" />
     <Compile Include="Primitives\NetDataObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\UserGroups\UserRole.cs" />
     <Compile Include="VersionManager.cs" />
   </ItemGroup>
   <ItemGroup>

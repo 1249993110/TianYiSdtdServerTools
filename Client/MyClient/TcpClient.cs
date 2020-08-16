@@ -14,66 +14,39 @@ namespace TianYiSdtdServerTools.Client.MyClient
 {
     public class TcpClient : BaseClient<TcpSession>
     {
-        private static readonly TcpClient _instance = new TcpClient();
-
         /// <summary>
-        /// 获得实例
+        /// 是否已经授权
         /// </summary>
-        public static TcpClient Instance { get { return _instance; } }
-
-        public readonly string ClientToken = Guid.NewGuid().ToString().Replace("-", string.Empty).ToBase64();
-
         public bool IsAuthorized { get; set; }
 
-        public Return_ClientInfo Return_ClientInfo { get; private set; }
-
         /// <summary>
-        /// 登陆成功
+        /// 收到返回的登录结果
         /// </summary>
-        public event Action LoginSucceed;
-
-        /// <summary>
-        /// 收到返回的客户信息
-        /// </summary>
-        public event Action<Return_ClientInfo> ReceivedClientInfo;
+        public event Action<RSP_LoginResult> ReceivedLoginResult;
 
         /// <summary>
         /// 收到自动更新器配置
         /// </summary>
-        public event Action<AutoUpdaterConfig> ReceivedAutoUpdaterConfig;
+        public event Action<RSP_AutoUpdaterConfig> ReceivedAutoUpdaterConfig;
 
-        public TcpClient()
+        /// <summary>
+        /// 弹出对话框
+        /// </summary>
+        public event Action<RSP_PopMessageBox> PopMessageBox;
+
+        internal void OnReceivedLoginResult(RSP_LoginResult clientInfo)
         {
-            base.ExceptionCaught += OnExceptionCaught;
-            base.AutoReconnectMaxCount = 3;
+            ReceivedLoginResult?.Invoke(clientInfo);
         }
 
-        private void OnExceptionCaught(object sender, NetworkException ex)
-        {
-            Log.Error("MyClient异常捕获", ex);
-        }
-
-        protected override void OnReconnectDefeated()
-        {
-            Log.Info("自动重连工具服务器失败，已尝试次数：" + AutoReconnectMaxCount.ToString());
-            base.OnReconnectDefeated();
-        }
-
-        internal void OnReceivedClientInfo(Return_ClientInfo return_ClientInfo)
-        {
-            Return_ClientInfo = return_ClientInfo;
-            if (IsAuthorized == false)
-            {
-                IsAuthorized = true;
-                LoginSucceed?.Invoke();
-            }
-
-            ReceivedClientInfo?.Invoke(return_ClientInfo);
-        }
-
-        internal void OnReceivedAutoUpdaterConfig(AutoUpdaterConfig autoUpdaterConfig)
+        internal void OnReceivedAutoUpdaterConfig(RSP_AutoUpdaterConfig autoUpdaterConfig)
         {
             ReceivedAutoUpdaterConfig?.Invoke(autoUpdaterConfig);
+        }
+        
+        internal void OnPopMessageBox(RSP_PopMessageBox messageBox)
+        {
+            PopMessageBox?.Invoke(messageBox);
         }
     }
 }

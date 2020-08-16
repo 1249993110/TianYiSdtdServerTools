@@ -12,25 +12,25 @@ namespace TianYiSdtdServerTools.Client.Services.UI
         /// <summary>
         /// 显示一个只有确定按钮无返回值的消息框
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="content"></param>
         /// <param name="title"></param>
-        void ShowInformation(string message, string title = "提示");
+        void ShowInformation(string content, string title = "提示");
 
         /// <summary>
         /// 显示消息框
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="content"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        bool ShowYesNo(string message, string title = "提示");
+        bool ShowYesNo(string content, string title = "提示");
 
         /// <summary>
         /// 显示消息框
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="content"></param>
         /// <param name="title"></param>
         /// <returns></returns>
-        bool ShowOKCancel(string message, string title = "提示");
+        bool ShowOKCancel(string content, string title = "提示");
 
         /// <summary>
         /// 显示输入对话框
@@ -47,5 +47,10 @@ namespace TianYiSdtdServerTools.Client.Services.UI
         /// <param name="steamID"></param>
         /// <returns></returns>
         void ShowPlayerInventory(string steamID);
+
+        /// <summary>
+        /// 显示自动更新器
+        /// </summary>
+        void ShowAutoUpdater(string xmlUrl);
     }
 }

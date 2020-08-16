@@ -8,13 +8,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
+using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 using TianYiSdtdServerTools.Client.Models.Chat;
 using TianYiSdtdServerTools.Client.Models.ObservableObjects;
 using TianYiSdtdServerTools.Client.MyClient;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.ViewModels.Managers;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
+using TianYiSdtdServerTools.Shared.Models;
+using TianYiSdtdServerTools.Client.Models.MvvmMessages;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 {
@@ -26,9 +28,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 
         public List<FunctionPanelViewItemModel> FunctionPanelItems { get; set; }
 
-        public Uri HeaderIconUri { get; [NPCA_Method]private set; }
+        public Uri HeaderIconUri { get; [NPCA_Method]set; }
 
-        public string HeaderIconToolTip { get; [NPCA_Method]private set; }
+        public string HeaderIconToolTip { get; [NPCA_Method]set; }
 
         public MainWindowViewModel(IDispatcherService dispatcherService, IRichTextBoxService richTextBoxService, IDialogService dialogService)
             : base(dispatcherService)
@@ -42,16 +44,26 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
             FunctionPanelItems = ViewItemManager.Instance.FunctionPanelItems;
 
             
-            OnReceivedClientInfo(TcpClient.Instance.Return_ClientInfo);
-
-            TcpClient.Instance.ReceivedClientInfo += OnReceivedClientInfo;            
+            OnReceivedUserInfo(MyClientManager.Instance.UserInfo);
+            Messenger.Default.Register<MyTcpClientMessage>(this, HandeMyTcpClientMessage);
         }
 
-        private void OnReceivedClientInfo(Shared.Models.NetDataObjects.Return_ClientInfo clientInfo)
+        private void HandeMyTcpClientMessage(MyTcpClientMessage msg)
         {
-            HeaderIconUri = new Uri(clientInfo.Figureurl_40);
+            switch (msg.MessageType)
+            {
+                case MyTcpClientMessageType.ReceivedUserInfo:
+                    OnReceivedUserInfo(msg.Content as UserInfo);
+                    break;
+            }
+        }
+
+
+        private void OnReceivedUserInfo(UserInfo clientInfo)
+        {
+            HeaderIconUri = HeaderIconUri ?? new Uri("pack://application:,,,/Resources;component/Assets/Images/vip.png", UriKind.Absolute);
             HeaderIconToolTip = string.Format("用户: {0}\r\n会员等级: {1}\r\n有效期至: {2}",
-                clientInfo.Nickname, clientInfo.RoleName, clientInfo.ExpiryTime);
+                clientInfo.DisplayName, clientInfo.RoleName, clientInfo.ExpiryTime);
         }
 
         private void OnLogRecorded(string message, Exception exception, LogLevel logLevel)

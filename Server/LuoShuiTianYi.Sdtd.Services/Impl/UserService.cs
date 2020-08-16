@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace LuoShuiTianYi.Sdtd.Services.Impl
 {
-    public class UserService : ServiceBase<T_User, UserDto>, IUserService
+    public class UserService : ServiceBaseGuid<T_User, UserDto>, IUserService
     {
         new protected IUserRepository Repository => base.Repository as IUserRepository;
 

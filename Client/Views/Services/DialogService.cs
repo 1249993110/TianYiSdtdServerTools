@@ -1,4 +1,5 @@
-﻿using IceCoffee.Wpf.CustomControlLibrary.Controls;
+﻿using AutoUpdaterDotNET;
+using IceCoffee.Wpf.CustomControlLibrary.Controls;
 using Panuon.UI.Silver;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,14 @@ namespace TianYiSdtdServerTools.Client.Views.Services
         public void ShowPlayerInventory(string steamID)
         {
             new PlayerInventoryDialog(steamID).Show();
+        }
+
+        public void ShowAutoUpdater(string xmlUrl)
+        {
+            AutoUpdater.ReportErrors = true;
+            AutoUpdater.Mandatory = true;
+            AutoUpdater.UpdateMode = Mode.Forced;
+            AutoUpdater.Start(xmlUrl);
         }
     }
 }

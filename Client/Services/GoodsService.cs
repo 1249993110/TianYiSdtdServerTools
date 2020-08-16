@@ -11,7 +11,7 @@ using TianYiSdtdServerTools.Client.Services.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
-    public class GoodsService : MyServiceBase<Goods, GoodsDto>
+    public class GoodsService : BaseService<Goods, GoodsDto>
     {
         public override string IdColumnName { get { return "BuyCmd"; } }
     }

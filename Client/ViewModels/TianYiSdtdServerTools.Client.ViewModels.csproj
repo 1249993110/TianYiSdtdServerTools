@@ -68,6 +68,7 @@
     <Compile Include="FunctionPanel\ScoreSystemViewModel.cs" />
     <Compile Include="FunctionPanel\TeleportCityViewModel.cs" />
     <Compile Include="FunctionPanel\TeleportHomeViewModel.cs" />
+    <Compile Include="Managers\MyClientManager.cs" />
     <Compile Include="Managers\SdtdLocalizationManager.cs" />
     <Compile Include="Managers\SdtdServerInfoManager.cs" />
     <Compile Include="Managers\ViewItemManager.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="ToolDialog\BlockViewModel.cs" />
     <Compile Include="ToolDialog\EntityViewModel.cs" />
     <Compile Include="ToolDialog\ItemViewModel.cs" />
+    <Compile Include="Windows\LoginWindowViewModel.cs" />
     <Compile Include="Windows\MainWindowViewModel.cs" />
     <Compile Include="Primitives\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,9 +93,17 @@
       <Project>{99101E9E-BA03-4192-9CA9-272614FDCC7B}</Project>
       <Name>IceCoffee.DbCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj">
+      <Project>{E91AE132-D500-42DC-9FDB-50234949BCA2}</Project>
+      <Name>IceCoffee.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\Icecoffee.Wpf.MvvmFrame\Icecoffee.Wpf.MvvmFrame.csproj">
       <Project>{F82A5AFC-D119-4CDE-8A65-1470947C5993}</Project>
       <Name>Icecoffee.Wpf.MvvmFrame</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\TianYiSdtdServerTools.Shared\TianYiSdtdServerTools.Shared.csproj">
+      <Project>{05DE2F54-996A-4675-9F0B-279EBADB6C57}</Project>
+      <Name>TianYiSdtdServerTools.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\TianYiSdtdServerTools.Client.Models.csproj">
       <Project>{AFF037C5-D34F-41CE-ACBF-209D93436159}</Project>

@@ -10,7 +10,7 @@ using TianYiSdtdServerTools.Client.Services.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
-    public class LotteryService : MyServiceBase<Lottery, LotteryDto>
+    public class LotteryService : BaseService<Lottery, LotteryDto>
     {
         public override string IdColumnName { get { return null; } }
     }

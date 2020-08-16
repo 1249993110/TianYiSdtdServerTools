@@ -6,6 +6,7 @@ using IceCoffee.Network.Sockets.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Server.Sockets.BusinessHandlers;
@@ -21,7 +22,7 @@ namespace TianYiSdtdServerTools.Server.Sockets
 
         private readonly LoginHandler _loginHandler;
 
-        internal string clientIPEndPoint;
+        new public TcpServer SocketDispatcher => _socketDispatcher;
 
         public TcpSession()
         {
@@ -37,8 +38,12 @@ namespace TianYiSdtdServerTools.Server.Sockets
 
         protected override void OnStarted()
         {
-            clientIPEndPoint = base.RemoteIPEndPoint.ToString();
             base.OnStarted();
+        }
+
+        protected override void OnClosed(SocketError closedReason)
+        {
+            base.OnClosed(closedReason);
         }
 
         protected override void OnReceived(object obj)
@@ -51,14 +56,30 @@ namespace TianYiSdtdServerTools.Server.Sockets
             }
             else
             {
-                switch (netObj.NetDataType)
+                if(_loginHandler.IsAuthorized == false)
                 {
-                    case NetDataType.REQ_ClientInfo:
-                        _loginHandler.RequestLogin(obj as REQ_ClientInfo);
-                        break;
-                    default:
-                        Log.Error("错误的NetDataType" + netObj.NetDataType);
-                        break;
+                    if(netObj.NetDataType == NetDataType.REQ_Login)
+                    {
+                        _loginHandler.RequestLogin(obj as REQ_Login);
+                    }
+                    else if(netObj.NetDataType == NetDataType.REQ_RegisterAccount)
+                    {
+                        _loginHandler.RegisterAccount(obj as REQ_RegisterAccount);
+                    }
+                    else
+                    {
+                        Log.Error("收到未授权认证的网络数据，来自IP：" + this.RemoteIPEndPoint);
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    switch (netObj.NetDataType)
+                    {
+                        default:
+                            Log.Error("错误的NetDataType：{0}，来自IP：{1}", netObj.NetDataType, this.RemoteIPEndPoint);
+                            break;
+                    }
                 }
             }
         }

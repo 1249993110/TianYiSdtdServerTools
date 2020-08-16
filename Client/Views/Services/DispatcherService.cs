@@ -35,5 +35,10 @@ namespace TianYiSdtdServerTools.Client.Views.Services
         {
             Application.Current.Dispatcher.InvokeAsync(action, (System.Windows.Threading.DispatcherPriority)dispatcherPriority);
         }
+
+        public void Shutdown(int exitCode)
+        {
+            Application.Current.Dispatcher.InvokeAsync(Application.Current.Shutdown);
+        }
     }
 }

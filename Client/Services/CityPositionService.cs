@@ -9,7 +9,7 @@ using TianYiSdtdServerTools.Client.Services.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
-    public class CityPositionService : MyServiceBase<CityPosition, CityPositionDto>
+    public class CityPositionService : BaseService<CityPosition, CityPositionDto>
     {
         public override string IdColumnName { get { return "TeleCmd"; } }       
     }

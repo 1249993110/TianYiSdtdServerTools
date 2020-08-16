@@ -15,14 +15,19 @@ namespace TianYiSdtdServerTools.Shared.Primitives
 
         #region 提交
         /// <summary>
-        /// 提交客户信息
+        /// 请求登录
         /// </summary>
-        REQ_ClientInfo,
+        REQ_Login,
+
+        /// <summary>
+        /// 注册账号
+        /// </summary>
+        REQ_RegisterAccount,
 
         /// <summary>
         /// 提交cdkey
         /// </summary>
-        REQ_CDkey,
+        REQ_SubmitCDkey,
         #endregion
 
 
@@ -33,14 +38,14 @@ namespace TianYiSdtdServerTools.Shared.Primitives
         RSP_CloseClient,
 
         /// <summary>
-        /// 弹出对话框
+        /// 弹出消息框
         /// </summary>
-        RSP_PopDialogueBox,
+        RSP_PopMessageBox,
 
         /// <summary>
-        /// 返回客户信息
+        /// 返回登录结果
         /// </summary>
-        RSP_ClientInfo,
+        RSP_LoginResult,
 
         /// <summary>
         /// 返回自动更新器配置

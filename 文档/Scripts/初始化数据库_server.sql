@@ -102,7 +102,7 @@ CREATE TABLE T_OnlineUser(
 	RoleName NVARCHAR(8),								--角色名称
 );
 --创建索引
-CREATE UNIQUE INDEX index_OnlineUser ON T_OnlineUser(Fk_UserID);
+CREATE INDEX index_OnlineUser ON T_OnlineUser(Fk_UserID);
 
 GO
 --创建视图

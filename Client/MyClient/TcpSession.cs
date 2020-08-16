@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Shared;
+using TianYiSdtdServerTools.Shared.Models;
 using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 using TianYiSdtdServerTools.Shared.Primitives;
 
@@ -25,29 +26,49 @@ namespace TianYiSdtdServerTools.Client.MyClient
 
         protected override void OnStarted()
         {
-            Submit_ClientInfo clientInfo = new Submit_ClientInfo()
-            {
-                ClientToken = _socketDispatcher.ClientToken,
-                ClientVersion = VersionManager.CurrentVersion,
-                IsAuthorized = _socketDispatcher.IsAuthorized
-            };
-            Send(clientInfo);
-
             base.OnStarted();
+        }
+
+        public void TryLogin(string userID, string passwordHash)
+        {
+            REQ_Login req = new REQ_Login()
+            {
+                ClientVersion = VersionManager.CurrentVersion,
+                IsAuthorized = _socketDispatcher.IsAuthorized,
+                UserID = userID,
+                PasswordHash = passwordHash
+            };
+            this.Send(req);
+        }
+
+
+        public void RegisterAccount(string userID, string passwordHash,string displayName)
+        {
+            REQ_RegisterAccount req = new REQ_RegisterAccount()
+            {
+                UserID = userID,
+                PasswordHash = passwordHash,
+                DisplayName = displayName,
+                RegisterAccountType = RegisterAccountType.StandardAccount
+            };
+            this.Send(req);
         }
 
         protected override void OnReceived(object obj)
         {
             switch ((obj as NetDataObject).NetDataType)
             {
-                case NetDataType.CloseClient:
+                case NetDataType.RSP_CloseClient:
                     Environment.Exit(-1);
                     break;
-                case NetDataType.Return_ClientInfo:
-                    _socketDispatcher.OnReceivedClientInfo(obj as Return_ClientInfo);                    
+                case NetDataType.RSP_LoginResult:
+                    _socketDispatcher.OnReceivedLoginResult(obj as RSP_LoginResult);
                     break;
-                case NetDataType.Return_AutoUpdaterConfig:
-                    _socketDispatcher.OnReceivedAutoUpdaterConfig(obj as AutoUpdaterConfig);
+                case NetDataType.RSP_AutoUpdaterConfig:
+                    _socketDispatcher.OnReceivedAutoUpdaterConfig(obj as RSP_AutoUpdaterConfig);
+                    break;
+                case NetDataType.RSP_PopMessageBox:
+                    _socketDispatcher.OnPopMessageBox(obj as RSP_PopMessageBox);
                     break;
                 default:
                     Log.Error("错误的NetDataType");

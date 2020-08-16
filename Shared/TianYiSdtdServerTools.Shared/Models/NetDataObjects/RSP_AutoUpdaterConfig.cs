@@ -15,6 +15,9 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
              
         }
 
+        /// <summary>
+        /// 更新配置文件的Url
+        /// </summary>
         public string XmlUrl { get; set; }
     }
 }

@@ -99,6 +99,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <DocumentationFile>
     </DocumentationFile>
+    <SkipPostSharp>True</SkipPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -365,13 +366,13 @@
       <Project>{f82a5afc-d119-4cde-8a65-1470947c5993}</Project>
       <Name>Icecoffee.Wpf.MvvmFrame</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\TianYiSdtdServerTools.Shared\TianYiSdtdServerTools.Shared.csproj">
+      <Project>{05DE2F54-996A-4675-9F0B-279EBADB6C57}</Project>
+      <Name>TianYiSdtdServerTools.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\TianYiSdtdServerTools.Client.Models.csproj">
       <Project>{aff037c5-d34f-41ce-acbf-209d93436159}</Project>
       <Name>TianYiSdtdServerTools.Client.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyClient\TianYiSdtdServerTools.Client.MyClient.csproj">
-      <Project>{E9D8D133-26E9-40F4-AACE-2B713D773201}</Project>
-      <Name>TianYiSdtdServerTools.Client.MyClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Resources\TianYiSdtdServerTools.Client.Resources.csproj">
       <Project>{82002828-cec5-4351-abed-0130979a2bde}</Project>

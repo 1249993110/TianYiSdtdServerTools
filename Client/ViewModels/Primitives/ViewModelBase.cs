@@ -17,7 +17,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 {
     public abstract class ViewModelBase : ObservableObject
     {
-        protected readonly IDispatcherService _dispatcherService;
+        protected readonly IDispatcherService dispatcherService;
 
         private static readonly List<Action<XmlDocument>> _saveConfigActions;
 
@@ -28,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
         public ViewModelBase(IDispatcherService dispatcherService)
         {
-            this._dispatcherService = dispatcherService;            
+            this.dispatcherService = dispatcherService;            
 
             _saveConfigActions.Add(this.PrivateSaveConfig);
 

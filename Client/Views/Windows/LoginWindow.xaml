@@ -6,7 +6,36 @@
         xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views.Windows"
         xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="登录会员账号" pu:WindowXCaption.Foreground="#A96565" pu:WindowXCaption.Background="#F8F8F8" Height="450" Width="800">
-    <Grid>
+        Title="登录会员账号" pu:WindowXCaption.Foreground="#A96565" pu:WindowXCaption.Background="#F8F8F8"
+            Height="350" Width="500">
+    <Grid Background="AliceBlue" FocusManager.FocusedElement="{Binding ElementName=textBox_userName, Mode=OneTime}">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="380">
+            <Image Height="80" Width="164" Margin="0,20,0,40" Source="/Resources;Component/Assets/Images/logo.png"/>
+            <Grid Margin="0,0,0,8">
+                <TextBox CharacterCasing="Lower" Height="36" Width="220" TabIndex="0" x:Name="textBox_userName"
+                         Text="{Binding UserID}" pu:TextBoxHelper.Watermark="账号"/>
+            </Grid>
+            <Grid Margin="0,0,0,16">
+                <PasswordBox Background="Transparent" HorizontalAlignment="Center" VerticalContentAlignment="Center"
+                             Height="36" Width="220" TabIndex="1" 
+                             pu:PasswordBoxHelper.Password="{Binding PasswordHash, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                             pu:PasswordBoxHelper.Watermark="密码"/>
+            </Grid>
+            <Grid HorizontalAlignment="Center" Width="220">
+                <Button pu:ButtonHelper.ButtonStyle="Standard"
+                    Foreground="White" Background="#31ADFF"
+                    pu:ButtonHelper.HoverBrush="#0099FF"
+                    Content="登录" Width="100" Height="36"  TabIndex="2"
+                    Command="{Binding Login}" HorizontalAlignment="Left"/>
+                <Button pu:ButtonHelper.ButtonStyle="Standard"
+                    Foreground="White" Background="Coral"
+                    pu:ButtonHelper.HoverBrush="#0099FF"
+                    Content="注册" Width="100" Height="36" TabIndex="3"
+                    Command="{Binding Register}" HorizontalAlignment="Right"/>
+            </Grid>
+            <StackPanel.InputBindings>
+                <KeyBinding Command="{Binding Login}" Key="Enter"/>
+            </StackPanel.InputBindings>
+        </StackPanel>
     </Grid>
 </pu:WindowX>

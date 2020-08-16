@@ -11,7 +11,7 @@ using TianYiSdtdServerTools.Client.Services.Primitives;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
-    public class HomePositionService : MyServiceBase<HomePosition, HomePositionDto>
+    public class HomePositionService : BaseService<HomePosition, HomePositionDto>
     {
         public override string IdColumnName { get { return "SteamID"; } }
         

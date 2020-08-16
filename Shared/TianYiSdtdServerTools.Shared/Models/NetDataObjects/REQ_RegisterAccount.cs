@@ -8,16 +8,11 @@ using TianYiSdtdServerTools.Shared.Primitives;
 namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
 {
     [Serializable]
-    public class REQ_ClientInfo : NetDataObject
+    public class REQ_RegisterAccount : NetDataObject
     {
-        public REQ_ClientInfo() : base(NetDataType.REQ_ClientInfo)
+        public REQ_RegisterAccount() : base(NetDataType.REQ_RegisterAccount)
         {
         }
-
-        /// <summary>
-        /// 客户版本
-        /// </summary>
-        public Version ClientVersion { get; set; }
 
         /// <summary>
         /// 用户ID
@@ -30,8 +25,13 @@ namespace TianYiSdtdServerTools.Shared.Models.NetDataObjects
         public string PasswordHash { get; set; }
 
         /// <summary>
-        /// 是否已经授权
+        /// 显示名称
         /// </summary>
-        public bool IsAuthorized { get; set; }
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// 注册账户类型
+        /// </summary>
+        public RegisterAccountType RegisterAccountType { get; set; }
     }
 }

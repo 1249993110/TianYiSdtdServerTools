@@ -30,7 +30,10 @@ namespace LuoShuiTianYi.Sdtd.Domain.Repositorys
             parameters.Add("@PasswordHash", sa.PasswordHash, DbType.String, ParameterDirection.Input);
             parameters.Add("@RoleID", sa.RoleID, DbType.Int32, ParameterDirection.Input);
             parameters.Add("@ExpiryTime", sa.ExpiryTime, DbType.DateTime, ParameterDirection.Input);
-            return base.ExecProcedure<int>(procName, parameters).FirstOrDefault() == 1;
+            parameters.Add("@ReturnValue", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+            _ = base.ExecProcedure<int>(procName, parameters);
+            int returnValue = parameters.Get<int>("@ReturnValue");
+            return returnValue == 1;
         }
 
         public V_User QueryByUserId_View(string userID)

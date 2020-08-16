@@ -1,4 +1,5 @@
-﻿using IceCoffee.DbCore.Primitives.Entity;
+﻿using IceCoffee.DbCore.OptionalAttributes;
+using IceCoffee.DbCore.Primitives.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,12 @@ namespace LuoShuiTianYi.Sdtd.Domain.Entitys
 {
     public class T_OnlineUser : EntityBaseGuid
     {
+        /// <summary>
+        /// 主键
+        /// </summary>
+        [Column("GUID"), IgnoreUpdate]
+        public override Guid Key { get; set; }
+
         /// <summary>
         /// 用户ID
         /// </summary>
@@ -30,7 +37,7 @@ namespace LuoShuiTianYi.Sdtd.Domain.Entitys
         /// <summary>
         /// 使用期限
         /// </summary>
-        public string ExpiryTime { get; set; }
+        public DateTime? ExpiryTime { get; set; }
 
         /// <summary>
         /// 用户角色ID
@@ -41,5 +48,10 @@ namespace LuoShuiTianYi.Sdtd.Domain.Entitys
         /// 角色名称
         /// </summary>
         public string RoleName { get; set; }
+
+        public override void Init()
+        {
+            Key = this.GenerateKey();
+        }
     }
 }

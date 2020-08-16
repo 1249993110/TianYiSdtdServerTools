@@ -14,6 +14,6 @@ namespace TianYiSdtdServerTools.Client.Models.MvvmMessages
         /// <summary>
         /// 初始化ControlPanelView
         /// </summary>
-        InitControlPanelView
+        InitControlPanelView,        
     }
 }

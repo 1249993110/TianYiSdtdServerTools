@@ -53,7 +53,7 @@
     <Compile Include="GoodsService.cs" />
     <Compile Include="HomePositionService.cs" />
     <Compile Include="LotteryService.cs" />
-    <Compile Include="Primitives\MyServiceBase.cs" />
+    <Compile Include="Primitives\BaseService.cs" />
     <Compile Include="UI\DispatcherPriority.cs" />
     <Compile Include="UI\IDialogService.cs" />
     <Compile Include="UI\IDispatcherService.cs" />

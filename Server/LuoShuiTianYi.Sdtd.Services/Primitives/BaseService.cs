@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace LuoShuiTianYi.Sdtd.Services.Primitives
 {
-    public abstract class ServiceBase<TEntity, TDto> : ServiceBaseGuid<TEntity, TDto>
+    public abstract class BaseService<TEntity, TDto> : ServiceBaseGuid<TEntity, TDto>
         where TEntity : EntityBaseGuid, new()
         where TDto : DtoBaseGuid, new()
     {
-        public ServiceBase()
+        public BaseService()
             : base(new SqlServerRepositoryGuid<TEntity>(DatabaseConfig.DefaultConnectionInfo))
         {
         }
 
-        public ServiceBase(IRepositoryBase<TEntity, Guid> repository)
+        public BaseService(IRepositoryBase<TEntity, Guid> repository)
             : base(repository)
         {
         }

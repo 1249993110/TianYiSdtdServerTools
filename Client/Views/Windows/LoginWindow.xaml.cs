@@ -1,10 +1,15 @@
-﻿using AutoUpdaterDotNET;
+﻿using Autofac;
+using AutoUpdaterDotNET;
 using IceCoffee.Common.LogManager;
+using IceCoffee.Wpf.MvvmFrame.Messaging;
 using Panuon.UI.Silver;
 using System;
 using System.Windows;
-using TianYiSdtdServerTools.Client.MyClient;
+using System.Windows.Input;
+using TianYiSdtdServerTools.Client.Models.MvvmMessages;
+using TianYiSdtdServerTools.Client.ViewModels.Windows;
 using TianYiSdtdServerTools.Shared;
+using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
@@ -13,54 +18,43 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
     /// </summary>
     public partial class LoginWindow : Panuon.UI.Silver.WindowX
     {
+        public LoginWindowViewModel ViewModel { get; set; }
         public LoginWindow()
-        {
-            InitMyTcpClient();
-
+        {           
             InitializeComponent();
-        }
-        
-        private void InitMyTcpClient()
-        {            
-            TcpClient.Instance.LoginSucceed += OnLoginSucceed;
-            TcpClient.Instance.ReceivedAutoUpdaterConfig += OnReceivedAutoUpdaterConfig;
-            TcpClient.Instance.ReconnectDefeated += OnReconnectDefeated;
-            TcpClient.Instance.Connect(SocketConfig.IP, SocketConfig.Port);
+
+            Messenger.Default.Register<MyTcpClientMessage>(this, HandeMyTcpClientMessage);
+
+            ViewModel = Autofac.Resolve<LoginWindowViewModel>();
+            base.DataContext = ViewModel;
         }
 
-        private static void OnReconnectDefeated()
+        private void HandeMyTcpClientMessage(MyTcpClientMessage msg)
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            switch (msg.MessageType)
             {
-                MessageBoxX.Show("连接工具服务端失败，请重新登陆", "提示");
-                Environment.Exit(-1);
-            });
+                case MyTcpClientMessageType.FirstLoginSucceed:
+                    OnFirstLoginSucceed();
+                    break;
+            }
         }
-
-        private static void OnReceivedAutoUpdaterConfig(Shared.Models.NetDataObjects.AutoUpdaterConfig obj)
+        private void OnFirstLoginSucceed()
         {
-            Application.Current.Dispatcher.InvokeAsync(() => 
-            {
-                AutoUpdater.ReportErrors = true;
-                AutoUpdater.Mandatory = true;
-                AutoUpdater.UpdateMode = Mode.Forced;
-                AutoUpdater.Start(obj.XmlUrl);
-            });
-        }
-
-
-        private void OnLoginSucceed()
-        {
-            Log.Info("登录成功");
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 MainWindow mainWindow = new MainWindow();
 
                 Application.Current.MainWindow = mainWindow;
-                
+
                 this.Close();
                 mainWindow.Show();
             });
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            Messenger.Default.Unregister(this);
+            base.OnClosed(e);
         }
     }
 }

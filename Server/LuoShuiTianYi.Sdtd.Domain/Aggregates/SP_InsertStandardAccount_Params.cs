@@ -12,6 +12,11 @@ namespace LuoShuiTianYi.Sdtd.Domain.Aggregates
         public string UserID { get; set; }
 
         /// <summary>
+        /// 密码哈希值
+        /// </summary>
+        public string PasswordHash { get; set; }
+
+        /// <summary>
         /// 显示名称
         /// </summary>
         public string DisplayName { get; set; }
@@ -27,18 +32,27 @@ namespace LuoShuiTianYi.Sdtd.Domain.Aggregates
         public string LastLoginIP { get; set; }
 
         /// <summary>
-        /// 密码哈希值
-        /// </summary>
-        public string PasswordHash { get; set; }
-
-        /// <summary>
         /// 用户角色ID
         /// </summary>
-        public int RoleID { get; set; }
+        public int RoleID { get; set; } = -1;
 
         /// <summary>
         /// 使用期限
         /// </summary>
         public DateTime? ExpiryTime { get; set; }
+
+        public SP_InsertStandardAccount_Params()
+        {
+        }
+
+        public SP_InsertStandardAccount_Params(string userID, string passwordHash,
+             string displayName, DateTime expiryTime, int roleID)
+        {
+            UserID = userID;
+            PasswordHash = passwordHash;
+            DisplayName = displayName;
+            ExpiryTime = expiryTime;
+            RoleID = roleID;
+        }
     }
 }

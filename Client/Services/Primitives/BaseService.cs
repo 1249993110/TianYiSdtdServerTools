@@ -12,13 +12,13 @@ using System.Linq;
 
 namespace TianYiSdtdServerTools.Client.Services.Primitives
 {
-    public abstract class MyServiceBase<TEntity, TDto> : ServiceBaseStr<TEntity, TDto>
+    public abstract class BaseService<TEntity, TDto> : ServiceBaseStr<TEntity, TDto>
         where TEntity : EntityBaseStr, new()
         where TDto : DtoBaseStr, new()
     {
         public abstract string IdColumnName { get; }
 
-        public MyServiceBase()
+        public BaseService()
             : base(new SQLiteRepositoryStr<TEntity>(DatabaseConfig.DefaultSQLiteConnectionInfo))
         {
         }

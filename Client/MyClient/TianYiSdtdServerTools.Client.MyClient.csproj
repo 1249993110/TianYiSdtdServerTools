@@ -54,6 +54,10 @@
       <Project>{e91ae132-d500-42dc-9fdb-50234949bca2}</Project>
       <Name>IceCoffee.Network</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\TianYiSdtdServerTools.Shared\TianYiSdtdServerTools.Shared.csproj">
+      <Project>{05DE2F54-996A-4675-9F0B-279EBADB6C57}</Project>
+      <Name>TianYiSdtdServerTools.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

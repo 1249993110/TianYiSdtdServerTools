@@ -9,6 +9,11 @@ namespace TianYiSdtdServerTools.Client.Services.UI
     public interface IDispatcherService
     {
         /// <summary>
+        /// 使用postMessage向windows消息循环发送消息结束程序
+        /// </summary>
+        void Shutdown(int exitCode = 0);
+
+        /// <summary>
         /// 在与 ui线程调度者 关联的线程上同步执行指定的Action。
         /// </summary>
         /// <param name="action"></param>

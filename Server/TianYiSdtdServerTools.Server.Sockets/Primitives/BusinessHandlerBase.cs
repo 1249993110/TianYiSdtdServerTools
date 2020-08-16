@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TianYiSdtdServerTools.Shared.Models;
 using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 using TianYiSdtdServerTools.Shared.Primitives;
 
@@ -28,12 +29,22 @@ namespace TianYiSdtdServerTools.Server.Sockets.Primitives
         /// <summary>
         /// 弹出对话框
         /// </summary>
-        public virtual void PopDialogueBox(string content, string title = "提示")
+        public virtual void PopMessageBox(string content)
         {
-            tcpSession.Send(new RSP_DialogueBox() 
+            tcpSession.Send(new RSP_PopMessageBox()
             {
-                Title = title,
-                Content = content
+                MessageBoxBody = new MessageBoxBody(content)
+            });
+        }
+
+        /// <summary>
+        /// 弹出对话框
+        /// </summary>
+        public virtual void PopMessageBox(string content, string title, MessageBoxType messageBoxType)
+        {
+            tcpSession.Send(new RSP_PopMessageBox()
+            {
+                 MessageBoxBody = new MessageBoxBody(content, title, messageBoxType)
             });
         }
     }

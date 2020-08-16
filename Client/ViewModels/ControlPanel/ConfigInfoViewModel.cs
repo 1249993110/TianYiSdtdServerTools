@@ -57,14 +57,14 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             SdtdConsole.Instance.ReceivedServerPartialState += (serverPartialState) => { SdtdServerStates.ServerPartialState = serverPartialState; };
             SdtdConsole.Instance.GameDateTimeChanged += (gameDateTime) => { SdtdServerStates.GameDateTime = gameDateTime; };
 
-            base._dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
+            base.dispatcherService.ShutdownStarted += OnDispatcherService_ShutdownStarted;
 
             ConnectServer = new RelayCommand(() =>
             {
                 if (_functionPanelViewItemModelObservers == null)
                 {
                     Messenger.Default.Send(CommonEnumMessage.InitControlPanelView);
-                    _dispatcherService.InvokeAsync(InitFunctionSwitchModelObservers, DispatcherPriority.ApplicationIdle);
+                    base.dispatcherService.InvokeAsync(this.InitFunctionSwitchModelObservers, DispatcherPriority.ApplicationIdle);
                 }
 
                 SdtdServerInfoManager.Instance.SetServerInfo(

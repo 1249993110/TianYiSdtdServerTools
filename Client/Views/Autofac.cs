@@ -3,6 +3,7 @@ using Autofac.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Client.Services.UI;
@@ -25,15 +26,25 @@ namespace TianYiSdtdServerTools.Client.Views
             _builder = new ContainerBuilder();
 
             var assemblys = AppDomain.CurrentDomain.GetAssemblies();
+            
+            
 
             // 在程序集 ViewModels.dll 中自动查找类型
             _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("TianYiSdtdServerTools.Client.ViewModels")));
 
-            // 在程序集 Services.dll 中自动查找类型
-            _builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("TianYiSdtdServerTools.Client.Services"))).SingleInstance();
+            var assembly = assemblys.FirstOrDefault(x => x.FullName.StartsWith("TianYiSdtdServerTools.Client.Services"));
 
-            _builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
-            _builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();
+            var types = assembly.GetExportedTypes();
+
+            // 在程序集 Services.dll 中自动查找类型
+            _builder.RegisterAssemblyTypes(assembly).SingleInstance();
+
+            //_builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
+            //_builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();
+
+            _builder.RegisterAssemblyTypes(typeof(Autofac).Assembly)
+                .Where(p => p.FullName.StartsWith("TianYiSdtdServerTools.Client.Views.Services"))
+                .AsImplementedInterfaces().SingleInstance();
 
             _container = _builder.Build();
         }

@@ -15,7 +15,7 @@ using IceCoffee.DbCore.CatchServiceException;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
-    public class ScoreInfoService : MyServiceBase<ScoreInfo, ScoreInfoDto>
+    public class ScoreInfoService : BaseService<ScoreInfo, ScoreInfoDto>
     {
         public override string IdColumnName { get { return "SteamID"; } }
 

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LuoShuiTianYi.Sdtd.Services.Impl
 {
-    public class OnlineUserService : BaseService<T_OnlineUser, OnlineUserDto>, IOnlineUserService
+    public class StandardAccountService : BaseService<T_StandardAccount, StandardAccountDto>, IStandardAccountService
     {
     }
 }
