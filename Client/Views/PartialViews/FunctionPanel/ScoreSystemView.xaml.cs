@@ -28,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.FunctionPanel
         {
             InitializeComponent();
 
-            ViewModel = Autofac.Resolve<ScoreSystemViewModel>(new NamedParameter(nameof(functionTag), functionTag));
+            ViewModel = IocContainer.Resolve<ScoreSystemViewModel>(new NamedParameter(nameof(functionTag), functionTag));
 
             base.DataContext = ViewModel;
         }

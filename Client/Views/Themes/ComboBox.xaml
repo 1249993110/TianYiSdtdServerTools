@@ -5,6 +5,7 @@
 
     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="64"/>
     </Style>
 
     <Style x:Key="AvailableVariableComboBoxStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">

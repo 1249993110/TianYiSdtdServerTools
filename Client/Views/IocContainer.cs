@@ -15,13 +15,13 @@ namespace TianYiSdtdServerTools.Client.Views
     /// <summary>
     /// IocContainer
     /// </summary>
-    static class Autofac
+    static class IocContainer
     {
         private static ContainerBuilder _builder;
 
         private static IContainer _container;
 
-        static Autofac()
+        static IocContainer()
         {
             _builder = new ContainerBuilder();
 
@@ -42,7 +42,7 @@ namespace TianYiSdtdServerTools.Client.Views
             //_builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
             //_builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();
 
-            _builder.RegisterAssemblyTypes(typeof(Autofac).Assembly)
+            _builder.RegisterAssemblyTypes(typeof(IocContainer).Assembly)
                 .Where(p => p.FullName.StartsWith("TianYiSdtdServerTools.Client.Views.Services"))
                 .AsImplementedInterfaces().SingleInstance();
 

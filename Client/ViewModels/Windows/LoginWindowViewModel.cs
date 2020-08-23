@@ -28,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 
         public string PasswordHash 
         { 
-            get => _passwordHash; 
+            get => _passwordHash;
             [NPCA_Method]
             set => _passwordHash = value.ToBase64(); 
         }
@@ -47,9 +47,12 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 
             Register = new RelayCommand(() =>
             {
-                string result = dialogService.ShowInputDialog("请输入您的昵称：");
+                string displayName = dialogService.ShowInputDialog("请输入您的昵称：");
 
-                MyClientManager.Instance.RegisterAccount(UserID, PasswordHash, result);
+                if(displayName != null)
+                {
+                    MyClientManager.Instance.RegisterAccount(UserID, PasswordHash, displayName);
+                }
             });
         }
     }

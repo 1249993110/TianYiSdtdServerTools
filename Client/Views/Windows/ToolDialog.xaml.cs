@@ -1,4 +1,5 @@
-﻿using Panuon.UI.Silver;
+﻿using IceCoffee.Wpf.CustomControlLibrary.Primitives;
+using Panuon.UI.Silver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
     /// <summary>
     /// ToolDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class ToolDialog : Window
+    public partial class ToolDialog : WindowBase
     {
         public ToolDialog()
         {

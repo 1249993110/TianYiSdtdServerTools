@@ -28,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.FunctionPanel
         {
             InitializeComponent();
 
-            ViewModel = Autofac.Resolve<LotterySystemViewModel>(new NamedParameter(nameof(functionTag), functionTag));
+            ViewModel = IocContainer.Resolve<LotterySystemViewModel>(new NamedParameter(nameof(functionTag), functionTag));
 
             base.DataContext = ViewModel;
         }

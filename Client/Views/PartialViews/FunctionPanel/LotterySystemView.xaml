@@ -11,7 +11,7 @@
              xmlns:converters="clr-namespace:TianYiSdtdServerTools.Client.Views.Converters"
              xmlns:converters1="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Converters;assembly=IceCoffee.Wpf.CustomControlLibrary"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="650" d:DesignWidth="800">
     <UserControl.Resources>
         <converters1:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </UserControl.Resources>
@@ -55,7 +55,7 @@
                 <TextBox Text="{Binding Content, Mode=OneWayToSource}" pu:TextBoxHelper.Watermark="物品/方块/实体/指令" MinWidth="100" Margin="5 0"/>
                 <TextBox Text="{Binding Amount, Mode=OneWayToSource}" pu:TextBoxHelper.Watermark="数量" MinWidth="100"/>
                 <TextBox Text="{Binding Quality, Mode=OneWayToSource}" pu:TextBoxHelper.Watermark="品质" MinWidth="100" Margin="5 0"/>
-                <ComboBox pu:ComboBoxHelper.Header="奖品类型" SelectedIndex="0" HorizontalContentAlignment="Center" Text="{Binding LotteryType,Mode=OneWayToSource}"
+                <ComboBox Width="136" pu:ComboBoxHelper.Header="奖品类型" SelectedIndex="0" HorizontalContentAlignment="Center" Text="{Binding LotteryType,Mode=OneWayToSource}"
                           pu:ComboBoxHelper.HeaderWidth="60" IsReadOnly="True">
                     <ComboBoxItem Content="物品"></ComboBoxItem>
                     <ComboBoxItem Content="方块"></ComboBoxItem>

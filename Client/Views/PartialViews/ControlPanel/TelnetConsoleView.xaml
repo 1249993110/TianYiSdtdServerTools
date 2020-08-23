@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TextBox Name="textBox_TelnetData" Text="{Binding TelnetData, Mode=OneWay}" TextChanged="OnTextBox_TelnetData_TextChanged"
+        <TextBox Name="textBox_TelnetData"
                  FontSize="14" Style="{StaticResource WrapTextBoxStyle}"></TextBox>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

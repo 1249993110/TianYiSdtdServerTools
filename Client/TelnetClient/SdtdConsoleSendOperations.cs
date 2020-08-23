@@ -23,7 +23,8 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
                 {
                     Task.Run(() =>
                     {
-                        System.Threading.Thread.Sleep(25);
+                        // Windows下cpu时间片默认20ms
+                        System.Threading.Thread.Sleep(20);
                         _tcpClient.Session.SendCmd(Environment.NewLine);
                     });
                 }

@@ -31,7 +31,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         /// 轮播周期
         /// </summary>
         [ConfigNode(System.Xml.XmlNodeType.Attribute)]
-        public int AlternateInterval { get; set; } = 300;
+        public int AlternateInterval { get; [NPCA_Method]set; } = 300;
 
         public RelayCommand SendWelcomeNotice { get; private set; }
 
@@ -50,6 +50,19 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 SdtdConsole.Instance.SendGlobalMessage(AlternateNotice);
             });
+
+            Timer = new Timer() { AutoReset = true, Interval = AlternateInterval * 1000 };
+            Timer.Elapsed += OnTimer_Elapsed;
+
+            _currentViewModelObserver = new PropertyObserver<GameNoticeViewModel>(this);
+            _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.AlternateInterval,
+                (vm) =>
+                {
+                    if (AlternateInterval > 0)
+                    {
+                        Timer.Interval = AlternateInterval * 1000;
+                    }
+                });
         }
 
         private void OnPlayerEnterGame(Models.Players.PlayerInfo playerInfo)
@@ -70,22 +83,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
         protected override void EnableFunction()
         {
-            if(Timer == null)
-            {
-                Timer = new Timer() { AutoReset = true, Interval = AlternateInterval * 1000 };
-                Timer.Elapsed += OnTimer_Elapsed;
-
-                _currentViewModelObserver = new PropertyObserver<GameNoticeViewModel>(this);
-                _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.AlternateInterval,
-                    (vm) =>
-                    {
-                        if (AlternateInterval > 0)
-                        {
-                            Timer.Interval = AlternateInterval * 1000;
-                        }
-                    });
-            }
-
             Timer.Start();
             SdtdConsole.Instance.PlayerEnterGame -= OnPlayerEnterGame;
             SdtdConsole.Instance.PlayerEnterGame += OnPlayerEnterGame;

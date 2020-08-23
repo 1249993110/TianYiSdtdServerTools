@@ -59,7 +59,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
             }
             catch (Exception ex)
             {
-                Log.Error("加载配置失败 Model: " + type.Name, ex);
+                Log.Error(ex, "加载配置失败 Model: " + type.Name);
             }
         }
        
@@ -126,7 +126,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
             }
             catch (Exception ex)
             {
-                Log.Error("保存配置失败", ex);
+                Log.Error(ex, "保存配置失败");
             }
         }
 

@@ -36,7 +36,7 @@ namespace TianYiSdtdServerTools.Client.Views
             }
             catch (Exception ex)
             {
-                Log.Error("初始化配置错误", ex);
+                Log.Error(ex, "初始化配置错误");
             }
 
             App app = new App();

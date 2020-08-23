@@ -89,7 +89,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
                     richText2.color = "#FF0000";
                     break;
                 case SenderType.Player:
-                    richText2.content = string.Format(" '{0}': ", chatInfo.playerInfo.PlayerName);
+                    richText2.content = string.Format(" '{0}': ", chatInfo.playerInfo?.PlayerName);
                     richText2.color = "#FFD700";
                     break;
             }
@@ -120,7 +120,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             }
             catch (Exception ex)
             {
-                Log.Error("保存聊天信息异常", ex);
+                Log.Error(ex, "保存聊天信息异常");
             }            
         }
     }

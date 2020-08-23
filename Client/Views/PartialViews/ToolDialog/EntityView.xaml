@@ -23,7 +23,7 @@
             <TextBox Grid.Column="0" Text="{Binding SearchText,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 0 0"/>
             <Button Grid.Column="1" Content="搜索" Command="{Binding Search}" Margin="10 0"/>
         </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding CanUseEntitys, Mode=OneWay}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding AvailableEntitys, Mode=OneWay}">
             <DataGrid.ItemContainerStyle>
                 <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource {x:Type DataGridRow}}">
                     <Setter Property="Visibility" Value="{Binding Visible,Converter={StaticResource VisibilityConverter}}"/>

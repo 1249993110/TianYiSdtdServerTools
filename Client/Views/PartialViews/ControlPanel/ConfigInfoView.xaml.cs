@@ -26,7 +26,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
         public ConfigInfoView()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<ConfigInfoViewModel>();
+            ViewModel = IocContainer.Resolve<ConfigInfoViewModel>();
             base.DataContext = ViewModel;
         }
     }

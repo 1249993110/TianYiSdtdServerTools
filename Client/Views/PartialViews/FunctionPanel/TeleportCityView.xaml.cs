@@ -28,7 +28,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.FunctionPanel
         {
             InitializeComponent();
 
-            ViewModel = Autofac.Resolve<TeleportCityViewModel>(new NamedParameter(nameof(functionTag), functionTag));
+            ViewModel = IocContainer.Resolve<TeleportCityViewModel>(new NamedParameter(nameof(functionTag), functionTag));
 
             base.DataContext = ViewModel;
         }

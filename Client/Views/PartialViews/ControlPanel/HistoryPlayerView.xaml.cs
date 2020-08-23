@@ -26,7 +26,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
         public HistoryPlayerView()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<HistoryPlayerViewModel>();
+            ViewModel = IocContainer.Resolve<HistoryPlayerViewModel>();
             base.DataContext = ViewModel;
         }
     }

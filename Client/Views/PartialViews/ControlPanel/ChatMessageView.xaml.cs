@@ -30,8 +30,8 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
         {
             InitializeComponent();
 
-            ChatMessageViewModel = Autofac.Resolve<ChatMessageViewModel>(new TypedParameter(typeof(IRichTextBoxService),
-                new RichTextBoxService(richTextBox_chatMessage)));
+            ChatMessageViewModel = IocContainer.Resolve<ChatMessageViewModel>(
+                new TypedParameter(typeof(IRichTextBoxService), new RichTextBoxService(richTextBox_chatMessage)));
 
             this.DataContext = ChatMessageViewModel;
         }

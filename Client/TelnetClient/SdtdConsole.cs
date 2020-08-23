@@ -1,4 +1,5 @@
 ﻿using IceCoffee.Common;
+using IceCoffee.Common.Extensions;
 using IceCoffee.Common.LogManager;
 using IceCoffee.Network.CatchException;
 using System;
@@ -23,7 +24,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         /// <summary>
         /// 命令占位符
         /// </summary>
-        public static string CmdPlaceholder = "***";
+        public const string CmdPlaceholder = "***";
 
         private TcpClient _tcpClient;
 
@@ -166,7 +167,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
 
         private void OnExceptionCaught(object sender, NetworkException ex)
         {
-            Log.Error("Telnet异常捕获", ex);
+            Log.Error(ex, "Telnet异常捕获");
         }
 
 

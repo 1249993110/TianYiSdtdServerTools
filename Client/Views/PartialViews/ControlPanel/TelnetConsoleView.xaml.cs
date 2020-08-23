@@ -17,17 +17,10 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
         {
             InitializeComponent();
 
-            ViewModel = Autofac.Resolve<TelnetConsoleViewModel>();
+            ViewModel = IocContainer.Resolve<TelnetConsoleViewModel>(
+                new TypedParameter(typeof(IPlainTextBoxService), new PlainTextBoxService(textBox_TelnetData)));
 
             base.DataContext = ViewModel;
-        }
-
-        private void OnTextBox_TelnetData_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (this.textBox_TelnetData.IsVisible && this.textBox_TelnetData.IsFocused == false)
-            {
-                this.textBox_TelnetData.ScrollToEnd();
-            }
         }
     }
 }

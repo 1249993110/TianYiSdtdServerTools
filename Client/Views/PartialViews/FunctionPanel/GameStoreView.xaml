@@ -54,7 +54,7 @@
                 <TextBox Text="{Binding Amount, Mode=OneWayToSource}" pu:TextBoxHelper.Watermark="数量" MinWidth="100" Margin="5 0"/>
                 <TextBox Text="{Binding Quality, Mode=OneWayToSource}" pu:TextBoxHelper.Watermark="品质" MinWidth="100"/>
                 <TextBox Text="{Binding Price, Mode=OneWayToSource}" pu:TextBoxHelper.Watermark="售价" MinWidth="100" Margin="5 0"/>
-                <ComboBox pu:ComboBoxHelper.Header="商品类型" SelectedIndex="0" HorizontalContentAlignment="Center" Text="{Binding GoodsType,Mode=OneWayToSource}"
+                <ComboBox Width="136" pu:ComboBoxHelper.Header="商品类型" SelectedIndex="0" HorizontalContentAlignment="Center" Text="{Binding GoodsType,Mode=OneWayToSource}"
                           pu:ComboBoxHelper.HeaderWidth="60" IsReadOnly="True">
                     <ComboBoxItem Content="物品"></ComboBoxItem>
                     <ComboBoxItem Content="方块"></ComboBoxItem>

@@ -24,6 +24,11 @@ namespace TianYiSdtdServerTools.Server.Sockets
 
         new public TcpServer SocketDispatcher => _socketDispatcher;
 
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        public string UserID => _loginHandler.UserID;
+
         public TcpSession()
         {
             _loginHandler = IocContainer.Resolve<LoginHandler>(new TypedParameter(typeof(TcpSession), this));
@@ -74,6 +79,18 @@ namespace TianYiSdtdServerTools.Server.Sockets
                 }
                 else
                 {
+                    if (netObj.NetDataType == NetDataType.REQ_Login)
+                    {
+                        Log.Info("客户重复登录，来自IP：{0} 客户ID：{1}", this.RemoteIPEndPoint, this.UserID);
+                        return;
+                    }
+                    else if (netObj.NetDataType == NetDataType.REQ_RegisterAccount)
+                    {
+                        Log.Info("客户错误重连，来自IP：{0} 客户ID：{1}", this.RemoteIPEndPoint, this.UserID);
+                        _loginHandler.CloseClient();
+                        return;
+                    }
+
                     switch (netObj.NetDataType)
                     {
                         default:

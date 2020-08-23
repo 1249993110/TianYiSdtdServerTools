@@ -113,8 +113,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
         private void SendPassword()
         {
             // 占位符确保密码发送成功，被服务端接受
-            this.SendCmd(SdtdConsole.CmdPlaceholder);
-            this.SendCmd(SdtdConsole.Instance.Password);
+            this.SendCmd(SdtdConsole.CmdPlaceholder + Environment.NewLine + SdtdConsole.Instance.Password);
         }
 
         /// <summary>
@@ -216,7 +215,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                 do
                 {
                     ReadLineToBuffer();
-                    if (_line.StartsWith("Defined") || _line.StartsWith("  Level"))
+                    if (_line.StartsWith("Defined User Permissions:") || _line.StartsWith("  Level:"))
                     {
                         continue;
                     }
@@ -226,7 +225,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                         _isWritingToBufferList = true;
                         continue;
                     }
-                    else if (_line.StartsWith("***"))
+                    else if (_line.StartsWith("Defined Group Permissions:") || _line.StartsWith("***"))
                     {
                         SdtdConsole.Instance.RaiseReceivedTempListDataEvent(ListDataHandler.ParseAdmins(_linesBuffer), TempListDataType.AdminList);
                         _isWritingToBufferList = false;
@@ -469,7 +468,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                 else if (_line.StartsWith("*** Server version: "))
                 {
                     _serverPartialPref.VersionStr = _line.GetMidStr("*** Server version: ", " Compatibility");
-                    CheckServerVersion(_serverPartialPref.VersionStr.GetMidStr("Alpha ", ".").ToInt());
+                    CheckServerVersion((int)_serverPartialPref.VersionStr.GetMidStr("Alpha ", " ").ToDouble());
                 }
                 else if (_line.StartsWith("*** Dedicated server only build"))
                 {
@@ -558,53 +557,65 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     {
                         cmd = _line.Substring(_startIndexINF, 20);
 
+                        PlayerInfo playerInfo = null;
+
                         if (cmd == "RequestToSpawnPlayer")// 玩家请求进入游戏
                         {
-                            RequestOnlinePlayerInfo();
-                            if(_requestDataTimer.Enabled == false)
+                            RequestOnlinePlayerInfo();// 应该先请求，防止网络延迟，玩家尚未加入游戏世界列表
+                            if (_requestDataTimer.Enabled == false)
                             {
-                                _requestDataTimer.Start();                                
+                                _requestDataTimer.Start();
                             }
                         }
                         else if (cmd == "PlayerSpawnedInWorld")// 玩家生成
                         {
-                            string reason = _line.GetMidStr("reason: ", ",", _startIndexINF);
-                            string steamID = _line.GetMidStr("PlayerID='", "',", _startIndexINF);
+                            int endEnd = 0;
+                            string reason = _line.GetMidStr("reason: ", ",", out endEnd, _startIndexINF);
+                            string entityID = _line.GetMidStr("EntityID=", ",", out endEnd, endEnd);
+                            string steamID = _line.GetMidStr("PlayerID='", "',", out endEnd, endEnd);
+                            string playerName = _line.GetMidStr("PlayerName='", "'\r\n", endEnd);
+
+                            bool isExist = _onlinePlayers.TryGetValue(steamID, out playerInfo);
+                            if (isExist == false)
+                            {
+                                playerInfo = new PlayerInfo()
+                                {
+                                    EntityID = entityID.ToInt(),
+                                    SteamID = steamID,
+                                    PlayerName = playerName
+                                };
+                            }
 
                             if (reason == "JoinMultiplayer")// 玩家进入游戏而不是复活重生
                             {
-                                if (_onlinePlayers.ContainsKey(steamID) == false)
+                                if (isExist == false)
                                 {
                                     Log.Warn("玩家进入游戏但未处于在线玩家列表中 steamID：" + steamID);
                                 }
-                                else
-                                {
-                                    SdtdConsole.Instance.RaisePlayerEnterGameEvent(_onlinePlayers[steamID]);
-                                }
+
+                                SdtdConsole.Instance.RaisePlayerEnterGameEvent(playerInfo);
                             }
-                            else if (reason == "Died")// 玩家死亡
+                            else if (reason == "Died")// 玩家死亡 复活重生
                             {
-                                if (_onlinePlayers.ContainsKey(steamID) == false)
+                                if (isExist == false)
                                 {
                                     Log.Warn("玩家死亡但未处于在线玩家列表中 steamID: " + steamID);
                                 }
-                                else
-                                {
-                                    SdtdConsole.Instance.RaisePlayerDiedEvent(_onlinePlayers[steamID]);
-                                }
+
+                                SdtdConsole.Instance.RaisePlayerDiedEvent(playerInfo);
                             }
                         }
                         else if (cmd == "Player disconnected:")// 玩家退出游戏
                         {
                             string steamID = _line.GetMidStr("PlayerID='", "',", _startIndexINF);
-                            if (_onlinePlayers.ContainsKey(steamID) == false)
+                            if (_onlinePlayers.TryGetValue(steamID, out playerInfo) == false)
                             {
                                 Log.Warn("玩家退出游戏但未处于在线玩家列表中 steamID: " + steamID);
                             }
                             else
                             {
-                                SdtdConsole.Instance.RaisePlayerLeftGameEvent(_onlinePlayers[steamID]);
-                                RequestOnlinePlayerInfo();
+                                SdtdConsole.Instance.RaisePlayerLeftGameEvent(playerInfo);
+                                RequestOnlinePlayerInfo();// 应该后请求，等待处理完成当前离线玩家后再将其移除
                             }
                         }
                     }                    
@@ -651,13 +662,14 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
             {
                 chatInfo.senderType = SenderType.Player;
 
-                if (_onlinePlayers.ContainsKey(steamID) == false)// 如果在线列表中不存在该玩家
+                if (_onlinePlayers.TryGetValue(steamID, out PlayerInfo playerInfo) == false)// 如果在线列表中不存在该玩家
                 {
                     Log.Warn("无法处理此玩家的聊天信息 steamID: " + steamID + " 原因: 在线列表中不存在该玩家");
+                    RequestOnlinePlayerInfo();
                 }
                 else
                 {
-                    chatInfo.playerInfo = _onlinePlayers[steamID];
+                    chatInfo.playerInfo = playerInfo;
                 }
             }
 
@@ -700,6 +712,12 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                     InternalHandleData();
                 }
             }
+        }
+
+        protected override void OnInitialized()
+        {
+            base.KeepAlive.Enable = true;
+            base.OnInitialized();
         }
 
         protected override void OnStarted()

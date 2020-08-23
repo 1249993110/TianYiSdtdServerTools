@@ -26,7 +26,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
         public PermissionManagementView()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<PermissionManagementViewModel>();
+            ViewModel = IocContainer.Resolve<PermissionManagementViewModel>();
             base.DataContext = ViewModel;
         }
     }

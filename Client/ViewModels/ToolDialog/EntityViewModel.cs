@@ -11,12 +11,13 @@ using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Managers;
+using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
 {
     public class EntityViewModel : ObservableObject
     {
-        private readonly PropertyObserver<EntityViewModel> currentPropertyObserver;
+        private readonly PropertyObserver<EntityViewModel> _currentPropertyObserver;
 
         private readonly IDialogService _dialogService;
 
@@ -46,8 +47,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
                 }
             });
 
-            currentPropertyObserver = new PropertyObserver<EntityViewModel>(this);
-            currentPropertyObserver.RegisterHandler(p => p.SearchText, (vm) => { vm.PrivateSearch(); });
+            _currentPropertyObserver = new PropertyObserver<EntityViewModel>(this);
+            _currentPropertyObserver.RegisterHandler(p => p.SearchText, (vm) => { vm.PrivateSearch(); });
 
             SdtdConsole.Instance.ReceivedTempListData += OnReceivedTempListData;
 
@@ -102,5 +103,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
                 }
             }
         }
+
+        public override void Clear()
+        {
+            SdtdConsole.Instance.ReceivedTempListData -= OnReceivedTempListData;
+        }
+
     }
 }

@@ -38,9 +38,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Managers
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Error(string.Format("读取 {0} 错误", path), e);
+                Log.Error(ex, "读取 {0} 错误", path);
             }
         }
 

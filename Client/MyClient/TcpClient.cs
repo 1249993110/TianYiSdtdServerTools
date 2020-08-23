@@ -12,13 +12,8 @@ using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 
 namespace TianYiSdtdServerTools.Client.MyClient
 {
-    public class TcpClient : BaseClient<TcpSession>
-    {
-        /// <summary>
-        /// 是否已经授权
-        /// </summary>
-        public bool IsAuthorized { get; set; }
-
+    public class TcpClient : CustomClient<TcpSession>
+    {       
         /// <summary>
         /// 收到返回的登录结果
         /// </summary>
@@ -33,6 +28,11 @@ namespace TianYiSdtdServerTools.Client.MyClient
         /// 弹出对话框
         /// </summary>
         public event Action<RSP_PopMessageBox> PopMessageBox;
+
+        public TcpClient()
+        {
+            
+        }
 
         internal void OnReceivedLoginResult(RSP_LoginResult clientInfo)
         {

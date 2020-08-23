@@ -16,21 +16,21 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Utils
     /// </summary>
     public static class ExceptionHandleHelper
     {
-        public static void ShowServiceException(IDialogService dialogService, ServiceException e)
+        public static void ShowServiceException(IDialogService dialogService, ServiceException ex)
         {
             StringBuilder messageBuilder = new StringBuilder();
-            Exception exception = e.InnerException;
+            Exception exception = ex.InnerException;
             while (exception != null)
             {
                 messageBuilder.Append(exception.Message + Environment.NewLine);
                 exception = exception.InnerException;
             }
 
-            Log.Error(e.Message, e);
+            Log.Error(ex, ex.Message);
 
             if (SynchronizationContext.Current != null)// 如果为UI线程发起
             {
-                dialogService.ShowInformation(messageBuilder.ToString(), e.Message);
+                dialogService.ShowInformation(messageBuilder.ToString(), ex.Message);
             }
         }
     }

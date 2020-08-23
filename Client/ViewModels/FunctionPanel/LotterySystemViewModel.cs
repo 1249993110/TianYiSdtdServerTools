@@ -72,7 +72,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         public string LotteryCmd { get; [NPCA_Method]set; }
 
         [ConfigNode(XmlNodeType.Attribute)]
-        public int LotteryInterval { get; set; } = 300;
+        public int LotteryInterval { get; [NPCA_Method]set; } = 300;
 
         [ConfigNode(XmlNodeType.Attribute)]
         public int LotteryDuration { get; set; } = 30;
@@ -113,6 +113,20 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             _lotteryService = lotteryService;
 
             LotteryService.AsyncExceptionCaught += OnAsyncExceptionCaught;
+
+            Timer1 = new Timer() { AutoReset = true, Interval = LotteryInterval * 1000 };
+            Timer1.Elapsed += OnStartLottery;
+
+            _currentViewModelObserver = new PropertyObserver<LotterySystemViewModel>(this);
+            _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.LotteryInterval,
+                (vm) =>
+                {
+                    if (LotteryInterval > 0)
+                    {
+                        Timer1.Interval = LotteryInterval * 1000;
+                        Timer1.Enabled = true;
+                    }
+                });
 
             DataGridItemChanged = new RelayCommand<DataGridItemChangedEventArgs>(OnDataGridItemChanged);
 
@@ -187,23 +201,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         }
 
         protected override void EnableFunction()
-        {           
-            if (Timer1 == null)
-            {
-                Timer1 = new Timer() { AutoReset = true, Interval = LotteryInterval * 1000 };
-                Timer1.Elapsed += OnStartLottery;
-
-                _currentViewModelObserver = new PropertyObserver<LotterySystemViewModel>(this);
-                _currentViewModelObserver.RegisterHandler(currentViewModel => currentViewModel.LotteryInterval,
-                    (vm) =>
-                    {
-                        if (LotteryInterval > 0)
-                        {
-                            Timer1.Interval = LotteryInterval * 1000;
-                        }
-                    });
-            }
-            
+        {       
             Timer1.Start();            
         }
 

@@ -89,11 +89,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 
                     }, itemIconBaseUrl);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 string message = "获取玩家背包数据失败";
-                Log.Error(message, e);
-                _dialogService.ShowInformation(e.Message, message);
+                Log.Error(ex, message);
+                _dialogService.ShowInformation(ex.Message, message);
             }
         }
 

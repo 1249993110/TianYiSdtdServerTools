@@ -33,7 +33,7 @@ namespace TianYiSdtdServerTools.Client.Services
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("初始化SQLite数据库错误", ex);
+                    Log.Error(ex, "初始化SQLite数据库错误");
                 }
             });
         }

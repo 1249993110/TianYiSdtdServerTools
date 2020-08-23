@@ -68,7 +68,10 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             TelePlayer = new RelayCommand(() =>
             {
                 string result = _dialogService.ShowInputDialog("请输入目标：");
-                SdtdConsole.Instance.TelePlayer(SelectedItem.SteamID, result);
+                if (result != null)
+                {
+                    SdtdConsole.Instance.TelePlayer(SelectedItem.SteamID, result);
+                }
             }, CanExecuteCommand);
             KickPlayer = new RelayCommand(() =>
             {
@@ -81,7 +84,10 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
             BanPlayer100Year = new RelayCommand(() =>
             {
                 string result = _dialogService.ShowInputDialog("请输入封禁原因：", "你因违规被管理员封禁");
-                SdtdConsole.Instance.BanPlayerWithYear(SelectedItem.SteamID, 100, result);
+                if (result != null)
+                {
+                    SdtdConsole.Instance.BanPlayerWithYear(SelectedItem.SteamID, 100, result);
+                }
             }, CanExecuteCommand);
             RemoveLandclaims = new RelayCommand(() =>
             {

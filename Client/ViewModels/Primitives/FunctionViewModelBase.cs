@@ -1,4 +1,6 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.Common;
+using IceCoffee.Common.Extensions;
+using IceCoffee.Common.LogManager;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 
@@ -25,6 +27,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
         private readonly string _functionTag;
 
+        private static readonly int _commandBufferMaxCount;
+
         /// <summary>
         /// 功能开关是否打开
         /// </summary>
@@ -47,6 +51,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
         static FunctionViewModelBase()
         {
+            _commandBufferMaxCount = CommonHelper.GetAppSettings("CommandBufferMaxCount").ToInt();
             commandBuffer = new Dictionary<string, Func<PlayerInfo, string, bool>>();
             chatHookFuncs = new List<Func<PlayerInfo, string, bool>>();
             SdtdConsole.Instance.ChatHook += ChatHook;
@@ -96,7 +101,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
         private void PrivateEnableFunction()
         {
-            // 如果功能已经被禁用 且 功能开关已打开 且 已成功连接服务器 且 在线玩家数量大于0
+            // 如果功能处于被禁用状态 且 功能开关已打开 且 已成功连接服务器 且 在线玩家数量大于0
             if (_isDisabled && _isOpen && SdtdConsole.Instance.IsConnected
                 && SdtdConsole.Instance.OnlinePlayers != null && SdtdConsole.Instance.OnlinePlayers.Count > 0)
             {
@@ -106,7 +111,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
         }
         private void PrivateDisableFunction()
         {
-            // 如果功能没有被禁用
+            // 如果功能没有处于被禁用状态
             if (_isDisabled == false)
             {
                 _isDisabled = true;
@@ -122,29 +127,29 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
                     && (func.Target as FunctionViewModelBase)._isDisabled == false)// 如果在命令缓冲区中 且 功能没有被禁用
                 {                    
                     HandleChatMessage(func, chatInfo);
-                    if (chatInfo.isHandled)
+                    if (chatInfo.isHandled)// 如果命令被直接处理完成则返回
                     {
                         return;
                     }
-                    else
+                    else// 如果此命令已经被弃用
                     {
                         commandBuffer.Remove(chatInfo.message);
                     }
                 }
-                
+
+                // 如果命令没有被直接处理
                 foreach (var item in chatHookFuncs)
                 {
                     HandleChatMessage(item, chatInfo);
-                    if(chatInfo.isHandled)
+                    if(chatInfo.isHandled)// 如果命令被其他模块接受
                     {                        
-                        if(commandBuffer.Count > 1000)
+                        if(commandBuffer.Count > _commandBufferMaxCount)
                         {
+                            Log.Info("清理命令缓存区");
                             commandBuffer.Clear();
                         }
-                        else
-                        {
-                            commandBuffer.Add(chatInfo.message, item);
-                        }
+
+                        commandBuffer.Add(chatInfo.message, item);
                         return;
                     }
                 }                                
@@ -157,9 +162,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
             {
                 chatInfo.isHandled = func(chatInfo.playerInfo, chatInfo.message);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Error(e);
+                Log.Error(ex);
                 SdtdConsole.Instance.SendMessageToPlayer(chatInfo.playerInfo.SteamID, "[FF0000]出现错误，请联系服务器管理员");
             }
         }

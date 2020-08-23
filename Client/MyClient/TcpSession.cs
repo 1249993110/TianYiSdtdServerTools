@@ -20,7 +20,9 @@ namespace TianYiSdtdServerTools.Client.MyClient
         protected override void OnInitialized()
         {
             _socketDispatcher = base.SocketDispatcher as TcpClient;
+            
             KeepAlive.Enable = true;
+
             base.OnInitialized();
         }
 
@@ -34,15 +36,27 @@ namespace TianYiSdtdServerTools.Client.MyClient
             REQ_Login req = new REQ_Login()
             {
                 ClientVersion = VersionManager.CurrentVersion,
-                IsAuthorized = _socketDispatcher.IsAuthorized,
+                IsAuthorized = false,
                 UserID = userID,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
+                LoginType = LoginType.First
             };
             this.Send(req);
         }
 
+        public void Reconnect(string userID, bool isAuthorized)
+        {
+            REQ_Login req = new REQ_Login()
+            {
+                ClientVersion = VersionManager.CurrentVersion,
+                IsAuthorized = isAuthorized,
+                UserID = userID,
+                LoginType = LoginType.Reconnect
+            };
+            this.Send(req);
+        }
 
-        public void RegisterAccount(string userID, string passwordHash,string displayName)
+        public void RegisterAccount(string userID, string passwordHash, string displayName)
         {
             REQ_RegisterAccount req = new REQ_RegisterAccount()
             {

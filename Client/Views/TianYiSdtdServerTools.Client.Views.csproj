@@ -104,12 +104,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.9.4.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -136,7 +137,6 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -158,6 +158,7 @@
     <Compile Include="PartialViews\ToolDialog\ItemView.xaml.cs">
       <DependentUpon>ItemView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\PlainTextBoxService.cs" />
     <Compile Include="Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -167,6 +168,7 @@
     <Compile Include="Windows\ToolDialog.xaml.cs">
       <DependentUpon>ToolDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PanuonWindowXBase.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -247,7 +249,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Autofac.cs" />
+    <Compile Include="IocContainer.cs" />
     <Compile Include="Converters\BoolConvert2.cs" />
     <Compile Include="Converters\DataGridEventArgsConverter.cs" />
     <Compile Include="Converters\MinuteToStrConverter.cs" />
@@ -417,7 +419,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>if "$(ConfigurationName)" == "Release" ("G:\VS2017 Projects\TianYiSdtdServerTools\打包工具\ConfuserEx\Confuser.CLI.exe" "G:\VS2017 Projects\TianYiSdtdServerTools\打包工具\Confuse.crproj")</PostBuildEvent>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Release" ("G:\C#Tools\打包工具\ConfuserEx\Confuser.CLI.exe" "G:\VS2017 Projects\TianYiSdtdServerTools\Publish\Confuse.crproj")
+del   *.xml
+del   *.pdb</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

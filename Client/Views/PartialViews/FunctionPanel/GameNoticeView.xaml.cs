@@ -15,7 +15,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.FunctionPanel
         {
             InitializeComponent();
 
-            ViewModel = Autofac.Resolve<GameNoticeViewModel>(new NamedParameter(nameof(functionTag), functionTag));
+            ViewModel = IocContainer.Resolve<GameNoticeViewModel>(new NamedParameter(nameof(functionTag), functionTag));
 
             base.DataContext = ViewModel;
         }

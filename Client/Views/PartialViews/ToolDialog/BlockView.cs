@@ -14,8 +14,8 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog
         public BlockView() : base(false)
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<BlockViewModel>();
-            this.DataContext = ViewModel;
+            ViewModel = IocContainer.Resolve<BlockViewModel>();
+            base.DataContext = ViewModel;
         }
     }
 }

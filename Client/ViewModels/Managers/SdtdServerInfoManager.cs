@@ -38,7 +38,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Managers
         private SdtdServerInfoManager()
         {
             StringBuilder admintokenBuilder = new StringBuilder();
-            foreach (var c in "1249993110".ToBase64())
+            foreach (char c in MyClientManager.Instance.UserInfo.UserID.ToBase64())
             {
                 if (char.IsLetterOrDigit(c))
                 {

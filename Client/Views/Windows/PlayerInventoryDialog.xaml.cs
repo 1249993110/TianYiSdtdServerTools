@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using IceCoffee.Wpf.CustomControlLibrary.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,14 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
     /// <summary>
     /// PlayerInventoryDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class PlayerInventoryDialog : Window
+    public partial class PlayerInventoryDialog : WindowBase
     {
         public PlayerInventoryViewModel ViewModel { get; set; }
 
         public PlayerInventoryDialog(string steamID)
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<PlayerInventoryViewModel>(new NamedParameter(nameof(steamID), steamID));
+            ViewModel = IocContainer.Resolve<PlayerInventoryViewModel>(new NamedParameter(nameof(steamID), steamID));
             this.DataContext = ViewModel;
         }
     }

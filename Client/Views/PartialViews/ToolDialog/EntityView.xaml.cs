@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 using TianYiSdtdServerTools.Client.ViewModels.ToolDialog;
 
 namespace TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog
@@ -25,8 +26,9 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog
         public EntityView()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<EntityViewModel>();
+            ViewModel = IocContainer.Resolve<EntityViewModel>();
             this.DataContext = ViewModel;
         }
+
     }
 }

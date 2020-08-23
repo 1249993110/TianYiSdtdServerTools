@@ -68,18 +68,21 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
             _onlineUserToken = null;
         }
 
+        #region 登录
         public void RequestLogin(REQ_Login loginInfo)
         {
             _currentUserID = loginInfo.UserID;
 
             Log.Info("客户请求登录，来自IP：{0}，用户ID：{1}", tcpSession.RemoteIPEndPoint, _currentUserID);
 
-            if (VersionManager.CheckVersion(loginInfo.ClientVersion) == UpdateLevel.Necessary)
+            UpdateLevel updateLevel = VersionManager.CheckVersion(loginInfo.ClientVersion);
+
+            if (updateLevel == UpdateLevel.Necessary)
             {
                 SendAutoUpdaterConfig(SocketConfig.UpdateXmlUrl_complete);
                 return;
             }
-            else if (VersionManager.CheckVersion(loginInfo.ClientVersion) == UpdateLevel.Optional)
+            else if (updateLevel == UpdateLevel.Optional)
             {
                 SendAutoUpdaterConfig(SocketConfig.UpdateXmlUrl_patch);
             }
@@ -159,7 +162,7 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
         {
             if (loginInfo.IsAuthorized == false)
             {
-                LoginFailed(null, "未授权，请重新登录", LoginType.Reconnect);
+                LoginFailed(null, "未授权或授权已过期，请重新登录", LoginType.Reconnect);
                 return;
             }
             else
@@ -171,6 +174,12 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
         private void CheckOther(LoginType loginType)
         {
             var v_user = _userService.GetByUserId(_currentUserID);
+            
+            if(v_user.RoleID == (int)Role.BlacklistUser)
+            {
+                LoginFailed(v_user, "您已被禁止登录", loginType);
+                return;
+            }
 
             if (v_user.ExpiryTime <= DateTime.Now)
             {
@@ -236,6 +245,8 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
             tcpSession.Send(loginResult);
 
             _isAuthorized = true;
+
+            Log.Info("客户登录成功，来自IP：{0}，用户ID：{1}", tcpSession.RemoteIPEndPoint, _currentUserID);
         }
 
         private void LoginFailed(V_User v_user, string message, LoginType loginType)
@@ -250,8 +261,15 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
             };
 
             tcpSession.Send(loginResult);
-        }
 
+            if (loginType == LoginType.Reconnect)
+            {
+                CloseClient();
+            }
+        }
+        #endregion
+
+        #region 注册
         public void RegisterAccount(REQ_RegisterAccount account)
         {
             Log.Info("客户请求注册账号，来自IP：{0}，注册UserID：{1}", tcpSession.RemoteIPEndPoint, account.UserID);
@@ -272,6 +290,7 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
                     {
                         Log.Info("客户请求注册账号成功，来自IP：{0}，注册UserID：{1}", tcpSession.RemoteIPEndPoint, account.UserID);
                         PopMessageBox("注册成功！");
+                        return;
                     }
                 }
                 catch (Exception ex)
@@ -286,5 +305,6 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
             }
             // 预留QQ账户
         }
+        #endregion
     }
 }

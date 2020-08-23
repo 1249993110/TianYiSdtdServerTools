@@ -68,8 +68,8 @@ namespace TianYiSdtdServerTools.Client.Views.Services
                     _richTextBox.Document.Blocks.Remove(_richTextBox.Document.Blocks.FirstBlock);
                 }
 
-                // 如果控件可见，则将编辑控件的视图滚动到内容的末尾。
-                if (_richTextBox.IsVisible && _richTextBox.IsFocused == false)
+                // 如果控件可见并且没有选中文本，则将编辑控件的视图滚动到内容的末尾。
+                if (_richTextBox.IsVisible && _richTextBox.IsSelectionActive == false)
                 {
                     _richTextBox.ScrollToEnd();
                 }
@@ -90,7 +90,7 @@ namespace TianYiSdtdServerTools.Client.Views.Services
                 }
 
                 // 如果控件可见，则将编辑控件的视图滚动到内容的末尾。
-                if (_richTextBox.IsVisible && _richTextBox.IsFocused == false)
+                if (_richTextBox.IsVisible && _richTextBox.IsSelectionActive == false)
                 {
                     _richTextBox.ScrollToEnd();
                 }

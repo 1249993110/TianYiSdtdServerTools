@@ -16,7 +16,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
     /// <summary>
     /// LoginWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginWindow : Panuon.UI.Silver.WindowX
+    public partial class LoginWindow : PanuonWindowXBase
     {
         public LoginWindowViewModel ViewModel { get; set; }
         public LoginWindow()
@@ -25,7 +25,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
 
             Messenger.Default.Register<MyTcpClientMessage>(this, HandeMyTcpClientMessage);
 
-            ViewModel = Autofac.Resolve<LoginWindowViewModel>();
+            ViewModel = IocContainer.Resolve<LoginWindowViewModel>();
             base.DataContext = ViewModel;
         }
 

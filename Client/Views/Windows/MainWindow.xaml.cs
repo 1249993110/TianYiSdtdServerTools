@@ -14,15 +14,18 @@ using TianYiSdtdServerTools.Client.Models.MvvmMessages;
 using System.Windows.Media.Imaging;
 using IceCoffee.Common.LogManager;
 using System.Reflection;
+using IceCoffee.Common.Pools;
+using System.Windows.Threading;
+using IceCoffee.Wpf.CustomControlLibrary.Windows;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : IceCoffee.Wpf.CustomControlLibrary.Windows.FramelessWindow
+    public partial class MainWindow : FramelessWindow
     {
-        private static IDictionary<string, Type> _partialViewDic;
+        private static readonly IDictionary<string, Type> _partialViewDic;
 
         public MainWindowViewModel ViewModel { get; set; }
 
@@ -52,7 +55,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<MainWindowViewModel>(new TypedParameter(typeof(IRichTextBoxService), new RichTextBoxService(richTextBox_runLog)));
+            ViewModel = IocContainer.Resolve<MainWindowViewModel>(new TypedParameter(typeof(IRichTextBoxService), new RichTextBoxService(richTextBox_runLog)));
             base.DataContext = ViewModel;
 
             Messenger.Default.Register<CommonEnumMessage>(this, InitChatMessageAndTelnetConsoleView);
@@ -95,7 +98,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             {
                 CheckControlPanelView("ChatMessage");
                 CheckControlPanelView("TelnetConsole");
-                Messenger.Default.UnregisterAllRecipientByType<CommonEnumMessage>();
+                Messenger.Default.Unregister<CommonEnumMessage>(this);
             }
         }
 
@@ -188,6 +191,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             ToolDialog toolDialog = new ToolDialog();
             toolDialog.Show();
         }
+
     }
 
 }

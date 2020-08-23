@@ -31,8 +31,8 @@ namespace TianYiSdtdServerTools.Client.Views
             AppDomain.CurrentDomain.UnhandledException += OnCurrentDomain_UnhandledException;
 
             MyClientManager.Instance.RegisterService(
-                Autofac.Resolve<IDispatcherService>(),
-                Autofac.Resolve<IDialogService>());
+                IocContainer.Resolve<IDispatcherService>(),
+                IocContainer.Resolve<IDialogService>());
 
             base.OnStartup(e);
         }

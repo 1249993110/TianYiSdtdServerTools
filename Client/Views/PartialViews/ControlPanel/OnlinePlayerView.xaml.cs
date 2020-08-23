@@ -26,7 +26,7 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ControlPanel
         public OnlinePlayerView()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<OnlinePlayerViewModel>();
+            ViewModel = IocContainer.Resolve<OnlinePlayerViewModel>();
             base.DataContext = ViewModel;
         }
     }

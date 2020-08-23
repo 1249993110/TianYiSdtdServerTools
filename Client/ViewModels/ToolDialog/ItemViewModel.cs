@@ -59,15 +59,15 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ToolDialog
                 {
                     LoadXml(ColoredImageDatas, XmlPath);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
                     string title = string.Format("加载 {0} 失败", XmlPath);
 
-                    Log.Error(title, e);
+                    Log.Error(ex, title);
 
                     _dispatcherService.InvokeAsync(() =>
                     {                        
-                        _dialogService.ShowInformation(e.Message, title);
+                        _dialogService.ShowInformation(ex.Message, title);
                     });
                 }
             });

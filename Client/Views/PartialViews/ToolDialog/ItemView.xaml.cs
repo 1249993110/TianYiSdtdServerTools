@@ -26,10 +26,14 @@ namespace TianYiSdtdServerTools.Client.Views.PartialViews.ToolDialog
         public ItemView()
         {
             InitializeComponent();
-            ViewModel = Autofac.Resolve<ItemViewModel>();
-            this.DataContext = ViewModel;
+            ViewModel = IocContainer.Resolve<ItemViewModel>();
+            base.DataContext = ViewModel;
         }
 
+        /// <summary>
+        /// 不设置DataContext
+        /// </summary>
+        /// <param name="setDataContext"></param>
         protected ItemView(bool setDataContext)
         {
 

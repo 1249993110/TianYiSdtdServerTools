@@ -91,13 +91,13 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         public string Tips4 { get; set; }
 
         /// <summary>
-        /// 设置Home名称已存在提示
+        /// Home名称已存在覆盖提示
         /// </summary>
         [ConfigNode(XmlNodeType.Attribute)]
         public string Tips5 { get; set; }
 
         /// <summary>
-        /// 设置Home成功提示
+        /// 首次设置Home成功提示
         /// </summary>
         [ConfigNode(XmlNodeType.Attribute)]
         public string Tips6 { get; set; }
@@ -333,37 +333,42 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips3));
                 }
                 else
-                {                  
-                    var dto = dtos.Find(p => p.HomeName == homeName);
-                    if (dto != null)// 设置Home名称已存在提示
+                {
+                    int playerScore = _scoreInfoService.GetPlayerScore(playerInfo.SteamID);
+                    if (playerScore < GetSetHomeNeedScore())// 设置需要积分不足提示
                     {
-                        SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips5, dto));
+                        SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips4));
                     }
                     else
                     {
-                        int playerScore = _scoreInfoService.GetPlayerScore(playerInfo.SteamID);
-                        if (playerScore < GetSetHomeNeedScore())// 设置需要积分不足提示
+                        var dto = dtos.Find(p => p.HomeName == homeName);
+                        if (dto == null)// 首次设置Home成功提示
                         {
-                            SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips4));
-                        }
-                        else
-                        {
-                            HomePositionDto homePositionDto = new HomePositionDto()
+                            dto = new HomePositionDto()
                             {
                                 HomeName = homeName,
                                 PlayerName = playerInfo.PlayerName,
                                 SteamID = playerInfo.SteamID,
                                 Pos = playerInfo.Pos
                             };
-                            _homePositionService.Insert(homePositionDto);
+                            _homePositionService.Insert(dto);
 
-                            SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips6, homePositionDto));
-
-                            Log.Info(string.Format("玩家: {0} SteamID: {1} 设置了Home: {2} 三维坐标: {3}",
-                                playerInfo.PlayerName, playerInfo.SteamID, homeName, playerInfo.Pos));
+                            SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips6, dto));
                         }
+                        else// Home名称已存在覆盖提示
+                        {
+                            dto.HomeName = homeName;
+                            dto.PlayerName = playerInfo.PlayerName;
+                            dto.SteamID = playerInfo.SteamID;
+                            dto.Pos = playerInfo.Pos;
+                            _homePositionService.Update(dto);
+                            SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips5, dto));
+                        }
+
+                        Log.Info(string.Format("玩家: {0} SteamID: {1} 设置了Home: {2} 三维坐标: {3}",
+                            playerInfo.PlayerName, playerInfo.SteamID, homeName, playerInfo.Pos));
                     }
-                }               
+                }
             }
             else if (message.StartsWith(TeleHomeCmdPrefix) && message.Length > TeleHomeCmdPrefix.Length)
             {

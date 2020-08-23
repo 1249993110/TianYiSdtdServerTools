@@ -28,18 +28,19 @@ namespace TianYiSdtdServerTools.Server.Sockets
 
         static TcpServer()
         {
-            UserMaxLoginCount = CommonHelper.GetAppSettings("userMaxLoginCount").ToInt();
-            LoginGiveUseTime = CommonHelper.GetAppSettings("loginGiveUseTime").ToInt();
+            UserMaxLoginCount = CommonHelper.GetAppSettings("UserMaxLoginCount").ToInt();
+            LoginGiveUseTime = CommonHelper.GetAppSettings("LoginGiveUseTime").ToInt();
         }
 
         public TcpServer()
         {
+            this.HeartbeatEnable = true;
             this.ExceptionCaught += OnTcpServer_ExceptionCaught;
         }
 
         private void OnTcpServer_ExceptionCaught(object sender, NetworkException ex)
         {
-            Log.Error("服务端异常捕获", ex);
+            Log.Error(ex, "服务端异常捕获");
         }
 
         protected override void OnStarted()

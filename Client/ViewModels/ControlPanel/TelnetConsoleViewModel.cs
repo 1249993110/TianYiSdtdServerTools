@@ -19,9 +19,9 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
     {
         private const int maxRecordCommandCount = 10;
 
-        private readonly StringBuilder _telnetDataStringBuilder = new StringBuilder();
-
         private bool _autoRefresh;
+
+        private readonly IPlainTextBoxService _plainTextBoxService;
 
         [ConfigNode(XmlNodeType.Attribute)]
         public bool AutoRefresh
@@ -36,8 +36,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         public ObservableCollection<string> RecentCommands { get; set; } = new ObservableCollection<string>() { "help" };
 
-        public string TelnetData { get { return _telnetDataStringBuilder.ToString(); } }
-
         public string Command { get; set; }
 
         //public int ComboBoxSelectedIndex { get; [NPCA_Method]set; }
@@ -46,8 +44,10 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         //public RelayCommand SkipCommand { get; set; }
 
-        public TelnetConsoleViewModel(IDispatcherService dispatcherService) : base(dispatcherService)
+        public TelnetConsoleViewModel(IDispatcherService dispatcherService,
+            IPlainTextBoxService plainTextBoxService) : base(dispatcherService)
         {
+            _plainTextBoxService = plainTextBoxService;
             SendCommand = new RelayCommand(()=>
             {                
                 SdtdConsole.Instance.SendCmd(Command);
@@ -71,14 +71,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.ControlPanel
 
         private void OnReceiveLine(string line)
         {
-            if(_telnetDataStringBuilder.Length > 40960)
-            {
-                _telnetDataStringBuilder.Remove(0, 4096);
-            }
-
-            _telnetDataStringBuilder.Append(line);
-
-            RaisePropertyChanged("TelnetData");
+            _plainTextBoxService.AppendPlainText(line);
         }
 
         /// <summary>

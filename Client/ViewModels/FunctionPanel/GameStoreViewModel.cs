@@ -229,7 +229,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     int index = 1;
                     foreach (var item in dtos)
                     {
-                        returnCmd.Append(string.Format("pm {0} \"[00FF00]{1}{2}\"\r\n", playerInfo.SteamID, index, FormatCmd(playerInfo, QueryListTips, item)));
+                        returnCmd.Append(string.Format("pm {0} \"[00FF00]{1}: {2}\"\r\n", playerInfo.SteamID, index, FormatCmd(playerInfo, QueryListTips, item)));
                         ++index;
                     }
                     SdtdConsole.Instance.SendCmd(returnCmd.ToString());

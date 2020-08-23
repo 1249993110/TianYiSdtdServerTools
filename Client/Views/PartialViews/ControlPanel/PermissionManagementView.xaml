@@ -32,7 +32,7 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="管理员列表"></Label>
                 <iceCtrl:SerialDataGrid Grid.Row="1" CanUserAddRows="False" ItemsSource="{Binding Administrators, Mode=OneWay}"
-                      SelectedItem="{Binding SelectedItem2, Mode=OneWayToSource}">
+                      SelectedItem="{Binding SelectedItem1, Mode=OneWayToSource}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="SteamID" Binding="{Binding SteamID}"/>
                         <DataGridTextColumn Header="权限等级" Binding="{Binding PermissionLevel}"/>
