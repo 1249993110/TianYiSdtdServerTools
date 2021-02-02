@@ -32,13 +32,9 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
 
                 steamIDs.Add(playerSteamID);
 
-                if (players.ContainsKey(playerSteamID))
+                if(players.TryGetValue(playerSteamID, out player) == false)
                 {
-                    player = players[playerSteamID];
-                }
-                else
-                {
-                    player = new PlayerInfo();                    
+                    player = new PlayerInfo();
                 }
 
                 player.EntityID = line.GetMidStr("id=", ",", out end1, 1).ToInt();          // 取出玩家实体ID

@@ -1,4 +1,4 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.LogManager;
 using System;
 using TianYiSdtdServerTools.Server.Sockets;
 

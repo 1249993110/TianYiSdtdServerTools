@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using IceCoffee.Common;
 using IceCoffee.Common.Extensions;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Network.Sockets;
 using TianYiSdtdServerTools.Client.Models.Chat;
 using TianYiSdtdServerTools.Client.Models.ConsoleTempList;
@@ -16,7 +16,7 @@ using TianYiSdtdServerTools.Client.Models.SdtdServerInfo;
 
 namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
 {
-    internal class TcpSession : BaseSession<TcpSession>
+    internal class TcpSession : IceCoffee.Network.Sockets.Primitives.TcpSession.TcpSessionBase<TcpSession>
     {
         #region 字段
         /// <summary>
@@ -162,12 +162,17 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
                             _onlinePlayers.Clear();
                             SdtdConsole.Instance.RaiseServerNonePlayerEvent();
                         }
-                        else if (_onlinePlayers.Count == 0)
+                        else 
                         {
+                            // 之前的在线玩家数量
+                            int lastOnlinePlayersCount = _onlinePlayers.Count;
                             ListDataHandler.ParseOnlinePlayers(_linesBuffer, ref _onlinePlayers);
-                            SdtdConsole.Instance.RaiseServerHavePlayerAgainEvent();
-                        }                        
-
+                            if (lastOnlinePlayersCount == 0)
+                            {
+                                SdtdConsole.Instance.RaiseServerHavePlayerAgainEvent();
+                            }
+                        }
+                        
                         SdtdConsole.Instance.RaiseReceivedOnlinePlayerInfoEvent(_onlinePlayers.Values.ToList());                        
 
                         _isWritingToBufferList = false;
@@ -725,7 +730,7 @@ namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
             base.OnStarted();
         }
 
-        protected override void OnClosed(SocketError closedReason)
+        protected override void OnClosed(CloseReason closedReason)
         {
             _requestDataTimer.Stop();
             base.OnClosed(closedReason);

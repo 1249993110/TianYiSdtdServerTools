@@ -56,7 +56,7 @@
     <Compile Include="VersionManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
+    <ProjectReference Include="..\..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
       <Project>{6ec8ad06-bf8c-472a-9df8-4188ae7ee38b}</Project>
       <Name>IceCoffee.Common</Name>
     </ProjectReference>

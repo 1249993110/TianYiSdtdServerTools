@@ -1,6 +1,6 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.LogManager;
 using IceCoffee.Common.Xml;
-using IceCoffee.DbCore.CatchServiceException;
+
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
@@ -94,8 +94,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             _cityPositionService = cityPositionService;
             _teleRecordService = teleRecordService;
 
-            CityPositionService.AsyncExceptionCaught += OnAsyncExceptionCaught;
-
             DataGridItemChanged = new RelayCommand<DataGridItemChangedEventArgs>(OnDataGridItemChanged);
 
             RefreshList = new RelayCommand(PrivateRefreshList);
@@ -138,7 +136,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     TeleNeedScore = TeleNeedScore,
                     Pos = Pos
                 };
-                _ = _cityPositionService.InsertAsync(cityPosition);
+                _ = _cityPositionService.AddAsync(cityPosition);
                 CityPositions.Add(cityPosition);
             });
 
@@ -167,11 +165,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                 }
             }
         }       
-
-        private void OnAsyncExceptionCaught(object sender, ServiceException e)
-        {
-            ExceptionHandleHelper.ShowServiceException(_dialogService, e);
-        }
 
         private async void PrivateRefreshList()
         {
@@ -290,7 +283,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                         var dto = new TeleRecordDto() { SteamID = playerInfo.SteamID, LastTeleDateTime = DateTime.Now.ToString() };
                         if(teleRecord == null)
                         {
-                            _teleRecordService.Insert(dto);
+                            _teleRecordService.Add(dto);
                         }
                         else
                         {

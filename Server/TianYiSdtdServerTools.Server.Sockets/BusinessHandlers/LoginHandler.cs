@@ -1,4 +1,4 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.LogManager;
 using IceCoffee.Network.CatchException;
 using LuoShuiTianYi.Sdtd.Domain.Aggregates;
 using LuoShuiTianYi.Sdtd.Services.Contracts;
@@ -85,6 +85,7 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
             else if (updateLevel == UpdateLevel.Optional)
             {
                 SendAutoUpdaterConfig(SocketConfig.UpdateXmlUrl_patch);
+                return;// 临时的
             }
 
             if(loginInfo.LoginType == LoginType.First)
@@ -219,7 +220,7 @@ namespace TianYiSdtdServerTools.Server.Sockets.BusinessHandlers
             OnlineUserDto newOnlineUser = V_User2OnlineUser(v_user);
             newOnlineUser.Key = Guid.NewGuid().ToString();
             _onlineUserToken = newOnlineUser.Key;
-            _onlineUserService.Insert(newOnlineUser);
+            _onlineUserService.Add(newOnlineUser);
             LoginSuccess(v_user, loginType);
         }
 

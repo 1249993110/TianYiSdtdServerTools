@@ -25,7 +25,7 @@
                 <Button pu:ButtonHelper.ButtonStyle="Standard"
                     Foreground="White" Background="#31ADFF"
                     pu:ButtonHelper.HoverBrush="#0099FF"
-                    Content="登录" Width="100" Height="36"  TabIndex="2"
+                    Content="登录" Width="100" Height="36" TabIndex="2"
                     Command="{Binding Login}" HorizontalAlignment="Left"/>
                 <Button pu:ButtonHelper.ButtonStyle="Standard"
                     Foreground="White" Background="Coral"

@@ -1,4 +1,4 @@
-﻿using IceCoffee.DbCore.CatchServiceException;
+﻿using IceCoffee.DbCore.ExceptionCatch;
 using IceCoffee.DbCore.Primitives.Repository;
 using System;
 using System.Collections.Generic;
@@ -19,11 +19,10 @@ namespace TianYiSdtdServerTools.Client.Services
         /// 通过SteamID和HomeName获取数据
         /// </summary>
         /// <returns></returns>
-        [CatchSyncException("通过SteamID和HomeName获取数据异常")]
+        [CatchException("通过SteamID和HomeName获取数据异常")]
         public HomePositionDto GetDataBySteamIDAndHomeName(string steamID, string homeName)
         {
-            return EntityToDto(Repository.QueryAny(RepositoryBase<HomePosition,string>.Select_Statement,
-                "SteamID=@SteamID AND HomeName=@HomeName LIMIT 1", null,
+            return EntityToDto(Repository.Query("SteamID=@SteamID AND HomeName=@HomeName LIMIT 1", null,
                 new HomePosition() { SteamID = steamID, HomeName = homeName }).FirstOrDefault());
         }
 
@@ -31,7 +30,7 @@ namespace TianYiSdtdServerTools.Client.Services
         /// 通过SteamID获取数据
         /// </summary>
         /// <returns></returns>
-        [CatchSyncException("通过SteamID获取数据异常")]
+        [CatchException("通过SteamID获取数据异常")]
         public List<HomePositionDto> GetDataBySteamID(string steamID)
         {
             List<HomePositionDto> result = new List<HomePositionDto>();

@@ -1,5 +1,4 @@
 ﻿using IceCoffee.DbCore;
-using IceCoffee.DbCore.CatchServiceException;
 using IceCoffee.DbCore.Primitives;
 using IceCoffee.DbCore.Primitives.Dto;
 using IceCoffee.DbCore.Primitives.Entity;
@@ -9,17 +8,18 @@ using IceCoffee.DbCore.UnitWork;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using IceCoffee.DbCore.ExceptionCatch;
 
 namespace TianYiSdtdServerTools.Client.Services.Primitives
 {
-    public abstract class BaseService<TEntity, TDto> : ServiceBaseStr<TEntity, TDto>
+    public abstract class BaseService<TEntity, TDto> : ServiceBase<TEntity, TDto>
         where TEntity : EntityBaseStr, new()
         where TDto : DtoBaseStr, new()
     {
         public abstract string IdColumnName { get; }
 
         public BaseService()
-            : base(new SQLiteRepositoryStr<TEntity>(DatabaseConfig.DefaultSQLiteConnectionInfo))
+            : base(new SQLiteRepository<TEntity>(DatabaseConfig.DefaultSQLiteConnectionInfo))
         {
         }
 
@@ -31,10 +31,10 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives
         /// 通过ID获取数据
         /// </summary>
         /// <returns></returns>
-        [CatchSyncException("通过ID获取数据异常")]
+        [CatchException("通过ID获取数据异常")]
         public TDto GetDataByID<TId>(TId id)
         {
-            return EntityToDto(Repository.QueryById(id, IdColumnName).FirstOrDefault());
+            return EntityToDto(Repository.QueryById(IdColumnName, id).FirstOrDefault());
         }
         #endregion
 
@@ -42,7 +42,7 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives
         /// <summary>
         /// 删除数据
         /// </summary>
-        [CatchAsyncException("删除数据异常")]
+        [CatchException("删除数据异常")]
         public async Task RemoveByIdAsync(TDto dto)
         {
             if(dto != null)

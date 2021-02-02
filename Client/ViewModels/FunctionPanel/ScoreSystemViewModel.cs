@@ -1,4 +1,4 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.LogManager;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using IceCoffee.Common.Xml;
@@ -17,7 +17,7 @@ using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.TelnetClient;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
 using TianYiSdtdServerTools.Client.ViewModels.Utils;
-using IceCoffee.DbCore.CatchServiceException;
+
 
 namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 {
@@ -101,8 +101,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
 
             _scoreInfoService = scoreInfoService;
 
-            ScoreInfoService.AsyncExceptionCaught += OnAsyncExceptionCaught;
-
             DataGridItemChanged = new RelayCommand<DataGridItemChangedEventArgs>(OnDataGridItemChanged);
 
             RefreshList = new RelayCommand(PrivateRefreshList);     
@@ -182,11 +180,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             }
         }
 
-        private void OnAsyncExceptionCaught(object sender, ServiceException e)
-        {
-            ExceptionHandleHelper.ShowServiceException(_dialogService, e);
-        }
-
         private async void PrivateRefreshList()
         {
             var result = await _scoreInfoService.GetAllAsync();
@@ -247,7 +240,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                         LastSignDate = currentDay
                     };
 
-                    _scoreInfoService.Insert(scoreInfoDto);                    
+                    _scoreInfoService.Add(scoreInfoDto);                    
                 }
                 else
                 {

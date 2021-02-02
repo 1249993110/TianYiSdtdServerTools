@@ -61,12 +61,14 @@ namespace TianYiSdtdServerTools.Client.Views.Services
                     para.Inlines.Add(run);
                 }
 
-                _richTextBox.Document.Blocks.Add(para);
-
+                _richTextBox.BeginChange();
                 while (_richTextBox.Document.Blocks.Count > maximumBlockCount)
                 {
                     _richTextBox.Document.Blocks.Remove(_richTextBox.Document.Blocks.FirstBlock);
                 }
+
+                _richTextBox.Document.Blocks.Add(para);
+                _richTextBox.EndChange();
 
                 // 如果控件可见并且没有选中文本，则将编辑控件的视图滚动到内容的末尾。
                 if (_richTextBox.IsVisible && _richTextBox.IsSelectionActive == false)
@@ -82,12 +84,14 @@ namespace TianYiSdtdServerTools.Client.Views.Services
             {
                 Paragraph paragraph = new Paragraph(new Run(plainText));
 
-                _richTextBox.Document.Blocks.Add(paragraph);
-
+                _richTextBox.BeginChange();
                 while (_richTextBox.Document.Blocks.Count > maximumBlockCount)
                 {
                     _richTextBox.Document.Blocks.Remove(_richTextBox.Document.Blocks.FirstBlock);
                 }
+
+                _richTextBox.Document.Blocks.Add(paragraph);
+                _richTextBox.EndChange();
 
                 // 如果控件可见，则将编辑控件的视图滚动到内容的末尾。
                 if (_richTextBox.IsVisible && _richTextBox.IsSelectionActive == false)

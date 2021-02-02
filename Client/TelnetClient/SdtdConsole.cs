@@ -1,6 +1,6 @@
 ﻿using IceCoffee.Common;
 using IceCoffee.Common.Extensions;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Network.CatchException;
 using System;
 using System.Collections.Generic;
@@ -156,9 +156,9 @@ namespace TianYiSdtdServerTools.Client.TelnetClient
         #region 私有方法
 
         private void OnPrivateConnectionStateChanged(
-            IceCoffee.Network.Sockets.MulitThreadTcpClient.ConnectionState connectionState)
+            IceCoffee.Network.Sockets.Primitives.TcpClient.ConnectionState connectionState)
         {
-            if (connectionState != IceCoffee.Network.Sockets.MulitThreadTcpClient.ConnectionState.Connected)
+            if (connectionState != IceCoffee.Network.Sockets.Primitives.TcpClient.ConnectionState.Connected)
             {
                 this.RaiseConnectionStateChangedEvent((ConnectionState)connectionState);
             }

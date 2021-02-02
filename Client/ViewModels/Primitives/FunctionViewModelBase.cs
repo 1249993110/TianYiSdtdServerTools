@@ -1,6 +1,6 @@
 ﻿using IceCoffee.Common;
 using IceCoffee.Common.Extensions;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 
@@ -101,9 +101,8 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Primitives
 
         private void PrivateEnableFunction()
         {
-            // 如果功能处于被禁用状态 且 功能开关已打开 且 已成功连接服务器 且 在线玩家数量大于0
-            if (_isDisabled && _isOpen && SdtdConsole.Instance.IsConnected
-                && SdtdConsole.Instance.OnlinePlayers != null && SdtdConsole.Instance.OnlinePlayers.Count > 0)
+            // 如果功能处于被禁用状态 且 功能开关已打开
+            if (_isDisabled && _isOpen && SdtdConsole.Instance.IsConnected)
             {
                 _isDisabled = false;
                 EnableFunction();

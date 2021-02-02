@@ -9,7 +9,8 @@ using IceCoffee.AntiDebugEngine;
 using IceCoffee.Common;
 using System.Configuration;
 using System.IO;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
+using IceCoffee.Common.Security.Cryptography;
 
 namespace TianYiSdtdServerTools.Client.Views
 {
@@ -24,7 +25,7 @@ namespace TianYiSdtdServerTools.Client.Views
         public static void Main()
         {
 #if !DEBUG
-            if (CommonHelper.GetMD5HashFromFile(AntiDebug.DllName) != AntiDebug.DllMD5 || AntiDebug.AntiDebug_DotNet())
+            if (CryptoTools.MD5.GetMD5HashFromFile(AntiDebug.DllName).ToLower() != AntiDebug.DllMD5 || AntiDebug.AntiDebug_DotNet())
             {
                 //Environment.Exit(-1);// 强制退出，即使有其他的线程没有结束
                 System.Diagnostics.Process.GetCurrentProcess().Kill();

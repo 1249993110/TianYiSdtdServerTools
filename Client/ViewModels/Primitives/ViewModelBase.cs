@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Common.Xml;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;

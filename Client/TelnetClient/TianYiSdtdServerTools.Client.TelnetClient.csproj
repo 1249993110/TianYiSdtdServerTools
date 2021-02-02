@@ -50,11 +50,15 @@
     <Compile Include="SdtdConsoleSendOperations.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
+    <ProjectReference Include="..\..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj">
       <Project>{6ec8ad06-bf8c-472a-9df8-4188ae7ee38b}</Project>
       <Name>IceCoffee.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj">
+    <ProjectReference Include="..\..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.LogManager\IceCoffee.LogManager\IceCoffee.LogManager.csproj">
+      <Project>{f8ab68b2-61ee-44e4-87f8-9d5580db1544}</Project>
+      <Name>IceCoffee.LogManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj">
       <Project>{e91ae132-d500-42dc-9fdb-50234949bca2}</Project>
       <Name>IceCoffee.Network</Name>
     </ProjectReference>

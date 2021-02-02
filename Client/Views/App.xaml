@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:TianYiSdtdServerTools.Client.Views"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:IceCoffee.Wpf.CustomControlLibrary.Converters;assembly=IceCoffee.Wpf.CustomControlLibrary"
-             StartupUri="Windows/LoginWindow.xaml" ShutdownMode="OnMainWindowClose">
+             StartupUri="Windows/MainWindow.xaml" ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>                

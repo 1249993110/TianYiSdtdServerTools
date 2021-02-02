@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Shared.Models;
@@ -33,7 +34,8 @@ namespace TianYiSdtdServerTools.Shared
 
         static VersionManager()
         {
-            _currentVersion = new Version(4, 0, 0, 0);
+            _currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            //new Version(4, 0, 0, 0);
         }
 
         /// <summary>

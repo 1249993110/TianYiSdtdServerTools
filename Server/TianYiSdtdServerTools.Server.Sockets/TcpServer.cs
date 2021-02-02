@@ -1,5 +1,5 @@
 ﻿using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Network.CatchException;
 using IceCoffee.Network.Sockets.MulitThreadTcpServer;
 using System;
@@ -45,17 +45,18 @@ namespace TianYiSdtdServerTools.Server.Sockets
 
         protected override void OnStarted()
         {
-            Log.Info("服务端已启动");
-
-            _ = IocContainer.Resolve<IOnlineUserService>().RemoveAny(null);
+            IocContainer.Resolve<IOnlineUserService>().RemoveAny(null);
 
             base.OnStarted();
+
+            Log.Info("服务端已启动");
         }
 
         protected override void OnStopped()
         {
-            Log.Info("服务端已停止");
             base.OnStopped();
+
+            Log.Info("服务端已停止");
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;

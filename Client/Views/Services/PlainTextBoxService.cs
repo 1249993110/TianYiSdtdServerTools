@@ -22,12 +22,15 @@ namespace TianYiSdtdServerTools.Client.Views.Services
         {
             Application.Current?.Dispatcher.InvokeAsync(() =>
             {
-                if (_textBox.Text.Length > 40960)
+                _textBox.BeginChange();
+                int index = _textBox.Text.Length - 40960;
+                if (index >= 0)
                 {
-                    _textBox.Text.Remove(0, 4096);
+                    _textBox.Text = _textBox.Text.Substring(index);
                 }
 
                 _textBox.AppendText(plainText);
+                _textBox.EndChange();
 
                 // 如果控件可见，则将编辑控件的视图滚动到内容的末尾。SelectedText
                 if (_textBox.IsVisible && _textBox.IsSelectionActive == false)

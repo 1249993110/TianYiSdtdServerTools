@@ -1,6 +1,6 @@
 ﻿using IceCoffee.Common;
 using IceCoffee.Common.Extensions;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Network.CatchException;
 using IceCoffee.Network.Sockets.MulitThreadTcpClient;
 using System;

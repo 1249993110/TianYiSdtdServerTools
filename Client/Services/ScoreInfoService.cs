@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using TianYiSdtdServerTools.Client.Models.Entitys;
 using TianYiSdtdServerTools.Client.Models.Dtos;
 using TianYiSdtdServerTools.Client.Services.Primitives;
-
 using System.Threading;
 using System.Diagnostics;
 using IceCoffee.DbCore.UnitWork;
-using IceCoffee.Common.LogManager;
-using IceCoffee.DbCore.CatchServiceException;
+using IceCoffee.LogManager;
+using IceCoffee.DbCore.ExceptionCatch;
 
 namespace TianYiSdtdServerTools.Client.Services
 {
@@ -24,7 +23,7 @@ namespace TianYiSdtdServerTools.Client.Services
         /// </summary>
         /// <param name="steamID"></param>
         /// <returns></returns>
-        [CatchSyncException("获取玩家拥有积分数量异常")]
+        [CatchException("获取玩家拥有积分数量异常")]
         public int GetPlayerScore(string steamID)
         {
             ScoreInfo scoreInfo = Repository.QueryById(steamID, IdColumnName).FirstOrDefault();
@@ -46,10 +45,10 @@ namespace TianYiSdtdServerTools.Client.Services
         /// </summary>
         /// <param name="steamID"></param>
         /// <param name="score"></param>
-        [CatchSyncException("增加玩家积分异常")]
+        [CatchException("增加玩家积分异常")]
         public void IncreasePlayerScore(string steamID, int score)
         {
-            if (Repository.UpdateAny("ScoreOwned=ScoreOwned+" + score.ToString(), "SteamID=" + steamID, null) == 0)
+            if (Repository.Update("ScoreOwned=ScoreOwned+" + score.ToString(), "SteamID=" + steamID, null) == 0)
             {
                 throw new Exception(steamID + ": 此玩家无积分记录");
             }
@@ -60,10 +59,10 @@ namespace TianYiSdtdServerTools.Client.Services
         /// </summary>
         /// <param name="steamID"></param>
         /// <param name="score"></param>
-        [CatchSyncException("扣除玩家积分异常")]
+        [CatchException("扣除玩家积分异常")]
         public void DeductPlayerScore(string steamID, int score)
         {
-            if (Repository.UpdateAny("ScoreOwned=ScoreOwned-" + score.ToString(), "SteamID=" + steamID, null) == 0)
+            if (Repository.Update("ScoreOwned=ScoreOwned-" + score.ToString(), "SteamID=" + steamID, null) == 0)
             {
                 throw new Exception(steamID + ": 此玩家无积分记录");
             }
@@ -72,10 +71,10 @@ namespace TianYiSdtdServerTools.Client.Services
         /// <summary>
         /// 重置签到天数
         /// </summary>
-        [CatchAsyncException("重置签到天数异常")]
+        [CatchException("重置签到天数异常")]
         public async Task ResetLastSignDateAsync()
         {
-            await Repository.UpdateAnyAsync("LastSignDate=0", null, null);
+            await Repository.UpdateAsync("LastSignDate=0", null, null);
         }
     }
 }

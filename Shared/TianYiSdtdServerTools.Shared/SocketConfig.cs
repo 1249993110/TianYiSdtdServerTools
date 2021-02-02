@@ -11,7 +11,6 @@ namespace TianYiSdtdServerTools.Shared
 #if DEBUG
         public const string IP = "127.0.0.1";
 
-        //public const string LoginUrl = "http://192.168.1.100:62410/ServerTools/Login";
 #else
         public const string IP = "7daystodie.top";
 

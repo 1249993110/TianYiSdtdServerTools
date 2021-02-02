@@ -1,4 +1,4 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.LogManager;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
@@ -43,9 +43,15 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 
             FunctionPanelItems = ViewItemManager.Instance.FunctionPanelItems;
 
-            
-            OnReceivedUserInfo(MyClientManager.Instance.UserInfo);
-            Messenger.Default.Register<MyTcpClientMessage>(this, HandeMyTcpClientMessage);
+            OnReceivedUserInfo(new UserInfo() 
+            { 
+                DisplayName = "洛水天依",
+                RoleName = "永久会员",
+                ExpiryTime = DateTime.MinValue,
+            });
+
+            // OnReceivedUserInfo(MyClientManager.Instance.UserInfo);
+            // Messenger.Default.Register<MyTcpClientMessage>(this, HandeMyTcpClientMessage);
         }
 
         private void HandeMyTcpClientMessage(MyTcpClientMessage msg)

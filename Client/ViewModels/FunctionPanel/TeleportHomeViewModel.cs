@@ -1,6 +1,6 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.LogManager;
 using IceCoffee.Common.Xml;
-using IceCoffee.DbCore.CatchServiceException;
+
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
@@ -149,8 +149,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             _homePositionService = homePositionService;
             _teleRecordService = teleRecordService;
 
-            CityPositionService.AsyncExceptionCaught += OnAsyncExceptionCaught;
-
             DataGridItemChanged = new RelayCommand<DataGridItemChangedEventArgs>(OnDataGridItemChanged);
 
             RefreshList = new RelayCommand(PrivateRefreshList);
@@ -197,11 +195,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     _ = _homePositionService.UpdateAsync(newItem);
                 }                
             }
-        }
-
-        private void OnAsyncExceptionCaught(object sender, ServiceException e)
-        {
-            ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()
@@ -351,7 +344,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                                 SteamID = playerInfo.SteamID,
                                 Pos = playerInfo.Pos
                             };
-                            _homePositionService.Insert(dto);
+                            _homePositionService.Add(dto);
 
                             SdtdConsole.Instance.SendMessageToPlayer(playerInfo.SteamID, FormatCmd(playerInfo, Tips6, dto));
                         }
@@ -409,7 +402,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                         var tempDto = new TeleRecordDto() { SteamID = playerInfo.SteamID, LastTeleDateTime = DateTime.Now.ToString() };
                         if (teleRecord == null)
                         {
-                            _teleRecordService.Insert(tempDto);
+                            _teleRecordService.Add(tempDto);
                         }
                         else
                         {

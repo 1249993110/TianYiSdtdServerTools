@@ -1,5 +1,5 @@
 ﻿using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
@@ -62,7 +62,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
                     SdtdServerInfoManager.Instance.WebUserToken.AdminUser,
                     SdtdServerInfoManager.Instance.WebUserToken.AdminToken);
 
-                string json = await NetHelper.GetStringAsync(url);
+                string json = await HttpHelper.Instance.GetStringAsync(url);
 
                 PlayerInventoryInfo playerInventoryInfos = JsonConvert.DeserializeObject<PlayerInventoryInfo>(json);
 

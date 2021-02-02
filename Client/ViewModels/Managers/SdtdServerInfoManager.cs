@@ -37,18 +37,18 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Managers
 
         private SdtdServerInfoManager()
         {
-            StringBuilder admintokenBuilder = new StringBuilder();
-            foreach (char c in MyClientManager.Instance.UserInfo.UserID.ToBase64())
-            {
-                if (char.IsLetterOrDigit(c))
-                {
-                    admintokenBuilder.Append(c);
-                }
-            }
+            //StringBuilder admintokenBuilder = new StringBuilder();
+            //foreach (char c in MyClientManager.Instance.UserInfo.UserID.ToBase64())
+            //{
+            //    if (char.IsLetterOrDigit(c))
+            //    {
+            //        admintokenBuilder.Append(c);
+            //    }
+            //}
             WebUserToken = new WebUserToken()
             {
                 AdminUser = "admin_tianyi",
-                AdminToken = admintokenBuilder.ToString(),
+                AdminToken = "admin_tianyi",// admintokenBuilder.ToString(),
                 PermissionLevel = 0
             };
 

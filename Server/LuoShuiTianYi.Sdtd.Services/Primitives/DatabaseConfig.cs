@@ -11,7 +11,7 @@ namespace LuoShuiTianYi.Sdtd.Services.Primitives
     internal static class DatabaseConfig
     {
         /// <summary>
-        /// 默认SQLite数据库连接信息
+        /// 默认数据库连接信息
         /// </summary>
         internal static readonly DbConnectionInfo DefaultConnectionInfo;
 

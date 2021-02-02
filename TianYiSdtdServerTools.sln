@@ -23,17 +23,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TianYiSdtdServerTools.Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TianYiSdtdServerTools.Client.MyClient", "Client\MyClient\TianYiSdtdServerTools.Client.MyClient.csproj", "{E9D8D133-26E9-40F4-AACE-2B713D773201}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.AntiDebugEngine", "..\..\C#Tools\IceCoffee\IceCoffee.AntiDebugEngine\IceCoffee.AntiDebugEngine\IceCoffee.AntiDebugEngine.csproj", "{7EB946D0-8BEA-45AD-8132-60D93C77A063}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.AntiDebugEngine", "..\..\..\..\C#Tools\IceCoffee\IceCoffee.AntiDebugEngine\IceCoffee.AntiDebugEngine\IceCoffee.AntiDebugEngine.csproj", "{7EB946D0-8BEA-45AD-8132-60D93C77A063}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.Common", "..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj", "{6EC8AD06-BF8C-472A-9DF8-4188AE7EE38B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.Common", "..\..\..\..\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.csproj", "{6EC8AD06-BF8C-472A-9DF8-4188AE7EE38B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.DbCore", "..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore\IceCoffee.DbCore.csproj", "{99101E9E-BA03-4192-9CA9-272614FDCC7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.DbCore", "..\..\..\..\C#Tools\IceCoffee\IceCoffee.DbCore\IceCoffee.DbCore\IceCoffee.DbCore.csproj", "{99101E9E-BA03-4192-9CA9-272614FDCC7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.Network", "..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj", "{E91AE132-D500-42DC-9FDB-50234949BCA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.Network", "..\..\..\..\C#Tools\IceCoffee\IceCoffee.Network\IceCoffee.Network\IceCoffee.Network.csproj", "{E91AE132-D500-42DC-9FDB-50234949BCA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icecoffee.Wpf.CustomControlLibrary", "..\..\C#Tools\IceCoffee\Icecoffee.Wpf\Icecoffee.Wpf.CustomControlLibrary\Icecoffee.Wpf.CustomControlLibrary.csproj", "{30A562AF-9CE6-4550-8627-D53C15393772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icecoffee.Wpf.CustomControlLibrary", "..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\Icecoffee.Wpf.CustomControlLibrary\Icecoffee.Wpf.CustomControlLibrary.csproj", "{30A562AF-9CE6-4550-8627-D53C15393772}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icecoffee.Wpf.MvvmFrame", "..\..\C#Tools\IceCoffee\Icecoffee.Wpf\Icecoffee.Wpf.MvvmFrame\Icecoffee.Wpf.MvvmFrame.csproj", "{F82A5AFC-D119-4CDE-8A65-1470947C5993}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icecoffee.Wpf.MvvmFrame", "..\..\..\..\C#Tools\IceCoffee\Icecoffee.Wpf\Icecoffee.Wpf.MvvmFrame\Icecoffee.Wpf.MvvmFrame.csproj", "{F82A5AFC-D119-4CDE-8A65-1470947C5993}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{DDEF063F-7120-44B9-80C0-41A65E26F14C}"
 EndProject
@@ -48,6 +48,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuoShuiTianYi.Sdtd.Domain", "Server\LuoShuiTianYi.Sdtd.Domain\LuoShuiTianYi.Sdtd.Domain.csproj", "{4905E31F-6850-4889-9E05-98682B4681A8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{E6A0E725-CD09-41F8-84C0-373F45991BC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.LogManager", "..\..\..\..\C#Tools\IceCoffee\IceCoffee.LogManager\IceCoffee.LogManager\IceCoffee.LogManager.csproj", "{F8AB68B2-61EE-44E4-87F8-9D5580DB1544}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +69,10 @@ Global
 		{A3351610-C535-40C8-BF40-05FA35DC3E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3351610-C535-40C8-BF40-05FA35DC3E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3351610-C535-40C8-BF40-05FA35DC3E4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C757765-58F5-4E24-81DD-F635628C38C1}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{3C757765-58F5-4E24-81DD-F635628C38C1}.Debug|Any CPU.Build.0 = Debug|x86
-		{3C757765-58F5-4E24-81DD-F635628C38C1}.Release|Any CPU.ActiveCfg = Release|x86
-		{3C757765-58F5-4E24-81DD-F635628C38C1}.Release|Any CPU.Build.0 = Release|x86
+		{3C757765-58F5-4E24-81DD-F635628C38C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C757765-58F5-4E24-81DD-F635628C38C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C757765-58F5-4E24-81DD-F635628C38C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C757765-58F5-4E24-81DD-F635628C38C1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{349F66C5-54DE-43C8-AB6F-6C6F96C4ED3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{349F66C5-54DE-43C8-AB6F-6C6F96C4ED3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{349F66C5-54DE-43C8-AB6F-6C6F96C4ED3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -127,6 +129,10 @@ Global
 		{4905E31F-6850-4889-9E05-98682B4681A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4905E31F-6850-4889-9E05-98682B4681A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4905E31F-6850-4889-9E05-98682B4681A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8AB68B2-61EE-44E4-87F8-9D5580DB1544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8AB68B2-61EE-44E4-87F8-9D5580DB1544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8AB68B2-61EE-44E4-87F8-9D5580DB1544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8AB68B2-61EE-44E4-87F8-9D5580DB1544}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{DE901814-7877-4CB8-BC54-188702ED6159} = {E6A0E725-CD09-41F8-84C0-373F45991BC5}
 		{4905E31F-6850-4889-9E05-98682B4681A8} = {E6A0E725-CD09-41F8-84C0-373F45991BC5}
 		{E6A0E725-CD09-41F8-84C0-373F45991BC5} = {DDEF063F-7120-44B9-80C0-41A65E26F14C}
+		{F8AB68B2-61EE-44E4-87F8-9D5580DB1544} = {17799EF7-DCBB-4462-8687-8A588888785F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC68D100-E467-4E39-8B07-3485EA03DFD9}

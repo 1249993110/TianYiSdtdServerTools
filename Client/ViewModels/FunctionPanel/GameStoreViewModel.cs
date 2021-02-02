@@ -1,6 +1,5 @@
-﻿using IceCoffee.Common.LogManager;
+﻿using IceCoffee.LogManager;
 using IceCoffee.Common.Xml;
-using IceCoffee.DbCore.CatchServiceException;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
 using System;
@@ -79,13 +78,11 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
         #endregion
 
         public GameStoreViewModel(IDispatcherService dispatcherService, string functionTag,
-            IDialogService dialogService, ScoreInfoService scoreInfoService,GoodsService goodsService) : base(dispatcherService, functionTag)
+            IDialogService dialogService, ScoreInfoService scoreInfoService, GoodsService goodsService) : base(dispatcherService, functionTag)
         {
             _dialogService = dialogService;
             _scoreInfoService = scoreInfoService;
             _goodsService = goodsService;
-
-            GoodsService.AsyncExceptionCaught += OnAsyncExceptionCaught;
 
             DataGridItemChanged = new RelayCommand<DataGridItemChangedEventArgs>(OnDataGridItemChanged);
 
@@ -132,7 +129,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     Price = Price,
                     GoodsType = GoodsType
                 };
-                _ = _goodsService.InsertAsync(dto);
+                _ = _goodsService.AddAsync(dto);
                 GoodsItems.Add(dto);
             });
 
@@ -160,11 +157,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     _ = _goodsService.UpdateAsync(newItem);
                 }
             }
-        }
-
-        private void OnAsyncExceptionCaught(object sender, ServiceException e)
-        {
-            ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()

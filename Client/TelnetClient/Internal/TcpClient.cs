@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IceCoffee.Common.LogManager;
-using IceCoffee.Network.Sockets.MulitThreadTcpClient;
+using IceCoffee.LogManager;
+using IceCoffee.Network.Sockets.Primitives.TcpClient;
 
 namespace TianYiSdtdServerTools.Client.TelnetClient.Internal
 {
-    internal class TcpClient : BaseClient<TcpSession>
+    internal class TcpClient : TcpClientBase<TcpSession>
     {
         public TcpClient()
         {

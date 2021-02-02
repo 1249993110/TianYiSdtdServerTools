@@ -7,7 +7,7 @@ using IceCoffee.DbCore.Utils;
 using System.Configuration;
 using System.IO;
 using IceCoffee.DbCore;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.DbCore.Domain;
 using IceCoffee.Common;
 

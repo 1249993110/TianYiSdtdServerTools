@@ -103,15 +103,17 @@
                 </TabItem>
                 <TabItem Header="云数据库" Visibility="Collapsed">
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="220"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <TabControl Grid.Column="1" Style="{x:Null}" Background="Black">
-                            <TabItem Header="123" Visibility="Visible"></TabItem>
-                            <TabItem Header="1234" Visibility="Visible"></TabItem>
-                        </TabControl>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <TextBox IsReadOnly="True" Height="Auto" Grid.Row="0" FontSize="28" Foreground="NavajoWhite" Background="Transparent" BorderBrush="Transparent">
+                            服主交流QQ群：470804744</TextBox>
+                        <TextBox IsReadOnly="True" Height="Auto" Grid.Row="1" FontSize="28" Foreground="NavajoWhite" Background="Transparent" BorderBrush="Transparent">
+                            代码仓库：https://github.com/1249993110/TianYiSdtdServerTools</TextBox>
+                        <TextBox IsReadOnly="True" Height="Auto" Grid.Row="2" FontSize="28" Foreground="NavajoWhite" Background="Transparent" BorderBrush="Transparent">
+                            © 2021 洛水天依Team 版权所有</TextBox>
                     </Grid>
                 </TabItem>
                 <TabItem Header="运行日志" Visibility="Collapsed">

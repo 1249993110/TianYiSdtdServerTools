@@ -12,7 +12,7 @@ using TianYiSdtdServerTools.Client.Views.Services;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
 using System.Windows.Media.Imaging;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using System.Reflection;
 using IceCoffee.Common.Pools;
 using System.Windows.Threading;
@@ -25,13 +25,13 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
     /// </summary>
     public partial class MainWindow : FramelessWindow
     {
-        private static readonly IDictionary<string, Type> _partialViewDic;
+        private static readonly IDictionary<string, Type> _partialViewDict;
 
         public MainWindowViewModel ViewModel { get; set; }
 
         static MainWindow()
         {
-            _partialViewDic = new Dictionary<string, Type>();
+            _partialViewDict = new Dictionary<string, Type>();
             //AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith("SdtdServerTools"));
             var assembly = Assembly.GetExecutingAssembly();
 
@@ -44,7 +44,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
 
                 if (item.Namespace.StartsWith("TianYiSdtdServerTools.Client.Views.PartialViews") && item.IsSubclassOf(typeof(UserControl)))
                 {
-                    _partialViewDic.Add(item.Name.Remove(item.Name.Length - 4), item);
+                    _partialViewDict.Add(item.Name.Remove(item.Name.Length - 4), item);
                 }
             }
             //assembly.GetTypes().Where(x => x.Namespace.StartsWith("TianYiSdtdServerTools.Client.Views.PartialViews")
@@ -64,7 +64,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
 
         private void OnFunctionSwitchStateChanged(FunctionSwitchStateChangedMessage message)
         {
-            System.Diagnostics.Debug.Assert(_partialViewDic.ContainsKey(message.FunctionTag));
+            System.Diagnostics.Debug.Assert(_partialViewDict.ContainsKey(message.FunctionTag), "功能标记不在缓存字典中");
 
             foreach (TabItem tab in this.leftTabControl2.Items)
             {
@@ -75,7 +75,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
             }
 
             // 创建视图
-            FrameworkElement view = (FrameworkElement)Activator.CreateInstance(_partialViewDic[message.FunctionTag],
+            FrameworkElement view = (FrameworkElement)Activator.CreateInstance(_partialViewDict[message.FunctionTag],
                 new object[] { message.FunctionTag });
 
             this.leftTabControl2.Items.Add(new TabItem()
@@ -117,7 +117,7 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
                 Header = ViewModel.ControlPanelItems.First(p => p.Tag == tag).Header,
                 Tag = tag,
                 // 创建视图
-                Content = Activator.CreateInstance(_partialViewDic[tag])
+                Content = Activator.CreateInstance(_partialViewDict[tag])
             });
         }
 
@@ -153,15 +153,15 @@ namespace TianYiSdtdServerTools.Client.Views.Windows
                 }
             }
 
-            System.Diagnostics.Debug.Assert(_partialViewDic.ContainsKey(selectedItem.Tag));
+            System.Diagnostics.Debug.Assert(_partialViewDict.ContainsKey(selectedItem.Tag));
 
             TabItem tabItem = new TabItem()
             {
                 Header = selectedItem.Header,
                 Tag = selectedItem.Tag,
                 // 创建视图
-                Content = listBox == this.leftListBox2 ? Activator.CreateInstance(_partialViewDic[selectedItem.Tag], new object[] { selectedItem.Tag })
-                                                       : Activator.CreateInstance(_partialViewDic[selectedItem.Tag])
+                Content = listBox == this.leftListBox2 ? Activator.CreateInstance(_partialViewDict[selectedItem.Tag], new object[] { selectedItem.Tag })
+                                                       : Activator.CreateInstance(_partialViewDict[selectedItem.Tag])
             };
 
             tabControl.Items.Add(tabItem);

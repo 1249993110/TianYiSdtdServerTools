@@ -1,5 +1,5 @@
 ﻿using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Network.Sockets;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using AutoUpdaterDotNET;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Wpf.MvvmFrame.Messaging;
 using Panuon.UI.Silver;
 using System;

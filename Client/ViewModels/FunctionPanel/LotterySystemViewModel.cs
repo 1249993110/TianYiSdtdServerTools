@@ -1,7 +1,7 @@
 ﻿using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Common.Xml;
-using IceCoffee.DbCore.CatchServiceException;
+
 using IceCoffee.Wpf.MvvmFrame;
 using IceCoffee.Wpf.MvvmFrame.Command;
 using IceCoffee.Wpf.MvvmFrame.NotifyPropertyChanged;
@@ -112,8 +112,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             _scoreInfoService = scoreInfoService;
             _lotteryService = lotteryService;
 
-            LotteryService.AsyncExceptionCaught += OnAsyncExceptionCaught;
-
             Timer1 = new Timer() { AutoReset = true, Interval = LotteryInterval * 1000 };
             Timer1.Elapsed += OnStartLottery;
 
@@ -160,7 +158,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
                     Quality = Quality,
                     LotteryType = LotteryType
                 };
-                _ = _lotteryService.InsertAsync(dto);
+                _ = _lotteryService.AddAsync(dto);
                 LotteryItems.Add(dto);
             });
 
@@ -180,11 +178,6 @@ namespace TianYiSdtdServerTools.Client.ViewModels.FunctionPanel
             {
                 _ = _lotteryService.UpdateAsync(newItem);
             }
-        }
-
-        private void OnAsyncExceptionCaught(object sender, ServiceException e)
-        {
-            ExceptionHandleHelper.ShowServiceException(_dialogService, e);
         }
 
         private async void PrivateRefreshList()

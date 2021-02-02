@@ -42,7 +42,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 
             Login = new RelayCommand(()=> 
             {
-                MyClientManager.Instance.TryLogin(UserID, PasswordHash);
+                // MyClientManager.Instance.TryLogin(UserID, PasswordHash);
             });
 
             Register = new RelayCommand(() =>
@@ -51,7 +51,7 @@ namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 
                 if(displayName != null)
                 {
-                    MyClientManager.Instance.RegisterAccount(UserID, PasswordHash, displayName);
+                    // MyClientManager.Instance.RegisterAccount(UserID, PasswordHash, displayName);
                 }
             });
         }

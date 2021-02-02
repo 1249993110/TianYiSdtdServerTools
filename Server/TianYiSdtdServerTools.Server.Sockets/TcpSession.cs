@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using IceCoffee.Network.Sockets;
 using IceCoffee.Network.Sockets.Primitives;
 using System;

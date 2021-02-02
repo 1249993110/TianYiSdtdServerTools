@@ -1,6 +1,6 @@
 ﻿using CsvHelper;
 using IceCoffee.Common;
-using IceCoffee.Common.LogManager;
+using IceCoffee.LogManager;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
