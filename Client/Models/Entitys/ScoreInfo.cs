@@ -1,5 +1,4 @@
 ﻿using IceCoffee.DbCore.Primitives;
-using IceCoffee.DbCore.Primitives.Entity;
 
 namespace TianYiSdtdServerTools.Client.Models.Entitys
 {

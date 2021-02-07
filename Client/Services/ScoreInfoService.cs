@@ -29,7 +29,8 @@ namespace TianYiSdtdServerTools.Client.Services
             ScoreInfo scoreInfo = Repository.QueryById(steamID, IdColumnName).FirstOrDefault();
             if (scoreInfo == null)
             {
-                scoreInfo = ScoreInfo.Create<ScoreInfo>();
+                scoreInfo = new ScoreInfo();
+                scoreInfo.Init();
                 scoreInfo.SteamID = steamID;
                 Repository.Insert(scoreInfo);
                 return 0;

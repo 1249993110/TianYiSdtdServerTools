@@ -8,7 +8,7 @@ using System.Configuration;
 using System.IO;
 using IceCoffee.DbCore;
 using IceCoffee.LogManager;
-using IceCoffee.DbCore.Domain;
+
 using IceCoffee.Common;
 
 namespace TianYiSdtdServerTools.Client.Services

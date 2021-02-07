@@ -13,8 +13,8 @@ using IceCoffee.DbCore.ExceptionCatch;
 namespace TianYiSdtdServerTools.Client.Services.Primitives
 {
     public abstract class BaseService<TEntity, TDto> : ServiceBase<TEntity, TDto>
-        where TEntity : EntityBaseStr, new()
-        where TDto : DtoBaseStr, new()
+        where TEntity : class, IEntityBase
+        where TDto : class, IDtoBase
     {
         public abstract string IdColumnName { get; }
 
@@ -49,6 +49,16 @@ namespace TianYiSdtdServerTools.Client.Services.Primitives
             {
                 await Repository.DeleteByIdAsync(typeof(TDto).GetProperty(IdColumnName).GetValue(dto) as string, IdColumnName);
             }
+        }
+
+        /// <summary>
+        /// 删除所有数据
+        /// </summary>
+        /// <returns></returns>
+        [CatchException("删除所有数据异常")]
+        public async Task RemoveAllAsync()
+        {
+            await Repository.DeleteAsync("GUID IS NOT NULL");
         }
         #endregion
 

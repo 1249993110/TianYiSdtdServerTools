@@ -54,6 +54,8 @@
     <Compile Include="Chat\RichText.cs" />
     <Compile Include="Chat\SenderType.cs" />
     <Compile Include="ConsoleTempList\AvailableEntity.cs" />
+    <Compile Include="Dtos\DtoBaseStr.cs" />
+    <Compile Include="Entitys\EntityBaseStr.cs" />
     <Compile Include="MvvmMessages\MyTcpClientMessage.cs" />
     <Compile Include="ObservableObjects\ColoredImageData.cs" />
     <Compile Include="ConsoleTempList\Administrator.cs" />
