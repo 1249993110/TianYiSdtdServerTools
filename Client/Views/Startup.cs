@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using IceCoffee.AntiDebugEngine;
+//using IceCoffee.AntiDebugEngine;
 using IceCoffee.Common;
 using System.Configuration;
 using System.IO;
@@ -24,13 +24,13 @@ namespace TianYiSdtdServerTools.Client.Views
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {
-#if !DEBUG
-            if (CryptoTools.MD5.GetMD5HashFromFile(AntiDebug.DllName).ToLower() != AntiDebug.DllMD5 || AntiDebug.AntiDebug_DotNet())
-            {
-                //Environment.Exit(-1);// 强制退出，即使有其他的线程没有结束
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
-            }
-#endif
+//#if !DEBUG
+//            if (CryptoTools.MD5.GetMD5HashFromFile(AntiDebug.DllName).ToLower() != AntiDebug.DllMD5 || AntiDebug.AntiDebug_DotNet())
+//            {
+//                //Environment.Exit(-1);// 强制退出，即使有其他的线程没有结束
+//                System.Diagnostics.Process.GetCurrentProcess().Kill();
+//            }
+//#endif
             try
             {
                 InitConfig();

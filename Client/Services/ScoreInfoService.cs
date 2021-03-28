@@ -26,7 +26,7 @@ namespace TianYiSdtdServerTools.Client.Services
         [CatchException("获取玩家拥有积分数量异常")]
         public int GetPlayerScore(string steamID)
         {
-            ScoreInfo scoreInfo = Repository.QueryById(steamID, IdColumnName).FirstOrDefault();
+            ScoreInfo scoreInfo = Repository.QueryById(IdColumnName, steamID).FirstOrDefault();
             if (scoreInfo == null)
             {
                 scoreInfo = new ScoreInfo();

@@ -10,8 +10,6 @@ using System.Windows;
 using System.Windows.Input;
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
 using TianYiSdtdServerTools.Client.ViewModels.Windows;
-using TianYiSdtdServerTools.Shared;
-using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 
 namespace TianYiSdtdServerTools.Client.Views.Windows
 {

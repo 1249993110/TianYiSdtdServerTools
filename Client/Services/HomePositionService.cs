@@ -34,7 +34,7 @@ namespace TianYiSdtdServerTools.Client.Services
         public List<HomePositionDto> GetDataBySteamID(string steamID)
         {
             List<HomePositionDto> result = new List<HomePositionDto>();
-            var entitys = Repository.QueryById(steamID, IdColumnName);
+            var entitys = Repository.QueryById(IdColumnName, steamID);
             foreach (var entity in entitys)
             {
                 result.Add(EntityToDto(entity));
