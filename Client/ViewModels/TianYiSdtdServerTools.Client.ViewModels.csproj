@@ -126,6 +126,10 @@
     <Compile Include="Windows\PlayerInventoryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\TianYiSdtdServerTools.Shared\TianYiSdtdServerTools.Shared.csproj">
+      <Project>{05DE2F54-996A-4675-9F0B-279EBADB6C57}</Project>
+      <Name>TianYiSdtdServerTools.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\TianYiSdtdServerTools.Client.Models.csproj">
       <Project>{AFF037C5-D34F-41CE-ACBF-209D93436159}</Project>
       <Name>TianYiSdtdServerTools.Client.Models</Name>

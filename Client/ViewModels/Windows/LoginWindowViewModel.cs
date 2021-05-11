@@ -9,12 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
-using TianYiSdtdServerTools.Client.MyClient;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.ViewModels.Managers;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
-using TianYiSdtdServerTools.Shared;
-using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 {

@@ -8,15 +8,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using TianYiSdtdServerTools.Shared.Models.NetDataObjects;
 using TianYiSdtdServerTools.Client.Models.Chat;
 using TianYiSdtdServerTools.Client.Models.ObservableObjects;
-using TianYiSdtdServerTools.Client.MyClient;
 using TianYiSdtdServerTools.Client.Services.UI;
 using TianYiSdtdServerTools.Client.ViewModels.Managers;
 using TianYiSdtdServerTools.Client.ViewModels.Primitives;
-using TianYiSdtdServerTools.Shared.Models;
 using TianYiSdtdServerTools.Client.Models.MvvmMessages;
+using TianYiSdtdServerTools.Shared.Models;
 
 namespace TianYiSdtdServerTools.Client.ViewModels.Windows
 {
